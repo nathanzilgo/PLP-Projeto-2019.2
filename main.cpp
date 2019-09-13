@@ -21,13 +21,13 @@ typedef struct userTag
 vector<int> estadosDisponiveis = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 //GLOBAL
-user player = {"Jogador", 4, 0, {{0, 0}}};
-user bot = {"Bot", 5, 0, {{0, 0}}};
+user player = {"Jogador", 4, 5, {{0, 0}}};
+user bot = {"Bot", 5, 5, {{0, 0}}};
 
 void rules(); // Exibe uma VIEW com todas as regras
 int getOption();
 void allocateTerritories();
-int winCheck();
+int winCheck(user player, user bot);
 void play();
 
 void estados_view(user player);
@@ -95,24 +95,7 @@ void addTroops(user &player, user &bot)
 
 // Recebe um usuário (bot ou player) e verifica se o mesmo ja ganhou a partida
 //DONE
-int winCheck()
-{
 
-    int win = 0; // 0 se ninguem ganhou, 1 se o player ganhou, 2 se a maquina ganhou;
-
-    // Varre o mapa de estados e exercitos que um usuário possui e verifica se possui algum estado que ele não possui exercito.
-    // Caso não possua exercito naquele estado, significa que o estado ainda não foi conquistado pelo usuário,portando ainda não ganhou a partida.
-    player.statesAndArmy.erase(0);
-    bot.statesAndArmy.erase(0);
-    if (player.statesAndArmy.size() == 9)
-        win = 1;
-    else if (bot.statesAndArmy.size() == 9)
-        win = 2;
-    else
-        win = 0;
-
-    return win;
-}
 //DONE
 vector<int> getTroops(user jogador)
 {
@@ -180,6 +163,8 @@ vector<int> getTerritories(user jogador)
 
     return territorios;
 }
+
+
 //CHECK
 string getState(int state)
 {
@@ -223,6 +208,7 @@ void attack(user &p1, user &p2, int e1, int e2)
 
         else if (e2Troops <= 0)
         {
+            p2.statesAndArmy.erase(e2);
             break;
         }
 
@@ -234,11 +220,13 @@ void attack(user &p1, user &p2, int e1, int e2)
         //se dado do ataque for maior que o da defesa, ataque ganha
         if (random1 > random2)
         {
+            p2.totalTroops--;
             e2Troops--;
         }
         //se dado da defesa for maior ou igual o do ataque, defesa ganha
         else if (random1 <= random2)
         {
+            p1.totalTroops--;
             e1Troops--;
         }
     }
@@ -347,9 +335,6 @@ void first_menu()
 
 void second_screen(user player, user bot, vector<int> estados)
 {
-    bot.avaliable_army_per_round += 5;
-    player.avaliable_army_per_round += 5;
-
     cout << color("roxo_b") << "------------------------------------------------------------------------------------------" << endl
          << endl;
     cout << color("padrao") << "Coloque seus exercitos (" << player.avaliable_army_per_round << " disponiveis)" << endl
@@ -376,7 +361,7 @@ void third_screen(user player, user bot, int state, vector<int> estados)
 
     allocateTroops(player, state, troops);
 
-    player.avaliable_army_per_round -= troops;
+    player.avaliable_army_per_round = player.avaliable_army_per_round - troops;
 
     if (player.avaliable_army_per_round <= 0)
     {
@@ -425,16 +410,19 @@ void fourth_screen(user player, user bot, vector<int> estados)
         rules();
         fourth_screen(player, bot, estados);
     }
-    else if (opt == 4)
+    else if (opt == 4 && player.avaliable_army_per_round > 0)
     {
         second_screen(player, bot, estados);
+    }else{
+        cout << color("red_b") + "\n ENTRADA INVALIDA!" << endl;
+        fourth_screen(player, bot, estados);
     }
 }
 
 // iniciando rodada
 void fifth_screen(user player, user bot, vector<int> estados)
 {
-    cout << "Desejar atacar? (s/n)" << endl;
+    cout << "Deseja atacar? (s/n)" << endl;
     string result;
     cin >> result;
 
@@ -486,7 +474,7 @@ void sixth_screen(user player, user bot, vector<int> estados)
 
     //TO DO randomiza os dados, e exibe se o jogador conquistou o perdeu todos os territorios
 
-    int win = winCheck();
+    int win = winCheck(player, bot);
     //win = true; // TESTE
     if (win == 1)
     {
@@ -502,21 +490,27 @@ void botRound(user player, user bot, vector<int> estados)
 {
     vector<int> estadosBot(9);
     estadosBot = getTerritories(bot);
+
     int state;
     for (int i = 0; i < 9; i++){
         if (estadosBot[i] != 0){
             state = i;
+            break;
         }
     }
     int stateDefesa;
     for (int i = 0; i < 9; i++){
         if (estados[i] != 0){
             stateDefesa = i;
+            break;
         }
     }
-    allocateTroops(bot, state, 5);
-    attack(player, bot, state, stateDefesa);
-    int win = winCheck();
+
+    allocateTroops(bot, estadosBot[0], bot.avaliable_army_per_round);
+
+    attack(player, bot, estadosBot[0], stateDefesa);
+
+    int win = winCheck(player, bot);
     if (win == 1)
     {
         eigth_screen();
@@ -533,11 +527,13 @@ void seventh_screen(user player, user bot, vector<int> estados)
     string seventh = "";
     seventh += "Fim de rodada: \n";
     // exibe a situaçao atual do jogo
-
     // exibe a situaçao do bot e o fim da sua rodada
-    // addTroops(player, bot);
 
-    int win = winCheck();
+    cout << seventh;
+    
+    addTroops(player, bot);
+
+    int win = winCheck(player, bot);
     //win = true; // TESTE
     if (win == 1)
     {
@@ -549,7 +545,7 @@ void seventh_screen(user player, user bot, vector<int> estados)
     }
     else
     {
-        botRound(player, bot, estadosBot);
+        botRound(player, bot, estados);
         fourth_screen(player, bot, estados);
     }
 }
@@ -645,6 +641,37 @@ string color(string nome)
     }
 }
 
+int winCheck(user player, user bot)
+{
+
+    int win = 0; // 0 se ninguem ganhou, 1 se o player ganhou, 2 se a maquina ganhou;
+
+    // Varre o mapa de estados e exercitos que um usuário possui e verifica se possui algum estado que ele não possui exercito.
+    // Caso não possua exercito naquele estado, significa que o estado ainda não foi conquistado pelo usuário,portando ainda não ganhou a partida.
+    vector<int> statesPlayer(9);
+    statesPlayer = getTerritories(player);
+    vector<int> statesBot(9);
+    statesPlayer = getTerritories(bot);
+    int winPlayer = 0;
+    int winBot = 0;
+
+    for(int i = 0; i < 9; i++){
+        if(statesPlayer[i] != 0){
+            winPlayer++;
+        }else{
+            winBot++;
+        }
+    }
+
+    if (winPlayer == 9)
+        win = 1;
+    else if (winBot == 9)
+        win = 2;
+    else
+        win = 0;
+
+    return win;
+}
 int main()
 {
     allocateTerritories();
