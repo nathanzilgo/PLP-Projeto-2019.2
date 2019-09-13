@@ -179,23 +179,23 @@ vector<int> getTerritories(user jogador)
 //CHECK
 string getState(int state)
 {
-    if (state == 0)
-        return color("padrao") + "1 - Alagoas";
     if (state == 1)
-        return color("padrao") + "2 - Bahia";
+        return color("padrao") + "1 - Alagoas";
     if (state == 2)
-        return color("padrao") + "3 - Ceara";
+        return color("padrao") + "2 - Bahia";
     if (state == 3)
-        return color("padrao") + "4 - Maranhao";
+        return color("padrao") + "3 - Ceara";
     if (state == 4)
-        return color("padrao") + "5 - Paraiba";
+        return color("padrao") + "4 - Maranhao";
     if (state == 5)
-        return color("padrao") + "6 - Pernambuco";
+        return color("padrao") + "5 - Paraiba";
     if (state == 6)
-        return color("padrao") + "7 - Piaui";
+        return color("padrao") + "6 - Pernambuco";
     if (state == 7)
-        return color("padrao") + "8 - Rio Grande do Norte";
+        return color("padrao") + "7 - Piaui";
     if (state == 8)
+        return color("padrao") + "8 - Rio Grande do Norte";
+    if (state == 9)
         return color("padrao") + "9 - Sergipe";
 }
 
@@ -289,36 +289,30 @@ void estados_view(user jogador)
     // piaui = 7
     // rio_grande_do_norte = 8
     // sergipe = 9
-
-    vector<int> estados(9);
-    vector<int> tropas(9);
-    estados = getTerritories(jogador);
-    tropas = getTroops(jogador);
+    int i;
     cout << color("roxo_b") << "# Estados do " << jogador.name << endl;
-    for (int i = 0; i < 9; i++)
+    for (pair<int, int> estado : jogador.statesAndArmy)
     {
+        i = estado.first;
 
-        if (estados[i] != 0)
-        {
-            if (i == 0)
-                cout << color("padrao") << "  1 - Alagoas             - " << tropas[0] << endl;
-            if (i == 1)
-                cout << color("padrao") << "  2 - Bahia               - " << tropas[1] << endl;
-            if (i == 2)
-                cout << color("padrao") << "  3 - Ceara               - " << tropas[2] << endl;
-            if (i == 3)
-                cout << color("padrao") << "  4 - Maranhao            - " << tropas[3] << endl;
-            if (i == 4)
-                cout << color("padrao") << "  5 - Paraiba             - " << tropas[4] << endl;
-            if (i == 5)
-                cout << color("padrao") << "  6 - Pernambuco          - " << tropas[5] << endl;
-            if (i == 6)
-                cout << color("padrao") << "  7 - Piaui               - " << tropas[6] << endl;
-            if (i == 7)
-                cout << color("padrao") << "  8 - Rio Grande do Norte - " << tropas[7] << endl;
-            if (i == 8)
-                cout << color("padrao") << "  9 - Sergipe             - " << tropas[8] << endl;
-        }
+        if (i == 1)
+            cout << color("padrao") << "  1 - Alagoas             - " << estado.second << endl;
+        if (i == 2)
+            cout << color("padrao") << "  2 - Bahia               - " << estado.second << endl;
+        if (i == 3)
+            cout << color("padrao") << "  3 - Ceara               - " << estado.second << endl;
+        if (i == 4)
+            cout << color("padrao") << "  4 - Maranhao            - " << estado.second << endl;
+        if (i == 5)
+            cout << color("padrao") << "  5 - Paraiba             - " << estado.second << endl;
+        if (i == 6)
+            cout << color("padrao") << "  6 - Pernambuco          - " << estado.second << endl;
+        if (i == 7)
+            cout << color("padrao") << "  7 - Piaui               - " << estado.second << endl;
+        if (i == 8)
+            cout << color("padrao") << "  8 - Rio Grande do Norte - " << estado.second << endl;
+        if (i == 9)
+            cout << color("padrao") << "  9 - Sergipe             - " << estado.second << endl;
     }
     cout << endl;
 }
