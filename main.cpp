@@ -35,7 +35,7 @@ void first_menu();
 string color(string cor);
 void second_screen(user player, user bot, vector<int> estados); // done
 void estados_view(user player);
-void third_screen(user player, user bot, int quantity, int state, vector<int> estados);
+void third_screen(user player, user bot, int state, vector<int> estados);
 void fourth_screen(user player, user bot, vector<int> estados);
 void fifth_screen(user player, user bot, vector<int> estados);
 void sixth_screen(user player, user bot, vector<int> estados);
@@ -84,6 +84,13 @@ void allocateTerritories()
     }
 
     estadosDisponiveis.clear();
+}
+
+//Adiciona tropas a cada rodada aos jogadores.
+void addTroops(user &player, user &bot)
+{
+    player.avaliable_army_per_round += player.statesAndArmy.size() / 2;
+    bot.avaliable_army_per_round += player.statesAndArmy.size() / 2;
 }
 
 // Recebe um usuário (bot ou player) e verifica se o mesmo ja ganhou a partida
@@ -145,14 +152,14 @@ int getOption()
     return response;
 }
 
-//funçao que aloca um determinado numero de tropas em um estado
+//Funcao que aloca um determinado numero de tropas em um estado
 //DONE
 void allocateTroops(user &jogador, int state, int troopsValue)
 {
     jogador.statesAndArmy[state] += troopsValue;
 }
 
-//retornar os territorios de um determinado usuario
+//Retorna os territorios de um determinado usuario
 //DONE
 vector<int> getTerritories(user jogador)
 {
@@ -193,7 +200,7 @@ string getState(int state)
 
 //  attack controller
 
-void attack(user p1, user p2, int e1, int e2)
+void attack(user &p1, user &p2, int e1, int e2)
 {
 
     int e1Troops = p1.statesAndArmy[e1];
@@ -240,7 +247,7 @@ void attack(user p1, user p2, int e1, int e2)
         p1.statesAndArmy.insert(pair<int, int>(e1, e1Troops / 2));
 
         p2.statesAndArmy.erase(e2);
-        p2.statesAndArmy.insert(pair<int, int>(e2, 0));
+        //p2.statesAndArmy.insert(pair<int, int>(e2, 0));
     }
 
     else
@@ -325,7 +332,10 @@ void first_menu()
     if (opt == 1)
         play();
     else if (opt == 2)
+    {
         rules();
+        first_menu();
+    }
     else
         ;
 }
@@ -345,15 +355,15 @@ void second_screen(user player, user bot, vector<int> estados)
     int state;
     cin >> state;
 
-    third_screen(player, bot, player.avaliable_army_per_round, state, estados);
+    third_screen(player, bot, state, estados);
     system("clear");
 }
 
-void third_screen(user player, user bot, int quantity, int state, vector<int> estados)
+void third_screen(user player, user bot, int state, vector<int> estados)
 {
 
     cout << "Quantos exércitos deseja posicionar no estado "
-         << "< " << getState(state) << " >?";
+         << "< " << getState(state) << " > ? ";
     int troops;
     cin >> troops;
 
@@ -375,18 +385,26 @@ void third_screen(user player, user bot, int quantity, int state, vector<int> es
 void fourth_screen(user player, user bot, vector<int> estados)
 {
     string fourth = "";
-    fourth += "SUA RODADA\n";
+    string tmp;
+
+    fourth += color("roxo_b") + "\nSUA RODADA\n";
     fourth += "\n";
-    fourth += " 1 - Visualizar os territórios/exércitos atuais\n";
+    fourth += color("padrao") + " 1 - Visualizar os territórios/exércitos atuais\n";
     fourth += " 2 - Iniciar rodada\n";
     fourth += " 3 - Regras\n";
+    fourth += " 4 - Alocar tropas\n";
+
     cout << fourth << endl;
 
     int opt = getOption();
     if (opt == 1)
     {
+        system("clear");
         estados_view(player);
         estados_view(bot);
+
+        cout << "Digite 'c' para continuar" << endl;
+        cin >> tmp;
 
         fourth_screen(player, bot, estados);
     }
@@ -400,6 +418,10 @@ void fourth_screen(user player, user bot, vector<int> estados)
         rules();
         fourth_screen(player, bot, estados);
     }
+    else if (opt == 4)
+    {
+        second_screen(player, bot, estados);
+    }
 }
 
 // iniciando rodada
@@ -408,6 +430,7 @@ void fifth_screen(user player, user bot, vector<int> estados)
     cout << "Desejar atacar? (s/n)" << endl;
     string result;
     cin >> result;
+
     if (result == "s")
     {
         sixth_screen(player, bot, estados);
@@ -422,18 +445,23 @@ void fifth_screen(user player, user bot, vector<int> estados)
 void sixth_screen(user player, user bot, vector<int> estados)
 {
     //recursive
+    system("clear");
     string sixth = "";
-    sixth += "Escolha o estado atacante:\n";
+
+    sixth += color("verde_b") + "Escolha o estado atacante:\n";
     cout << sixth << endl;
+
     estados_view(player);
     cout << "0 - não atacar" << endl;
     cout << ">";
+
     int estadoAtacante;
     cin >> estadoAtacante;
+
     if (estadoAtacante == 0)
         seventh_screen(player, bot, estados);
 
-    sixth = "Escolha o estado que deseja atacar:\n";
+    sixth = color("verde_b") + "Escolha o estado que deseja atacar:\n";
     cout << sixth << endl;
     estados_view(bot);
     // <lista de territórios inimigos>
@@ -468,6 +496,7 @@ void seventh_screen(user player, user bot, vector<int> estados)
     // exibe a situaçao atual do jogo
 
     // exibe a situaçao do bot e o fim da sua rodada
+    addTroops(player, bot);
 
     int win = winCheck();
     //win = true; // TESTE
