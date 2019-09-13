@@ -21,8 +21,8 @@ typedef struct userTag
 vector<int> estadosDisponiveis = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 //GLOBAL
-user player = {"Jogador", 4, 5, {{0, 0}}};
-user bot = {"Bot", 5, 5, {{0, 0}}};
+user player = {"Jogador", 4, 0, {{0, 0}}};
+user bot = {"Bot", 5, 0, {{0, 0}}};
 
 void rules(); // Exibe uma VIEW com todas as regras
 int getOption();
@@ -102,9 +102,11 @@ int winCheck()
 
     // Varre o mapa de estados e exercitos que um usuário possui e verifica se possui algum estado que ele não possui exercito.
     // Caso não possua exercito naquele estado, significa que o estado ainda não foi conquistado pelo usuário,portando ainda não ganhou a partida.
-    if (player.statesAndArmy.size() == 10)
+    player.statesAndArmy.erase(0);
+    bot.statesAndArmy.erase(0);
+    if (player.statesAndArmy.size() == 9)
         win = 1;
-    else if (bot.statesAndArmy.size() == 10)
+    else if (bot.statesAndArmy.size() == 9)
         win = 2;
     else
         win = 0;
@@ -345,6 +347,8 @@ void first_menu()
 
 void second_screen(user player, user bot, vector<int> estados)
 {
+    bot.avaliable_army_per_round += 5;
+    player.avaliable_army_per_round += 5;
 
     cout << color("roxo_b") << "------------------------------------------------------------------------------------------" << endl
          << endl;
@@ -477,8 +481,8 @@ void sixth_screen(user player, user bot, vector<int> estados)
         sixth_screen(player, bot, estados);
 
     attack(player, bot, estadoAtacante, estadoDefesa);
-    bot.avaliable_army_per_round += 5;
-    player.avaliable_army_per_round += 5;
+    // bot.avaliable_army_per_round += 5;
+    // player.avaliable_army_per_round += 5;
 
     //TO DO randomiza os dados, e exibe se o jogador conquistou o perdeu todos os territorios
 
@@ -492,6 +496,36 @@ void sixth_screen(user player, user bot, vector<int> estados)
     {
         fifth_screen(player, bot, estados);
     }
+}
+
+void botRound(user player, user bot, vector<int> estados)
+{
+    vector<int> estadosBot(9);
+    estadosBot = getTerritories(bot);
+    int state;
+    for (int i = 0; i < 9; i++){
+        if (estadosBot[i] != 0){
+            state = i;
+        }
+    }
+    int stateDefesa;
+    for (int i = 0; i < 9; i++){
+        if (estados[i] != 0){
+            stateDefesa = i;
+        }
+    }
+    allocateTroops(bot, state, 5);
+    attack(player, bot, state, stateDefesa);
+    int win = winCheck();
+    if (win == 1)
+    {
+        eigth_screen();
+    }
+    else if (win == 2)
+    {
+        nineth_screen();
+    }
+    
 }
 
 void seventh_screen(user player, user bot, vector<int> estados)
@@ -515,6 +549,7 @@ void seventh_screen(user player, user bot, vector<int> estados)
     }
     else
     {
+        botRound(player, bot, estadosBot);
         fourth_screen(player, bot, estados);
     }
 }
