@@ -61,7 +61,6 @@ void allocateTerritories()
         // Se o estadoId random estiver contido nos estados disponiveis:
         if (find(estadosDisponiveis.begin(), estadosDisponiveis.end(), estadoId) != estadosDisponiveis.end())
         {
-            cout << estadoId << endl;
 
             player.statesAndArmy.erase(estadoId);
             player.statesAndArmy.insert(pair<int, int>(estadoId, 1));
@@ -148,16 +147,9 @@ int getOption()
 
 //funçao que aloca um determinado numero de tropas em um estado
 //DONE
-void allocateTroops(user jogador, int state, int troopsValue)
+void allocateTroops(user &jogador, int state, int troopsValue)
 {
-
-    if (jogador.statesAndArmy[state] >= 1)
-    {
-        int before = jogador.statesAndArmy[state];
-
-        jogador.statesAndArmy.erase(state);
-        jogador.statesAndArmy.insert(pair<int, int>(state, before + troopsValue));
-    }
+    jogador.statesAndArmy[state] += troopsValue;
 }
 
 //retornar os territorios de um determinado usuario
@@ -352,6 +344,7 @@ void second_screen(user player, user bot, vector<int> estados)
     cout << ">> ";
     int state;
     cin >> state;
+
     third_screen(player, bot, player.avaliable_army_per_round, state, estados);
     system("clear");
 }
@@ -367,6 +360,7 @@ void third_screen(user player, user bot, int quantity, int state, vector<int> es
     allocateTroops(player, state, troops);
 
     player.avaliable_army_per_round -= troops;
+
     if (player.avaliable_army_per_round <= 0)
     {
         fourth_screen(player, bot, estados);
