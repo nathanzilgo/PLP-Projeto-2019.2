@@ -143,6 +143,9 @@ int getOption()
             response = 2;
         else if (opt == "3")
             response = 3;
+
+        else if (opt == "4")
+            response = 4;
         else
             response = -1;
 
@@ -436,7 +439,7 @@ void fifth_screen(user player, user bot, vector<int> estados)
         sixth_screen(player, bot, estados);
     }
     else if (result == "n")
-    {
+    {   
         seventh_screen(player, bot, estados);
     }
 }
@@ -474,6 +477,8 @@ void sixth_screen(user player, user bot, vector<int> estados)
         sixth_screen(player, bot, estados);
 
     attack(player, bot, estadoAtacante, estadoDefesa);
+    bot.avaliable_army_per_round += 5;
+    player.avaliable_army_per_round += 5;
 
     //TO DO randomiza os dados, e exibe se o jogador conquistou o perdeu todos os territorios
 
@@ -496,7 +501,7 @@ void seventh_screen(user player, user bot, vector<int> estados)
     // exibe a situaçao atual do jogo
 
     // exibe a situaçao do bot e o fim da sua rodada
-    addTroops(player, bot);
+    // addTroops(player, bot);
 
     int win = winCheck();
     //win = true; // TESTE
@@ -570,19 +575,7 @@ void rules()
 
     cout << color("roxo_b") + "------------------------------------------------------------------------------------------" << endl
          << endl;
-    /**cout << "Digite '1' para continuar ou '2' para sair: ";
 
-  int opt = getOption();
-
-  if(opt == 1) {
-    cout << "Iniciando jogo...\n" << flush;
-    system("clear");
-    first_menu();
-  }
-  else if(opt == 2) ;
-  else{
-    cout << "Entrada invalida!" << endl;
-  }*/
 }
 
 /**
