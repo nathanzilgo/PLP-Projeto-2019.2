@@ -143,7 +143,7 @@ int getOption()
 //Funcao que aloca um determinado numero de tropas em um estado
 //DONE
 void allocateTroops(user &jogador, int state, int troopsValue)
-{
+{   
     jogador.statesAndArmy[state] += troopsValue;
 }
 
@@ -313,7 +313,6 @@ void estados_view(user jogador)
 //DONE
 void first_menu()
 {
-
     cout << color("verde_b") << "<--------------------  WARXENTE -------------------->\n";
 
     cout << "\n";
@@ -359,7 +358,13 @@ void third_screen(user player, user bot, int state, vector<int> estados)
     int troops;
     cin >> troops;
 
-    allocateTroops(player, state, troops);
+    if(troops <= player.avaliable_army_per_round){
+        allocateTroops(player, state, troops);
+    }
+    else{
+        cout << color("red_b") + "ENTRADA INVALIDA" << endl;
+        third_screen(player, bot, state, estados);
+    }
 
     player.avaliable_army_per_round = player.avaliable_army_per_round - troops;
 
@@ -526,15 +531,13 @@ void seventh_screen(user player, user bot, vector<int> estados)
 {
     string seventh = "";
     seventh += "Fim de rodada: \n";
-    // exibe a situaçao atual do jogo
-    // exibe a situaçao do bot e o fim da sua rodada
 
     cout << seventh;
     
     addTroops(player, bot);
 
     int win = winCheck(player, bot);
-    //win = true; // TESTE
+    
     if (win == 1)
     {
         eigth_screen();
@@ -552,14 +555,23 @@ void seventh_screen(user player, user bot, vector<int> estados)
 
 void eigth_screen()
 {
-    cout << "VOCE GANHOU!\n";
+    string tecla;
+    cout << color("red_b") + "VOCE PERDEU!\n";
+
+    cout << "Ate mais! digite qualquer tecla para fechar\n\n";
+    cin >> tecla;
+    exit(0);
+    
 }
 
 void nineth_screen()
 {
-    cout << "VOCE PERDEU!\n";
+    string tecla;
+    cout << color("red_b") + "VOCE GANHOU!\n";
 
-    // jogar novamente?
+    cout << "Ate mais! digite qualquer tecla para fechar\n\n";
+    cin >> tecla;
+    exit(0);
 }
 // exibe na tela as regras do jogo
 //DONE
@@ -676,4 +688,6 @@ int main()
 {
     allocateTerritories();
     first_menu();
+
+    return 0;
 }
