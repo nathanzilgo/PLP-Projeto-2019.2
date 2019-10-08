@@ -1,15 +1,10 @@
-import Graphics.Image.IO
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
-
-view_selector :: Int -> String
-    -- TODO
+module Project where
 
 main :: IO
 main = do
     -- Fronteiras de cada estado:
-    entrada = do
-        let nordeste = readImageRGB VU "nordeste.jpg"
-        displayImage nordeste
 
     front_pb = ["RN", "PE", "CE"]
     front_pe = ["AL", "BA", "PB", "PI", "CE"]
