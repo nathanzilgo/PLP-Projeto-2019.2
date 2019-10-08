@@ -1,8 +1,11 @@
-view_selector :: Int -> String
-    -- TODO
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
+module Project where
+
+main :: IO
 main = do
     -- Fronteiras de cada estado:
+
     front_pb = ["RN", "PE", "CE"]
     front_pe = ["AL", "BA", "PB", "PI", "CE"]
     front_ba = ["SE", "AL", "PE", "PI"]
