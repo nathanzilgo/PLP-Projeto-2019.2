@@ -9,7 +9,7 @@ import Data.text (Text)
 data User = User{
     name :: String,
     troops :: Int,
-    states :: [String]
+    states :: [(String, Int)]
 } deriving (Show, Eq, Num)
 
 -- Método para alocar tropas livres no início de um round para um User.

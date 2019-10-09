@@ -9,6 +9,6 @@ import Data.text (Text)
 data Bot = Bot{
     name :: String,
     troops :: Int,
-    states :: [String]
+    states :: [(String, Int)]
 } deriving (Show, Eq, Num)
 
