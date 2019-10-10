@@ -3,7 +3,8 @@
 ## Dependências (rode no terminal):
 ```bash
 cabal install tuple
-cabal update```
+cabal update
+```
 
 ## O que lembrar para a próxima entrega:
 #### Fronteiras
