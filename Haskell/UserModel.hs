@@ -31,14 +31,24 @@ realocaTroops :: User -> Int -> String -> String -> IO()
 -- Return: String resultado.
 removeTroops :: User -> Int -> String -> IO()
 
+-- Seleciona um estado arbitrário para o Bot
+-- Params: [(String, Int)] estados
+-- Return: String estado
 randomState :: [(String, Int)] -> String
 
+-- Selectiona uma quantidade arbitrária para o Bot
+-- Params: Int limiteSuperior
+-- Return: Int result
 randomTroops :: Int -> Int
 
+-- Define uma escolha de jogada aleatória para o Bot
 randomPlay :: Int -> Int
 
 -- Verifica se um User tem controle sobre um estado
 -- Params: User user, String estado, [(String, Int)] estadosUsr
 -- Return: Boolean resultado
 possuiEstado :: User -> String -> [(String, Int)] -> Boolean
-possuiEstado user estado h:t = 
+possuiEstado user estado h:t
+    | h == () = False                                         -- Fim da lista (condição de parada)
+    | estado == sel1 h = True                                 -- Se o estado for igual a String da head (tupla)
+    | estado != sel1 h = possuiEstado user estado t           -- Passo recursivo (user, estado, tail da lista)
