@@ -130,3 +130,10 @@ setSergipe usr tropas = do
     let user = User (name usr) (troops usr) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) ((sergipe usr) + tropas)
 
     user
+
+-- Modifica o estado da quantidade de tropas totais   
+setSergipe:: User -> Int -> User
+setSergipe usr tropas = do
+    let user = User (name usr) ((troops usr) + tropas) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe)
+
+    user
