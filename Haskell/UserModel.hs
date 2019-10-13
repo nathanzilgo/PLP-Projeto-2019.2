@@ -71,14 +71,19 @@ randomTroops num = out where
 randomPlay :: Int -> Int
 
 -- Verifica se um User tem controle sobre um estado
--- Params: User user, String estado, [(String, Int)] estadosUsr
+-- Params: User user, String estado, estadosUsr
 -- Return: Boolean resultado
-possuiEstado :: User -> String -> [(String, Int)] -> Boolean
-possuiEstado user estado h:t
-    | h == () = False                                         -- Fim da lista (condição de parada)
-    | estado == sel1 h = True                                 -- Se o estado for igual a String da head (tupla)
-    | estado != sel1 h = possuiEstado user estado t           -- Passo recursivo (user, estado, tail da lista)
-
+possuiEstado :: User -> String -> Boolean
+possuiEstado user estado
+    | estado == "alagoas" = (getAlagoas > 0)
+    | estado == "bahia" = (getBahia > 0)
+    | estado == "ceara" = (getCeara > 0)
+    | estado == "maranhao" = (getMaranhao > 0)
+    | estado == "paraiba" = (getParaiba > 0)
+    | estado == "pernambuco" = (getPernambuco > 0)
+    | estado == "piaui" = (getPiaui > 0)
+    | estado == "riograndedonorte" = (getRioGrandeDoNorte > 0)
+    | otherwhise = (getSergipe > 0)
 
 -- Modifica o estado das tropas de alagoas do Usuario
 setAlagoas:: User -> Int -> User
