@@ -47,7 +47,9 @@ realocaTroops :: User -> Int -> String -> String -> IO()
 -- Método para remover tropas de um User (possível ataque recebido).
 -- Params: User user, Int quantidade, String estado.
 -- Return: String resultado.
-removeTroops :: User -> Int -> String -> IO()
+removeTroops :: User -> Int -> String -> User
+removeTroops user quantidade estado =
+    alocaTroops user (-quantidade) estado
 
 -- Seleciona um estado arbitrário para o Bot
 -- Params: [(String, Int)] estados
