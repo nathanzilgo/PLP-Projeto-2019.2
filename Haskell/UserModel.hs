@@ -9,7 +9,17 @@ import Data.text (Text)
 data User = User{
     name :: String,
     troops :: Int,
-    states :: [(String, Int)]
+    alagoas :: Int,
+    bahia:: Int,
+    ceara:: Int,
+    maranhao:: Int,
+    paraiba:: Int,
+    pernambuco:: Int,
+    piaui:: Int,
+    riograndedonorte:: Int,
+    sergipe:: Int,
+    bahia:: Int,
+
 } deriving (Show, Eq, Num)
 
 -- Método para alocar tropas livres no início de um round para um User.
