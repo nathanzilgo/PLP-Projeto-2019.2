@@ -66,3 +66,74 @@ possuiEstado user estado h:t
     | h == () = False                                         -- Fim da lista (condição de parada)
     | estado == sel1 h = True                                 -- Se o estado for igual a String da head (tupla)
     | estado != sel1 h = possuiEstado user estado t           -- Passo recursivo (user, estado, tail da lista)
+
+
+-- Modifica o estado das tropas de alagoas do Usuario
+setAlagoas:: User -> Int -> User
+setAlagoas usr tropas = do
+    let user = User (name usr) (troops usr) ((alagoas usr) + tropas) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe usr)
+
+    user
+
+-- Modifica o estado das tropas da bahia do Usuario    
+setBahia:: User -> Int -> User
+setBahia usr tropas = do
+    let user = User (name usr) (troops usr) (alagoas usr) ((bahia usr) + tropas) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe usr)
+
+    user
+
+-- Modifica o estado das tropas do ceara do Usuario    
+setCeara:: User -> Int -> User
+setCeara usr tropas = do
+    let user = User (name usr) (troops usr) (alagoas usr) (bahia usr) ((ceara usr) + tropas) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe usr)
+
+    user
+
+-- Modifica o estado das tropas do maranhao do Usuario    
+setMaranhao:: User -> Int -> User
+setMaranhao usr tropas = do
+    let user = User (name usr) (troops usr) (alagoas usr) (bahia usr) (ceara usr) ((maranhao usr) + tropas)  (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe usr)
+
+    user
+    
+-- Modifica o estado das tropas da paraiba do Usuario    
+setParaiba:: User -> Int -> User
+setParaiba usr tropas = do
+    let user = User (name usr) (troops usr) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) ((paraiba usr) + tropas) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe usr)
+    
+    user
+
+-- Modifica o estado das tropas do pernambuco do Usuario    
+setPernambuco:: User -> Int -> User
+setPernambuco usr tropas = do
+    let user = User (name usr) (troops usr) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) ((pernambuco usr) + tropas) (piaui usr) (riograndedonorte usr) (sergipe usr)
+
+    user
+    
+-- Modifica o estado das tropas da piaui do Usuario        
+setPiaui:: User -> Int -> User
+setPiaui usr tropas = do
+    let user = User (name usr) (troops usr) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) ((piaui usr) + tropas) (riograndedonorte usr) (sergipe usr)
+
+    user
+
+-- Modifica o estado das tropas do riograndedonorte do Usuario    
+setRioGrandeDoNorte:: User -> Int -> User
+setRioGrandeDoNorte usr tropas = do
+    let user = User (name usr) (troops usr) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) ((riograndedonorte usr) + tropas) (sergipe usr)
+
+    user
+
+-- Modifica o estado das tropas de sergipe do Usuario    
+setSergipe:: User -> Int -> User
+setSergipe usr tropas = do
+    let user = User (name usr) (troops usr) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) ((sergipe usr) + tropas)
+
+    user
+
+-- Modifica o estado da quantidade de tropas totais   
+setSergipe:: User -> Int -> User
+setSergipe usr tropas = do
+    let user = User (name usr) ((troops usr) + tropas) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe)
+
+    user
