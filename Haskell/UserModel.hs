@@ -26,7 +26,17 @@ data User = User{
 -- Params: User user, Int quantidade, String estado.
 -- Return: String resultado
 
-alocaTroops :: User -> Int -> String -> IO()
+alocaTroops :: User -> Int -> String -> User
+alocaTroops user quantidade estado
+    | estado == "alagoas" = setAlagoas user getAlagoas
+    | estado == "bahia" = setBahia user getBahia
+    | estado == "ceara" = setCeara user getCeara
+    | estado == "maranhao" = setMaranhao user getMaranhao
+    | estado == "paraiba" = setParaiba user getParaiba
+    | estado == "pernambuco" = setPernambuco user getPernambuco
+    | estado == "piaui" = setPiaui user getPiaui
+    | estado == "riograndedonorte" = setRioGrandeDoNorte user getRioGrandeDoNorte
+    | otherwhise = setSergipe user getSergipe
 
 -- Método para realocar tropas de um User de um estado para outro.
 -- Params: User user, Int quantidade, String estado_remove, String estado_add.
@@ -132,8 +142,8 @@ setSergipe usr tropas = do
     user
 
 -- Modifica o estado da quantidade de tropas totais   
-setSergipe:: User -> Int -> User
-setSergipe usr tropas = do
+setTroops:: User -> Int -> User
+setTroops usr tropas = do
     let user = User (name usr) ((troops usr) + tropas) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe)
 
     user
