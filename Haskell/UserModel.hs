@@ -18,15 +18,12 @@ data User = User{
     piaui:: Int,
     riograndedonorte:: Int,
     sergipe:: Int,
-    bahia:: Int,
-
 } deriving (Show, Eq, Num)
 
 -- Método para alocar tropas livres no início de um round para um User.
 -- Params: User user, Int quantidade, String estado.
 -- Return: String resultado
 alocaTroops :: User -> Int -> String -> IO()
-
 
 -- Método para realocar tropas de um User de um estado para outro.
 -- Params: User user, Int quantidade, String estado_remove, String estado_add.
