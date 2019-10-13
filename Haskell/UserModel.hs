@@ -11,15 +11,22 @@ import System.Random
 data User = User{
     name :: String,
     troops :: Int,
-    states :: [(String, Int)]
+    alagoas :: Int,
+    bahia:: Int,
+    ceara:: Int,
+    maranhao:: Int,
+    paraiba:: Int,
+    pernambuco:: Int,
+    piaui:: Int,
+    riograndedonorte:: Int,
+    sergipe:: Int,
 } deriving (Show, Eq, Num)
 
 -- Método para alocar tropas livres no início de um round para um User.
 -- Params: User user, Int quantidade, String estado.
 -- Return: String resultado
-alocaTroops :: User -> Int -> String -> User
-alocaTroops usr 0 _ = usr
-    | usr num estado = if()
+
+alocaTroops :: User -> Int -> String -> IO()
 
 -- Método para realocar tropas de um User de um estado para outro.
 -- Params: User user, Int quantidade, String estado_remove, String estado_add.

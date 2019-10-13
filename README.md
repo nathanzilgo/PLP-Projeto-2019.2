@@ -8,3 +8,4 @@
 - Informações de rodadas
 - Ajeitar os bugs
 - SE ORGANIZAR MELHOR E TRABALHAR JUNTOS!
+- https://docs.google.com/document/d/16gV2xam9BCt72N1K2petkBEu6mXfVT-04ITXGtUkkhw/edit?ts=5d66da85
