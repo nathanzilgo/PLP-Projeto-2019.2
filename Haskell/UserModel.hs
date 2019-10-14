@@ -75,15 +75,15 @@ randomPlay :: Int -> Int
 -- Return: Boolean resultado
 possuiEstado :: User -> String -> Boolean
 possuiEstado user estado
-    | estado == "alagoas" = (getAlagoas > 0)
-    | estado == "bahia" = (getBahia > 0)
-    | estado == "ceara" = (getCeara > 0)
-    | estado == "maranhao" = (getMaranhao > 0)
-    | estado == "paraiba" = (getParaiba > 0)
-    | estado == "pernambuco" = (getPernambuco > 0)
-    | estado == "piaui" = (getPiaui > 0)
-    | estado == "riograndedonorte" = (getRioGrandeDoNorte > 0)
-    | otherwhise = (getSergipe > 0)
+    | estado == "alagoas" = ((getAlagoas user) > 0)
+    | estado == "bahia" = ((getBahia user) > 0)
+    | estado == "ceara" = ((getCeara > user) 0)
+    | estado == "maranhao" = ((getMaranhao user) > 0)
+    | estado == "paraiba" = ((getParaiba user) > 0)
+    | estado == "pernambuco" = ((getPernambuco user) > 0)
+    | estado == "piaui" = ((getPiaui user)> 0)
+    | estado == "riograndedonorte" = ((getRioGrandeDoNorte user) > 0)
+    | otherwhise = ((getSergipe user) > 0)
 
 -- Modifica o estado das tropas de alagoas do Usuario
 setAlagoas:: User -> Int -> User
