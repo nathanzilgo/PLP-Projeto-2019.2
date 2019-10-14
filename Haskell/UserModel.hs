@@ -26,7 +26,17 @@ data User = User{
 -- Params: User user, Int quantidade, String estado.
 -- Return: String resultado
 
-alocaTroops :: User -> Int -> String -> IO()
+alocaTroops :: User -> Int -> String -> User
+alocaTroops user quantidade estado
+    | estado == "alagoas" = setAlagoas user getAlagoas
+    | estado == "bahia" = setBahia user getBahia
+    | estado == "ceara" = setCeara user getCeara
+    | estado == "maranhao" = setMaranhao user getMaranhao
+    | estado == "paraiba" = setParaiba user getParaiba
+    | estado == "pernambuco" = setPernambuco user getPernambuco
+    | estado == "piaui" = setPiaui user getPiaui
+    | estado == "riograndedonorte" = setRioGrandeDoNorte user getRioGrandeDoNorte
+    | otherwhise = setSergipe user getSergipe
 
 -- Método para realocar tropas de um User de um estado para outro.
 -- Params: User user, Int quantidade, String estado_remove, String estado_add.
@@ -37,7 +47,9 @@ realocaTroops :: User -> Int -> String -> String -> IO()
 -- Método para remover tropas de um User (possível ataque recebido).
 -- Params: User user, Int quantidade, String estado.
 -- Return: String resultado.
-removeTroops :: User -> Int -> String -> IO()
+removeTroops :: User -> Int -> String -> User
+removeTroops user quantidade estado =
+    alocaTroops user (-quantidade) estado
 
 -- Seleciona um estado arbitrário para o Bot
 -- Params: [(String, Int)] estados
@@ -59,14 +71,19 @@ randomTroops num = out where
 randomPlay :: Int -> Int
 
 -- Verifica se um User tem controle sobre um estado
--- Params: User user, String estado, [(String, Int)] estadosUsr
+-- Params: User user, String estado, estadosUsr
 -- Return: Boolean resultado
-possuiEstado :: User -> String -> [(String, Int)] -> Boolean
-possuiEstado user estado h:t
-    | h == () = False                                         -- Fim da lista (condição de parada)
-    | estado == sel1 h = True                                 -- Se o estado for igual a String da head (tupla)
-    | estado != sel1 h = possuiEstado user estado t           -- Passo recursivo (user, estado, tail da lista)
-
+possuiEstado :: User -> String -> Boolean
+possuiEstado user estado
+    | estado == "alagoas" = (getAlagoas > 0)
+    | estado == "bahia" = (getBahia > 0)
+    | estado == "ceara" = (getCeara > 0)
+    | estado == "maranhao" = (getMaranhao > 0)
+    | estado == "paraiba" = (getParaiba > 0)
+    | estado == "pernambuco" = (getPernambuco > 0)
+    | estado == "piaui" = (getPiaui > 0)
+    | estado == "riograndedonorte" = (getRioGrandeDoNorte > 0)
+    | otherwhise = (getSergipe > 0)
 
 -- Modifica o estado das tropas de alagoas do Usuario
 setAlagoas:: User -> Int -> User
@@ -132,8 +149,62 @@ setSergipe usr tropas = do
     user
 
 -- Modifica o estado da quantidade de tropas totais   
-setSergipe:: User -> Int -> User
-setSergipe usr tropas = do
+setTroops:: User -> Int -> User
+setTroops usr tropas = do
     let user = User (name usr) ((troops usr) + tropas) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe)
 
     user
+
+--Retorna a quantidade de tropas do estado de alagoas
+getAlagoas:: User -> Int
+getAlagoas user =
+    let usr = alagoas user
+    usr
+--Retorna a quantidade de tropas do estado da bahia
+getBahia:: User -> Int
+getBahia user =
+    let usr = bahia user
+    
+    usr
+--Retorna a quantidade de tropas do estado do ceara
+getCeara:: User -> Int
+getCeara user =
+    let usr = ceara user
+    
+    usr
+--Retorna a quantidade de tropas do estado do maranhao
+getMaranhao:: User -> Int
+getMaranhao user =
+    let usr = maranhao user
+    
+    usr
+--Retorna a quantidade de tropas do estado da paraiba 
+getParaiba:: User -> Int
+getParaiba user =
+    let usr = paraiba user
+    
+    usr
+--Retorna a quantidade de tropas do estado de pernambuco
+getPernambuco:: User -> Int
+getPernambuco user =
+    let usr = pernambuco user
+    
+    usr
+--Retorna a quantidade de tropas do estado do piaui
+getPiaui:: User -> Int
+getPiaui user =
+    let usr = piaui user
+    
+    usr
+--Retorna a quantidade de tropas do estado do riograndedonorte
+getRiograndedonorte:: User -> Int
+getRiograndedonorte user =
+    let usr = riograndedonorte user
+    
+    usr
+--Retorna a quantidade de tropas do estado de sergipe
+getSergipe:: User -> Int
+getSergipe user =
+    let usr = sergipe user
+    
+    usr
