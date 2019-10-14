@@ -28,15 +28,15 @@ data User = User{
 
 alocaTroops :: User -> Int -> String -> User
 alocaTroops user quantidade estado
-    | estado == "alagoas" = setAlagoas user getAlagoas
-    | estado == "bahia" = setBahia user getBahia
-    | estado == "ceara" = setCeara user getCeara
-    | estado == "maranhao" = setMaranhao user getMaranhao
-    | estado == "paraiba" = setParaiba user getParaiba
-    | estado == "pernambuco" = setPernambuco user getPernambuco
-    | estado == "piaui" = setPiaui user getPiaui
-    | estado == "riograndedonorte" = setRioGrandeDoNorte user getRioGrandeDoNorte
-    | otherwhise = setSergipe user getSergipe
+    | estado == "alagoas" = setAlagoas user (getAlagoas user)
+    | estado == "bahia" = setBahia user (getBahia user)
+    | estado == "ceara" = setCeara user (getCeara user)
+    | estado == "maranhao" = setMaranhao user (getMaranhao user)
+    | estado == "paraiba" = setParaiba user (getParaiba user)
+    | estado == "pernambuco" = setPernambuco (user getPernambuco user)
+    | estado == "piaui" = setPiaui user (getPiaui user)
+    | estado == "riograndedonorte" = setRioGrandeDoNorte user (getRioGrandeDoNorte user)
+    | otherwhise = setSergipe user (getSergipe user)
 
 -- Método para realocar tropas de um User de um estado para outro.
 -- Params: User user, Int quantidade, String estado_remove, String estado_add.
