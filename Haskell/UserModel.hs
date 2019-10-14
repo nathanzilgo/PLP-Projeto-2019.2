@@ -137,3 +137,67 @@ setSergipe usr tropas = do
     let user = User (name usr) ((troops usr) + tropas) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe)
 
     user
+
+--Retorna a quantidade de tropas do estado de alagoas
+getAlagoas:: User -> Int
+getAlagoas user =
+    let usr = alagoas user
+
+    usr
+
+--Retorna a quantidade de tropas do estado da bahia
+getBahia:: User -> Int
+getBahia user =
+    let usr = bahia user
+    
+    usr
+
+
+--Retorna a quantidade de tropas do estado do ceara
+getCeara:: User -> Int
+getCeara user =
+    let usr = ceara user
+    
+    usr
+
+--Retorna a quantidade de tropas do estado do maranhao
+getMaranhao:: User -> Int
+getMaranhao user =
+    let usr = maranhao user
+    
+    usr
+
+--Retorna a quantidade de tropas do estado da paraiba 
+getParaiba:: User -> Int
+getParaiba user =
+    let usr = paraiba user
+    
+    usr
+
+--Retorna a quantidade de tropas do estado de pernambuco
+getPernambuco:: User -> Int
+getPernambuco user =
+    let usr = pernambuco user
+    
+    usr
+
+--Retorna a quantidade de tropas do estado do piaui
+getPiaui:: User -> Int
+getPiaui user =
+    let usr = piaui user
+    
+    usr
+
+--Retorna a quantidade de tropas do estado do riograndedonorte
+getRiograndedonorte:: User -> Int
+getRiograndedonorte user =
+    let usr = riograndedonorte user
+    
+    usr
+
+--Retorna a quantidade de tropas do estado de sergipe
+getSergipe:: User -> Int
+getSergipe user =
+    let usr = sergipe user
+    
+    usr
