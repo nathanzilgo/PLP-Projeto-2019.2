@@ -65,10 +65,11 @@ randomState states = out where
 -- Return: Int result
 randomTroops :: Int -> Int
 randomTroops num = out where
-    out <- randomRIO (1, num)
+    r <- randomRIO (1, num)
+    out = r
     
 -- Define uma escolha de jogada aleatória para o Bot
-randomPlay :: Int -> Int
+randomPlay :: User -> Int -> User
 
 -- Verifica se um User tem controle sobre um estado
 -- Params: User user, String estado, estadosUsr
@@ -84,6 +85,9 @@ possuiEstado user estado
     | estado == "piaui" = ((getPiaui user)> 0)
     | estado == "riograndedonorte" = ((getRioGrandeDoNorte user) > 0)
     | otherwhise = ((getSergipe user) > 0)
+
+
+-- ####################################################### SETTERS #########################################################
 
 -- Modifica o estado das tropas de alagoas do Usuario
 setAlagoas:: User -> Int -> User
@@ -154,6 +158,9 @@ setTroops usr tropas = do
     let user = User (name usr) ((troops usr) + tropas) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe)
 
     user
+
+
+-- #################################################### GETTERS #######################################################
 
 --Retorna a quantidade de tropas do estado de alagoas
 getAlagoas:: User -> Int

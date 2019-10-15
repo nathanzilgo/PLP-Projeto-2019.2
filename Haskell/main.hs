@@ -8,6 +8,6 @@ main = do
     let bot = User "bot" 5 0 0 0 0 0 0 0 0 0
 
 -- Função para atacar um User a partir de outro
--- Params: os 2 users
--- Return: Resultado
-attack :: User -> User -> IO()
+-- Params: User atacante, User atacado
+-- Return: (Atacante, atacado)
+attack :: User -> User -> (User, User)
