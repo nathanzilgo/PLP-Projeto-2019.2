@@ -37,7 +37,7 @@ alocaTroops user quantidade estado
     | estado == "piaui" = setPiaui user (getPiaui user)
     | estado == "riograndedonorte" = setRioGrandeDoNorte user (getRioGrandeDoNorte user)
     | estado == "sergipe" = setSergipe user (getSergipe)
-    | otherwhise = setSergipe user (getSergipe user)
+    | otherwhise =  User ("erro") (0) (0) (0) (0)
 
 -- Método para realocar tropas de um User de um estado para outro.
 -- Params: User user, Int quantidade, String estado_remove, String estado_add.
@@ -180,16 +180,16 @@ setTroops usr tropas = do
 
 getEstado :: User -> String -> Int
 getEstado user estado
-    | estado == "alagoas" = (alagoas user)
-    | estado == "bahia" = (bahia user)
-    | estado == "ceara" = (ceara user)
-    | estado == "rn" = (riograndedonorte user)
-    | estado == "sergipe" = (sergipe user)
-    | estado == "maranhao" = (maranhao user)
-    | estado == "piaui" = (piaui user)
-    | estado == "paraiba" = (paraiba user)
-    | estado == "pernambuco" = (pernambuco user)
-    | otherwise = ">:("
+    | estado == "alagoas" = getAlagoas user
+    | estado == "bahia" = getBahia user
+    | estado == "ceara" = getCeara user
+    | estado == "riograndedonorte" = getRioGrandeDoNorte user
+    | estado == "maranhao" = getMaranhao user
+    | estado == "piaui" = getPiaui user
+    | estado == "paraiba" = getParaiba user
+    | estado == "pernambuco" = getPernambuco user
+    | estado == "sergipe" = getSergipe user
+    | otherwise = -404
     
 --Retorna a quantidade de tropas do estado de alagoas
 getAlagoas:: User -> Int
@@ -233,8 +233,8 @@ getPiaui user =
     
     usr
 --Retorna a quantidade de tropas do estado do riograndedonorte
-getRiograndedonorte:: User -> Int
-getRiograndedonorte user =
+getRioGrandeDoNorte:: User -> Int
+getRioGrandeDoNorte user =
     let usr = riograndedonorte user
     
     usr
