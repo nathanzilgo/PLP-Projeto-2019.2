@@ -1,5 +1,8 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
+import User
+import System.Random     
+
 module Project where
 
 main :: IO
@@ -7,13 +10,13 @@ main = do
     let user = User "User" 5 0 0 0 0 0 0 0 0 0
     let bot = User "bot" 5 0 0 0 0 0 0 0 0 0
 
-    
+
 -- Função para atacar um User a partir de outro
 -- Params: User atacante, User atacado, Estado atacante, Estado atacado
 -- Return: (Atacante, atacado)
 attack :: User -> User -> String -> String -> (User, User)
 attack atacante atacado estado1 estado2
-    | (getEstado atacante estado1) > 1 && (getEstado atacado estado2) > 0 = tupla where 
+    | (User.getEstado atacante estado1) > 1 && (User.getEstado atacado estado2) > 0 = tupla where 
 
         exibeJogada( (name atacante) ++ " está atacando " ++ (name atacado) ++ " de " ++ (estado1) ++ " para " ++ (estado2) ++ "!!" )
         let dado1 = dados
@@ -42,3 +45,6 @@ dados = randomRIO(1, 6)
 -- Return: IO() texto
 exibeJogada :: String -> IO()
 exibeJogada texto = print(texto)
+
+win :: User -> IO()
+win user = print(name user ++ " venceu o jogo!")
