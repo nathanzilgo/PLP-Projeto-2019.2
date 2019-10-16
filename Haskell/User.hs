@@ -33,9 +33,10 @@ alocaTroops user quantidade estado
     | estado == "ceara" = setCeara user (getCeara user)
     | estado == "maranhao" = setMaranhao user (getMaranhao user)
     | estado == "paraiba" = setParaiba user (getParaiba user)
-    | estado == "pernambuco" = setPernambuco (user getPernambuco user)
+    | estado == "pernambuco" = setPernambuco user (getPernambuco user)
     | estado == "piaui" = setPiaui user (getPiaui user)
     | estado == "riograndedonorte" = setRioGrandeDoNorte user (getRioGrandeDoNorte user)
+    | estado == "sergipe" = setSergipe user (getSergipe)
     | otherwhise = setSergipe user (getSergipe user)
 
 -- Método para realocar tropas de um User de um estado para outro.
@@ -85,7 +86,8 @@ possuiEstado user estado
     | estado == "pernambuco" = ((getPernambuco user) > 0)
     | estado == "piaui" = ((getPiaui user)> 0)
     | estado == "riograndedonorte" = ((getRioGrandeDoNorte user) > 0)
-    | otherwhise = ((getSergipe user) > 0)
+    | estado == "sergipe" = ((getSergipe user) > 0)
+    | otherwiser = User ("erro") (0) (0) (0) (0)
 
 
 -- ####################################################### SETTERS #########################################################
@@ -100,6 +102,7 @@ setEstado usr estado quantidade
     | estado == "pernambuco" = setPernambuco usr quantidade
     | estado == "piaui" = setPiaui usr quantidade
     | estado == "riograndedonorte" = setRioGrandeDoNorte usr quantidade
+    | estado == "sergipe" = setSergipe usr quantidade
     | otherwiser = User ("erro") (0) (0) (0) (0)
 
 -- Modifica o estado das tropas de alagoas do Usuario
