@@ -11,6 +11,24 @@ main = do
     let bot = User "bot" 5 0 0 0 0 0 0 0 0 0
 
 
+runtime :: User -> User -> (User, User)
+runtime jogador bot = do
+    putStrLn("Insira o numero da jogada: ")
+    putStrLn("1. Realocar tropas")
+    putStrLn("2. Atacar")
+    putStrLn("3. Terminar jogada")
+    put
+    
+{- 
+   Função root da aplicação onde todas as outras funções são chamadas
+   Params: User jogador, User bot, Int jogadaId
+   Return: (User jogador, User bot)
+-}
+runtime :: User -> User -> Int -> Int -> (User, User)
+runtime jogador bot jogada userId
+    | if(jogada == 1)
+        then 
+
 -- Função para atacar um User a partir de outro
 -- Params: User atacante, User atacado, Estado atacante, Estado atacado
 -- Return: (Atacante, atacado)
@@ -46,5 +64,9 @@ dados = randomRIO(1, 6)
 exibeJogada :: String -> IO()
 exibeJogada texto = print(texto)
 
+-- Exibe um User vitorioso no jogo
+-- Params: User user
+-- Return: IO() texto
 win :: User -> IO()
 win user = print(name user ++ " venceu o jogo!")
+
