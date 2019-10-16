@@ -162,6 +162,19 @@ setTroops usr tropas = do
 
 -- #################################################### GETTERS #######################################################
 
+getEstado :: User -> String -> Int
+getEstado user estado
+    | estado == "alagoas" = (alagoas user)
+    | estado == "bahia" = (bahia user)
+    | estado == "ceara" = (ceara user)
+    | estado == "rn" = (riograndedonorte user)
+    | estado == "sergipe" = (sergipe user)
+    | estado == "maranhao" = (maranhao user)
+    | estado == "piaui" = (piaui user)
+    | estado == "paraiba" = (paraiba user)
+    | estado == "pernambuco" = (pernambuco user)
+    | otherwise = ">:("
+    
 --Retorna a quantidade de tropas do estado de alagoas
 getAlagoas:: User -> Int
 getAlagoas user =
