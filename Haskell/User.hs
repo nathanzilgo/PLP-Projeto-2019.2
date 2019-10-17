@@ -95,7 +95,7 @@ possuiEstado user estado
 -- Return: Boolean resultado que define se o usuario ganhou ou nao a partida.
 verificaVitoria :: User -> Boolean
 verificaVitoria user
-    | ((getAlagoas user > 0) && (getBahia user > 0) && (getCeara user > 0) && (getMaranhao > 0) && (getParaiba > 0) && (getPernambuco user > 0) && (getPiaui user > 0) && (getRioGrandeDoNorte user > 0) && (getSergipe user > 0)) = False
+    | ((getAlagoas user > 0) && (getBahia user > 0) && (getCeara user > 0) && (getMaranhao user > 0) && (getParaiba user > 0) && (getPernambuco user > 0) && (getPiaui user > 0) && (getRioGrandeDoNorte user > 0) && (getSergipe user > 0)) = False
     | otherwhise = False
 
 -- ####################################################### SETTERS #########################################################
