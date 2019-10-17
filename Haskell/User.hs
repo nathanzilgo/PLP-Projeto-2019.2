@@ -2,7 +2,11 @@
 
 -- Definição de um User do jogo (Humano ou bot) que contem os métodos aplicados
 -- ao User em si.
-module User where
+module User(
+    User(..),
+    setEstado,
+    possuiEstado
+) where
 
 import Data.text (Text)
 import Data.Tuple.Select -- Utilitários para tuplas. Precisa da dependência de tuplas instalada (veja o README)
@@ -33,23 +37,31 @@ alocaTroops user quantidade estado
     | estado == "ceara" = setCeara user (getCeara user)
     | estado == "maranhao" = setMaranhao user (getMaranhao user)
     | estado == "paraiba" = setParaiba user (getParaiba user)
-    | estado == "pernambuco" = setPernambuco (user getPernambuco user)
+    | estado == "pernambuco" = setPernambuco user (getPernambuco user)
     | estado == "piaui" = setPiaui user (getPiaui user)
     | estado == "riograndedonorte" = setRioGrandeDoNorte user (getRioGrandeDoNorte user)
-    | otherwhise = setSergipe user (getSergipe user)
+    | estado == "sergipe" = setSergipe user (getSergipe)
+    | otherwhise =  User ("erro") (0) (0) (0) (0)
 
 -- Método para realocar tropas de um User de um estado para outro.
 -- Params: User user, Int quantidade, String estado_remove, String estado_add.
 -- Return: String resultado.
 
-realocaTroops :: User -> Int -> String -> String -> IO()
+realocaTroops :: User -> Int -> String -> String -> User
+realocaTroops user quantidade estado_remove estado_add = do
+    let usr = setEstado user estado_add quantidade
+    setEstado usr estado_remove (-quantidade)
+
+    
+    
 
 -- Método para remover tropas de um User (possível ataque recebido).
 -- Params: User user, Int quantidade, String estado.
 -- Return: String resultado.
 removeTroops :: User -> Int -> String -> User
-removeTroops user quantidade estado =
-    alocaTroops user (-quantidade) estado
+removeTroops user quantidade estado
+    | (getEstado user estado) - quantidade < 0 = setEstado estado 0
+    | otherwise = alocaTroops user (-quantidade) estado
 
 -- Seleciona um estado arbitrário para o Bot
 -- Params: [(String, Int)] estados
@@ -84,10 +96,24 @@ possuiEstado user estado
     | estado == "pernambuco" = ((getPernambuco user) > 0)
     | estado == "piaui" = ((getPiaui user)> 0)
     | estado == "riograndedonorte" = ((getRioGrandeDoNorte user) > 0)
-    | otherwhise = ((getSergipe user) > 0)
+    | estado == "sergipe" = ((getSergipe user) > 0)
+    | otherwiser = User ("erro") (0) (0) (0) (0)
 
 
 -- ####################################################### SETTERS #########################################################
+
+setEstado :: User -> String -> Int -> User
+setEstado usr estado quantidade
+    | estado == "alagoas" = setAlagoas usr quantidade
+    | estado == "bahia" = setBahia usr quantidade
+    | estado == "ceara" = setCeara usr quantidade
+    | estado == "maranhao" = setMaranhao usr quantidade
+    | estado == "paraiba" = setParaiba usr quantidade
+    | estado == "pernambuco" = setPernambuco usr quantidade
+    | estado == "piaui" = setPiaui usr quantidade
+    | estado == "riograndedonorte" = setRioGrandeDoNorte usr quantidade
+    | estado == "sergipe" = setSergipe usr quantidade
+    | otherwiser = User ("erro") (0) (0) (0) (0)
 
 -- Modifica o estado das tropas de alagoas do Usuario
 setAlagoas:: User -> Int -> User
@@ -159,107 +185,69 @@ setTroops usr tropas = do
 
     user
 
-<<<<<<< HEAD
-=======
 
 -- #################################################### GETTERS #######################################################
 
 getEstado :: User -> String -> Int
 getEstado user estado
-    | estado == "alagoas" = (alagoas user)
-    | estado == "bahia" = (bahia user)
-    | estado == "ceara" = (ceara user)
-    | estado == "rn" = (riograndedonorte user)
-    | estado == "sergipe" = (sergipe user)
-    | estado == "maranhao" = (maranhao user)
-    | estado == "piaui" = (piaui user)
-    | estado == "paraiba" = (paraiba user)
-    | estado == "pernambuco" = (pernambuco user)
-    | otherwise = ">:("
+    | estado == "alagoas" = getAlagoas user
+    | estado == "bahia" = getBahia user
+    | estado == "ceara" = getCeara user
+    | estado == "riograndedonorte" = getRioGrandeDoNorte user
+    | estado == "maranhao" = getMaranhao user
+    | estado == "piaui" = getPiaui user
+    | estado == "paraiba" = getParaiba user
+    | estado == "pernambuco" = getPernambuco user
+    | estado == "sergipe" = getSergipe user
+    | otherwise = -404
     
->>>>>>> d1b114730cd570686e76a341a5b5d149094fa28d
 --Retorna a quantidade de tropas do estado de alagoas
 getAlagoas:: User -> Int
 getAlagoas user =
     let usr = alagoas user
-<<<<<<< HEAD
-
     usr
-
-=======
-    usr
->>>>>>> d1b114730cd570686e76a341a5b5d149094fa28d
 --Retorna a quantidade de tropas do estado da bahia
 getBahia:: User -> Int
 getBahia user =
     let usr = bahia user
     
     usr
-<<<<<<< HEAD
-
-
-=======
->>>>>>> d1b114730cd570686e76a341a5b5d149094fa28d
 --Retorna a quantidade de tropas do estado do ceara
 getCeara:: User -> Int
 getCeara user =
     let usr = ceara user
     
     usr
-<<<<<<< HEAD
-
-=======
->>>>>>> d1b114730cd570686e76a341a5b5d149094fa28d
 --Retorna a quantidade de tropas do estado do maranhao
 getMaranhao:: User -> Int
 getMaranhao user =
     let usr = maranhao user
     
     usr
-<<<<<<< HEAD
-
-=======
->>>>>>> d1b114730cd570686e76a341a5b5d149094fa28d
 --Retorna a quantidade de tropas do estado da paraiba 
 getParaiba:: User -> Int
 getParaiba user =
     let usr = paraiba user
     
     usr
-<<<<<<< HEAD
-
-=======
->>>>>>> d1b114730cd570686e76a341a5b5d149094fa28d
 --Retorna a quantidade de tropas do estado de pernambuco
 getPernambuco:: User -> Int
 getPernambuco user =
     let usr = pernambuco user
     
     usr
-<<<<<<< HEAD
-
-=======
->>>>>>> d1b114730cd570686e76a341a5b5d149094fa28d
 --Retorna a quantidade de tropas do estado do piaui
 getPiaui:: User -> Int
 getPiaui user =
     let usr = piaui user
     
     usr
-<<<<<<< HEAD
-
-=======
->>>>>>> d1b114730cd570686e76a341a5b5d149094fa28d
 --Retorna a quantidade de tropas do estado do riograndedonorte
-getRiograndedonorte:: User -> Int
-getRiograndedonorte user =
+getRioGrandeDoNorte:: User -> Int
+getRioGrandeDoNorte user =
     let usr = riograndedonorte user
     
     usr
-<<<<<<< HEAD
-
-=======
->>>>>>> d1b114730cd570686e76a341a5b5d149094fa28d
 --Retorna a quantidade de tropas do estado de sergipe
 getSergipe:: User -> Int
 getSergipe user =
