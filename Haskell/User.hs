@@ -7,7 +7,7 @@ module User where
 -- import Data.text (Text)
 import Data.Tuple.Select -- Utilitários para tuplas. Precisa da dependência de tuplas instalada (veja o README)
 import System.Random     
-import Data.Random
+-- import Data.Random
 
 data User = User{
     name :: String,
@@ -21,7 +21,7 @@ data User = User{
     piaui:: Int,
     riograndedonorte:: Int,
     sergipe:: Int
-} deriving (Show, Eq, Num)
+} deriving (Show, Eq)
 
 -- Método para alocar tropas livres no início de um round para um User.
 -- Params: User user, Int quantidade, String estado.
@@ -37,14 +37,14 @@ alocaTroops user quantidade estado
     | estado == "pernambuco" = setPernambuco user (getPernambuco user)
     | estado == "piaui" = setPiaui user (getPiaui user)
     | estado == "riograndedonorte" = setRioGrandeDoNorte user (getRioGrandeDoNorte user)
-    | estado == "sergipe" = setSergipe user (getSergipe)
+    | estado == "sergipe" = setSergipe user (getSergipe user)
     | otherwhise =  User ("erro") (0) (0) (0) (0)
 
 -- Método para realocar tropas de um User de um estado para outro.
 -- Params: User user, Int quantidade, String estado_remove, String estado_add.
 -- Return: String resultado.
 
-realocaTroops :: User -> Int -> String -> String -> IO()
+-- realocaTroops :: User -> Int -> String -> String -> IO()
 
 -- Método para remover tropas de um User (possível ataque recebido).
 -- Params: User user, Int quantidade, String estado.
@@ -57,12 +57,12 @@ removeTroops user quantidade estado
 
     
 -- Define uma escolha de jogada aleatória para o Bot
-randomPlay :: User -> Int -> User
+-- randomPlay :: User -> Int -> User
 
 -- Verifica se um User tem controle sobre um estado
--- Params: User user, String estado, estadosUsr
+-- Params: User user, String estado
 -- Return: Boolean resultado
-possuiEstado :: User -> String -> Boolean
+possuiEstado :: User -> String -> Bool
 possuiEstado user estado
     | estado == "alagoas" = ((getAlagoas user) > 0)
     | estado == "bahia" = ((getBahia user) > 0)
@@ -79,7 +79,7 @@ possuiEstado user estado
 -- Verifica se um User ja ganhou a partida, olhando se todos os estados do usuario possuem uma tropa ou mais.
 -- Params: User user
 -- Return: Boolean resultado que define se o usuario ganhou ou nao a partida.
-verificaVitoria :: User -> Boolean
+verificaVitoria :: User -> Bool
 verificaVitoria user
     | ((getAlagoas user > 0) && (getBahia user > 0) && (getCeara user > 0) && (getMaranhao user > 0) && (getParaiba user > 0) && (getPernambuco user > 0) && (getPiaui user > 0) && (getRioGrandeDoNorte user > 0) && (getSergipe user > 0)) = False
     | otherwhise = False
@@ -221,18 +221,43 @@ getRioGrandeDoNorte user = riograndedonorte user
 getSergipe:: User -> Int
 getSergipe user = sergipe user
 
-getEstados :: User -> [String] -> [String]
-getEstados user = do
-    let lista = []
-    if(paraiba user > 0) then lista ++ "paraiba" else let lista = lista
+getEstados :: User -> [String] -> Int -> [String]
+getEstados user lista 0 
+    |flag == 0 = if(possuiEstado user "paraiba") 
+        then
+            getEstados user (lista ++ "paraiba") (flag + 1)
+        else getEstados user lista (flag + 1)
+
+    | flag == 1 = if(possuiEstado user "pernambuco") then
+        getEstados user (lista ++ "pernambuco") (flag + 1)
+        else getEstados user lista (flag + 1)
+
+    | flag == 2 = if(possuiEstado user "bahia") then
+        getEstados user (lista ++ "bahia") (flag + 1)
+        else getEstados user lista (flag + 1)
     
-    if(pernambuco user > 0) then lista ++ "pernambuco"
-    if(bahia user > 0) then lista ++ "bahia"
-    if(sergipe user > 0) then lista ++ "sergipe"
-    if(alagoas user > 0) then lista ++ "alagoas"
-    if(piaui user > 0) then lista ++ "piaui"
-    if(riograndedonorte user > 0) then lista ++ "riograndedonorte"
-    if(maranhao user > 0) then lista ++ "maranhao"
-    if(ceara user > 0) then lista ++ "ceara"
-    else lista
-    = lista
+    | flag == 3 = if(possuiEstado user "sergipe") then
+        getEstados user (lista ++ "sergipe") (flag + 1)
+        else getEstados user lista (flag + 1)
+
+    | flag == 4 = if(possuiEstado user "alagoas") then
+        getEstados user (lista ++ "alagoas") (flag + 1)
+        else getEstados user lista (flag + 1)
+    
+    | flag == 5 = if(possuiEstado user "piaui") then
+        getEstados user (lista ++ "piaui") (flag + 1)
+        else getEstados user lista (flag + 1)    
+    
+    | flag == 6 = if(possuiEstado user "riograndedonorte") then
+        getEstados user (lista ++ "riograndedonorte") (flag + 1)
+        else getEstados user lista (flag + 1)    
+    
+    | flag == 7 = if(possuiEstado user "maranhao") then
+        getEstados user (lista ++ "maranhao") (flag + 1)
+        else getEstados user lista (flag + 1)    
+    
+    | flag == 8 = if(possuiEstado user "ceara") then
+        getEstados user (lista ++ "ceara") (flag + 1)
+        else getEstados user lista (flag + 1)    
+    
+    | otherwise = lista
