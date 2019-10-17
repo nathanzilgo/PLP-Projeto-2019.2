@@ -7,6 +7,7 @@ module User where
 import Data.text (Text)
 import Data.Tuple.Select -- Utilitários para tuplas. Precisa da dependência de tuplas instalada (veja o README)
 import System.Random     
+import Data.Random
 
 data User = User{
     name :: String,
@@ -52,22 +53,7 @@ removeTroops user quantidade estado
     | (getEstado user estado) - quantidade < 0 = setEstado estado 0
     | otherwise = alocaTroops user (-quantidade) estado
 
--- Seleciona um estado arbitrário para o Bot
--- Params: [(String, Int)] estados
--- Return: String estado
-randomState :: [(String, Int)] -> String
-randomState states = out where
-    r <- randomRIO (1, lenght states)   -- Gera um indice aleatorio na lista
-    out = sel1 (states !! r)            -- Pega a string da tupla na posição R
 
-
--- Selectiona uma quantidade arbitrária para o Bot
--- Params: Int limiteSuperior
--- Return: Int result
-randomTroops :: Int -> Int
-randomTroops num = out where
-    r <- randomRIO (1, num)
-    out = r
     
 -- Define uma escolha de jogada aleatória para o Bot
 randomPlay :: User -> Int -> User
@@ -86,7 +72,6 @@ possuiEstado user estado
     | estado == "piaui" = ((getPiaui user)> 0)
     | estado == "riograndedonorte" = ((getRioGrandeDoNorte user) > 0)
     | otherwhise = ((getSergipe user) > 0)
-
 
 -- ####################################################### SETTERS #########################################################
 
