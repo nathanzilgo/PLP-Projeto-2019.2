@@ -52,8 +52,6 @@ realocaTroops user quantidade estado_remove estado_add = do
     let usr = setEstado user estado_add quantidade
     setEstado usr estado_remove (-quantidade)
 
-    
-    
 
 -- Método para remover tropas de um User (possível ataque recebido).
 -- Params: User user, Int quantidade, String estado.
@@ -254,3 +252,73 @@ getSergipe user =
     let usr = sergipe user
     
     usr
+
+
+--Aloca territórios no bot de forma aleatória usando o random
+alocaTerritoriosBot:: User -> Int -> User
+alocaTerritoriosBot bot quantidadeAlocada = do
+    if (quantidadeAlocada < 5) do
+        let territorioRandom = randomState()
+
+        if (getTropas territorioRandom == 0) do
+            let novoBot = setEstado territorioRandom bot 1
+            alocaTerritoriosBot (quantidadeAlocada+1) novoBot
+        
+        else alocaTerritoriosBot quantidadeAlocada novoBot
+    
+    else bot
+
+
+--Aloca territórios no usuario de acordo com os territorios ja alocados no bot
+alocaTerritoriosUser:: User -> User -> User
+alocaTerritoriosUser bot user = do
+    if (alagoas bot == 0 && alagoas user == 0) do
+        let novoUser = setParaiba user 1
+
+        alocaTerritoriosUser(novoUser, bot)
+
+    if (bahia bot == 0 && bahia user == 0) do
+        let novoUser = setBahia user 1
+    
+        alocaTerritoriosUser(novoUser, bot)
+
+    if (ceara bot == 0 && ceara user == 0) do
+        let novoUser = setCeara user 1
+    
+        alocaTerritoriosUser(novoUser, bot)
+
+    if (maranhao bot == 0 && maranhao user == 0) do
+        let novoUser = setMaranhao user 1
+    
+        alocaTerritoriosUser(novoUser, bot)
+    
+    if (paraiba bot == 0 && paraiba user == 0) do
+        let novoUser = setParaiba user 1
+    
+        alocaTerritoriosUser(novoUser, bot)
+    
+    if (pernambuco bot == 0 && pernambuco user == 0) do
+        let novoUser = setPernambuco user 1
+    
+        alocaTerritoriosUser(novoUser, bot)
+    
+    if (piaui bot == 0 && piaui user == 0) do
+        let novoUser = setPiaui user 1
+    
+        alocaTerritoriosUser(novoUser, bot)
+    
+    if (riograndedonorte bot == 0 && riograndedonorte user == 0) do
+        let novoUser = setRiograndedonorte user 1
+    
+        alocaTerritoriosUser(novoUser, bot)
+    
+    if (sergipe bot == 0 && sergipe user == 0) do
+        let novoUser = setSergipe user 1
+        
+        alocaTerritoriosUser(novoUser, bot)
+    
+    user
+    
+
+    
+        

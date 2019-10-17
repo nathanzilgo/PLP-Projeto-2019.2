@@ -10,7 +10,6 @@ main = do
     let user = User "User" 5 0 0 0 0 0 0 0 0 0
     let bot = User "bot" 5 0 0 0 0 0 0 0 0 0
 
-
 -- Função para atacar um User a partir de outro
 -- Params: User atacante, User atacado, Estado atacante, Estado atacado
 -- Return: (Atacante, atacado)
@@ -34,6 +33,7 @@ attack atacante atacado estado1 estado2
         tupla = attack new_atacante new_atacado estado1 estado2
 
     | otherwise = (new_atacante, new_atacado)
+
 
 -- Resultados de dados aleatórios
 -- Return numero
