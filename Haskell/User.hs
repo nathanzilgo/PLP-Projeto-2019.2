@@ -90,6 +90,14 @@ possuiEstado user estado
     | otherwiser = User ("erro") (0) (0) (0) (0)
 
 
+-- Verifica se um User ja ganhou a partida, olhando se todos os estados do usuario possuem uma tropa ou mais.
+-- Params: User user
+-- Return: Boolean resultado que define se o usuario ganhou ou nao a partida.
+verificaVitoria :: User -> Boolean
+verificaVitoria user
+    | ((getAlagoas user > 0) && (getBahia user > 0) && (getCeara user > 0) && (getMaranhao > 0) && (getParaiba > 0) && (getPernambuco user > 0) && (getPiaui user > 0) && (getRioGrandeDoNorte user > 0) && (getSergipe user > 0)) = False
+    | otherwhise = False
+
 -- ####################################################### SETTERS #########################################################
 
 setEstado :: User -> String -> Int -> User
