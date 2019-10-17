@@ -5,8 +5,8 @@
 module User where
 
 -- import Data.text (Text)
-import Data.Tuple.Select -- Utilitários para tuplas. Precisa da dependência de tuplas instalada (veja o README)
-import System.Random     
+-- import Data.Tuple.Select -- Utilitários para tuplas. Precisa da dependência de tuplas instalada (veja o README)
+-- import System.Random     
 -- import Data.Random
 
 data User = User{
@@ -38,7 +38,7 @@ alocaTroops user quantidade estado
     | estado == "piaui" = setPiaui user (getPiaui user)
     | estado == "riograndedonorte" = setRioGrandeDoNorte user (getRioGrandeDoNorte user)
     | estado == "sergipe" = setSergipe user (getSergipe user)
-    | otherwhise =  User ("erro") (0) (0) (0) (0)
+    | otherwise = User ("erro") 0 0 0 0 0 0 0 0 0 0
 
 -- Método para realocar tropas de um User de um estado para outro.
 -- Params: User user, Int quantidade, String estado_remove, String estado_add.
@@ -51,7 +51,7 @@ alocaTroops user quantidade estado
 -- Return: String resultado.
 removeTroops :: User -> Int -> String -> User
 removeTroops user quantidade estado
-    | (getEstado user estado) - quantidade < 0 = setEstado estado 0
+    | (getEstado user estado) - quantidade < 0 = setEstado user estado 0
     | otherwise = alocaTroops user (-quantidade) estado
 
 
@@ -66,14 +66,14 @@ possuiEstado :: User -> String -> Bool
 possuiEstado user estado
     | estado == "alagoas" = ((getAlagoas user) > 0)
     | estado == "bahia" = ((getBahia user) > 0)
-    | estado == "ceara" = ((getCeara > user) 0)
+    | estado == "ceara" = ((getCeara user) > 0)
     | estado == "maranhao" = ((getMaranhao user) > 0)
     | estado == "paraiba" = ((getParaiba user) > 0)
     | estado == "pernambuco" = ((getPernambuco user) > 0)
     | estado == "piaui" = ((getPiaui user)> 0)
     | estado == "riograndedonorte" = ((getRioGrandeDoNorte user) > 0)
     | estado == "sergipe" = ((getSergipe user) > 0)
-    | otherwiser = User ("erro") (0) (0) (0) (0)
+    | otherwise = False
 
 
 -- Verifica se um User ja ganhou a partida, olhando se todos os estados do usuario possuem uma tropa ou mais.
@@ -97,7 +97,7 @@ setEstado usr estado quantidade
     | estado == "piaui" = setPiaui usr quantidade
     | estado == "riograndedonorte" = setRioGrandeDoNorte usr quantidade
     | estado == "sergipe" = setSergipe usr quantidade
-    | otherwiser = User ("erro") (0) (0) (0) (0)
+    | otherwise = User ("erro") 0 0 0 0 0 0 0 0 0 0
 
 -- Modifica o estado das tropas de alagoas do Usuario
 setAlagoas:: User -> Int -> User
@@ -165,7 +165,7 @@ setSergipe usr tropas = do
 -- Modifica o estado da quantidade de tropas totais   
 setTroops:: User -> Int -> User
 setTroops usr tropas = do
-    let user = User (name usr) ((troops usr) + tropas) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe)
+    let user = User (name usr) ((troops usr) + tropas) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe usr)
 
     user
 
@@ -225,39 +225,58 @@ getEstados :: User -> [String] -> Int -> [String]
 getEstados user lista 0 
     |flag == 0 = if(possuiEstado user "paraiba") 
         then
-            getEstados user (lista ++ "paraiba") (flag + 1)
+            getEstados user (lista ++ ["paraiba"]) (flag + 1)
         else getEstados user lista (flag + 1)
 
     | flag == 1 = if(possuiEstado user "pernambuco") then
-        getEstados user (lista ++ "pernambuco") (flag + 1)
+        getEstados user (lista ++ ["pernambuco"]) (flag + 1)
         else getEstados user lista (flag + 1)
 
     | flag == 2 = if(possuiEstado user "bahia") then
-        getEstados user (lista ++ "bahia") (flag + 1)
+        getEstados user (lista ++ ["bahia"]) (flag + 1)
         else getEstados user lista (flag + 1)
     
     | flag == 3 = if(possuiEstado user "sergipe") then
-        getEstados user (lista ++ "sergipe") (flag + 1)
+        getEstados user (lista ++ ["sergipe"]) (flag + 1)
         else getEstados user lista (flag + 1)
 
     | flag == 4 = if(possuiEstado user "alagoas") then
-        getEstados user (lista ++ "alagoas") (flag + 1)
+        getEstados user (lista ++ ["alagoas"]) (flag + 1)
         else getEstados user lista (flag + 1)
     
     | flag == 5 = if(possuiEstado user "piaui") then
-        getEstados user (lista ++ "piaui") (flag + 1)
+        getEstados user (lista ++ ["piaui"]) (flag + 1)
         else getEstados user lista (flag + 1)    
     
     | flag == 6 = if(possuiEstado user "riograndedonorte") then
-        getEstados user (lista ++ "riograndedonorte") (flag + 1)
+        getEstados user (lista ++ ["riograndedonorte"]) (flag + 1)
         else getEstados user lista (flag + 1)    
     
     | flag == 7 = if(possuiEstado user "maranhao") then
-        getEstados user (lista ++ "maranhao") (flag + 1)
+        getEstados user (lista ++ ["maranhao"]) (flag + 1)
         else getEstados user lista (flag + 1)    
     
     | flag == 8 = if(possuiEstado user "ceara") then
-        getEstados user (lista ++ "ceara") (flag + 1)
+        getEstados user (lista ++ ["ceara"]) (flag + 1)
         else getEstados user lista (flag + 1)    
     
     | otherwise = lista
+
+main :: IO()
+main = do
+    let user = User "User" 5 0 0 0 0 0 0 0 0 0
+    let bot = User "bot" 5 0 0 0 0 0 0 0 0 0
+    
+    putStrLn(show(user))
+    putStrLn(show(bot))
+
+
+-- Método para alocar tropas livres no início de um round para um User.
+-- Params: User user, Int quantidade, String estado.
+-- Return: String resultado
+
+    let novoUser = alocaTroops user 10 "alagoas"
+    let novoBot = alocaTroops bot 10 "bahia"
+
+    putStrLn(show(novoUser))
+    putStrLn(show(novoBot))
