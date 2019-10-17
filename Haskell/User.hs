@@ -38,7 +38,7 @@ alocaTroops user quantidade estado
     | estado == "piaui" = setPiaui user (getPiaui user)
     | estado == "riograndedonorte" = setRioGrandeDoNorte user (getRioGrandeDoNorte user)
     | estado == "sergipe" = setSergipe user (getSergipe user)
-    | otherwhise =  User ("erro") (0) (0) (0) (0)
+    | otherwise =  User ("erro") (0) (0) (0) (0) (0) (0) (0) (0) (0) (0)
 
 -- Método para realocar tropas de um User de um estado para outro.
 -- Params: User user, Int quantidade, String estado_remove, String estado_add.
@@ -51,7 +51,7 @@ alocaTroops user quantidade estado
 -- Return: String resultado.
 removeTroops :: User -> Int -> String -> User
 removeTroops user quantidade estado
-    | (getEstado user estado) - quantidade < 0 = setEstado estado 0
+    | (getEstado user estado) - quantidade < 0 = setEstado user estado 0
     | otherwise = alocaTroops user (-quantidade) estado
 
 
@@ -66,14 +66,14 @@ possuiEstado :: User -> String -> Bool
 possuiEstado user estado
     | estado == "alagoas" = ((getAlagoas user) > 0)
     | estado == "bahia" = ((getBahia user) > 0)
-    | estado == "ceara" = ((getCeara > user) 0)
+    | estado == "ceara" = ((getCeara user) > 0)
     | estado == "maranhao" = ((getMaranhao user) > 0)
     | estado == "paraiba" = ((getParaiba user) > 0)
     | estado == "pernambuco" = ((getPernambuco user) > 0)
     | estado == "piaui" = ((getPiaui user)> 0)
     | estado == "riograndedonorte" = ((getRioGrandeDoNorte user) > 0)
     | estado == "sergipe" = ((getSergipe user) > 0)
-    | otherwiser = User ("erro") (0) (0) (0) (0)
+    | otherwise = False
 
 
 -- Verifica se um User ja ganhou a partida, olhando se todos os estados do usuario possuem uma tropa ou mais.
@@ -82,7 +82,7 @@ possuiEstado user estado
 verificaVitoria :: User -> Bool
 verificaVitoria user
     | ((getAlagoas user > 0) && (getBahia user > 0) && (getCeara user > 0) && (getMaranhao user > 0) && (getParaiba user > 0) && (getPernambuco user > 0) && (getPiaui user > 0) && (getRioGrandeDoNorte user > 0) && (getSergipe user > 0)) = False
-    | otherwhise = False
+    | otherwise = False
 
 -- ####################################################### SETTERS #########################################################
 
@@ -97,7 +97,7 @@ setEstado usr estado quantidade
     | estado == "piaui" = setPiaui usr quantidade
     | estado == "riograndedonorte" = setRioGrandeDoNorte usr quantidade
     | estado == "sergipe" = setSergipe usr quantidade
-    | otherwiser = User ("erro") (0) (0) (0) (0)
+    | otherwise = User ("erro") (0) (0) (0) (0) (0) (0) (0) (0) (0) (0)
 
 -- Modifica o estado das tropas de alagoas do Usuario
 setAlagoas:: User -> Int -> User
@@ -165,7 +165,7 @@ setSergipe usr tropas = do
 -- Modifica o estado da quantidade de tropas totais   
 setTroops:: User -> Int -> User
 setTroops usr tropas = do
-    let user = User (name usr) ((troops usr) + tropas) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe)
+    let user = User (name usr) ((troops usr) + tropas) (alagoas usr) (bahia usr) (ceara usr) (maranhao usr) (paraiba usr) (pernambuco usr) (piaui usr) (riograndedonorte usr) (sergipe usr)
 
     user
 
