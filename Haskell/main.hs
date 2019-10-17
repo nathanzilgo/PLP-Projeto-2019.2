@@ -70,3 +70,176 @@ exibeJogada texto = print(texto)
 win :: User -> IO()
 win user = print(name user ++ " venceu o jogo!")
 
+-- ####################################################### VIEW #########################################################
+
+-- PRIMEIRO MENU
+-- exibe as opcoes "Iniciar jogo" e "Regras"
+-- params: User player, User bot, [(String, Int)] states
+first_menu :: User -> User -> [(String, Int)] -> IO()
+first_menu player bot states = do
+    putStrLn("<--------------------  WARXENTE -------------------->")
+    putStrLN("1 - Iniciar jogo")
+    putStrLN("2 - Regras")
+    op <- readLn
+    if op == "1" then
+        second_screen player bot states
+    else if op == "2" then
+        -- regras
+        first_menu player bot states
+    else
+        putStrLn("-- ENTRADA INVALIDA! --")
+        putStrLn("Digite 'c' para continuar")
+        temp <- readLn
+        first_menu player bot states
+
+
+-- SECUNDA TELA
+-- primeira parte da alocacao de tropas, no qual o jogador escolhe o 
+-- estado em que ele deseja alocar as tropas
+-- params: User player, User bot, [(String, Int)] states
+-- return: third_screen
+second_screen :: User -> User -> [(String, Int)] -> IO()
+second_screen player bot states = do
+        putStrLn("-- Coloque seus exercitos " ++ player.avaliable_army_per_round ++ " disponiveis")
+        putStrLn("-- ESTADOS DISPONIVEIS --")
+        -- exibir a lista de estados
+        putStrLn("> ")
+        state <- readLn
+        third_screen player bot state states
+
+-- TERCEIRA TELA
+-- segunda parte da alocacao de tropas, no qual o jogador escolhe a quantidade tropas
+-- que ele deseja colocar no estado escolhido
+-- params: User player, User bot, Int state, [(String, Int)] states
+third_screen :: User -> User -> Int -> [(String, Int)] -> IO()
+third_screen player bot state states = do
+        -- TO DO criar getState
+        putStrLn("-- Quantos exércitos deseja posicionar no estado <" ++ getState(state) ++ "> ? ")
+        troops <- readLn
+        if troops <= player.avaliable_army_per_round then
+            allocateTroops player state troops
+        else
+            putStrLn("-- ENTRADA INVALIDA --")
+            third_screen player bot state states
+        
+        -- TO DO criar funçao que faça isso:
+        -- player.avaliable_army_per_round = player.avaliable_army_per_round - troops
+
+        if player.avaliable_army_per_round <= 0 then
+            fourth_screen player bot states
+        else
+            second_menu player bot states
+
+-- QUARTA TELA
+-- menu que decide se o jogador irá visualizar suas tropas e exercitos
+-- iniciar a rodada de ataque
+-- ou alocar tropas se ele ainda tiver tropas sobrando
+-- params: User player, User bot, [(String, Int)] states
+fourth_screen :: User -> User -> [(String, Int)] -> IO()
+fourth_screen player bot states = do
+    putStrLn("-- SUA RODADA --")
+    putStrLn(" 1 - Visualizar os territórios/exércitos atuais")
+    putStrLn(" 2 - Iniciar rodada")
+    putStrLn(" 3 - Alocar tropas")
+    opt <- readLn
+
+    if opt == "1" then
+        estados_view player
+        estados_view bot 
+        putStrLn("Digite 'c' para continuar")
+        temp <- readLn
+        fourth_screen player bot states
+    else if opt == "2" then
+        fifth_screen player bot states
+    else if opt == 4 && player.avaliable_army_per_round > 0 then
+        second_screen player bot estados
+    else
+        putStrLn("-- ENTRADA INVALIDA! --")
+        fourth_screen player bot states
+
+-- QUINTA TELA
+-- pergunta se o jogador deseja atacar
+-- params: User player, User bot, [(String, Int)] states
+fifth_screen :: User -> User -> [(String, Int)] -> IO()
+fifth_screen player bot states = do
+    putStrLn("Deseja atacar? (s/n)")
+    result <- readLn
+    if result == "s" then
+        sixth_screen player bot states false 
+    else if result == "n" then
+        seventh_screen player bot states 
+
+
+-- SEXTA TELA
+-- a tela de ataque
+-- ele escolhe o territorio atacante e o territorio que o bot vai defender
+-- os dados rodam e decide quem ganhou  
+sixth_screen :: User -> User -> [(String, Int)] -> Bool -> IO()
+sixth_screen player bot states win = do
+    putStrLn("-- Escolha o estado atacante:")
+    estados_view player -- lista de territórios atuais do jogador
+    putStrLn("0 - nao atacar")
+    putStrLn(">")
+    estadoAtacante <- readLn
+    if estadoAtacante == 0 then
+        seventh_screen player bot states
+    else
+        putStrLn("-- Escolha o estado que deseja atacar")
+        estados_view bot -- lista de territorios atuais do inimigo
+        putStrLn("0 - nao atacar")
+        putStrLn(">")
+        estadoDefesa <- readLn
+        if estadoDefesa == 0 then
+            sixth_screen player bot states
+        else 
+            -- attack tem que retornar o user que ganhou
+            attack player bot estadoAtacante estadoDefesa
+            -- bot.avaliable_army_per_round += 5;
+            -- player.avaliable_army_per_round += 5;
+
+            -- exibir quem ganhou
+            if winCheck player bot == 1 then
+                seventh_screen player bot states true
+            else 
+                fifth_screen player bot states
+
+
+
+-- RODADA DO BOT
+botRound :: User -> User -> [(String, Int)] -> Bool -> IO()
+botRound player bot states win = do
+
+-- SETIMA TELA
+{- termina a rodada do jogador e verfica se o jogador ganhou
+ se ele tiver ganhado exibe VOCE GANGOU
+ se o bot tiver ganhado nesta rodada exibe VOCE PERDEU
+ se nenhum tiver ganhado na rodada ele iniciara a rodada do bot
+ e logo em seguinda volta para a QUARTA TELA -}
+-- params: User player, User bot, [(String, Int)] states, Bool win
+seventh_screen :: User -> User -> [(String, Int)] -> Bool -> IO()
+seventh_screen player bot states win = do
+    putStrLn("-- FIM DE RODADA --")
+    addTroops player bot
+    if (winCheck player bot) == 1 then
+        eigth_screen
+    else if (winCheck player bot) == 2 then
+        nineth_screen
+    else 
+        botRound player bot states
+        fourth_screen playerbot states
+
+-- OITAVA TELA
+-- exibe VOCE PERDEU
+eigth_screen :: IO()
+eigth_screen = do
+    putStrLn("-- VOCE PERDEU! --")
+    putStrLn(" Ate mais! Digite qualquer tecla para fechar")
+    tecla <- readLn
+
+-- NONA TELA
+-- exibe VOCE GANHOU
+nineth_screen :: IO()
+nineth_screen = do
+    putStrLn("VOCE GANHOU!")
+    putStrLn(" Ate mais! Digite qualquer tecla para fechar")
+    tecla <- readLn
