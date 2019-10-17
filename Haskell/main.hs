@@ -9,6 +9,7 @@ main :: IO
 main = do
     let user = User "User" 5 0 0 0 0 0 0 0 0 0
     let bot = User "bot" 5 0 0 0 0 0 0 0 0 0
+    
 
 
 runtime :: User -> User -> (User, User)
@@ -117,7 +118,7 @@ third_screen player bot state states = do
         putStrLn("-- Quantos exércitos deseja posicionar no estado <" ++ getState(state) ++ "> ? ")
         troops <- readLn
         if troops <= player.avaliable_army_per_round then
-            allocateTroops player state troops
+            alocaTroops player troops state
         else
             putStrLn("-- ENTRADA INVALIDA --")
             third_screen player bot state states
@@ -198,10 +199,10 @@ sixth_screen player bot states win = do
             -- player.avaliable_army_per_round += 5;
 
             -- exibir quem ganhou
-            if winCheck player bot == 1 then
-                seventh_screen player bot states true
+            if verificaVitoria player win == true then
+                eigth_screen
             else 
-                fifth_screen player bot states
+                seventh_screen player bot states false
 
 
 
@@ -219,14 +220,14 @@ botRound player bot states win = do
 seventh_screen :: User -> User -> [(String, Int)] -> Bool -> IO()
 seventh_screen player bot states win = do
     putStrLn("-- FIM DE RODADA --")
-    addTroops player bot
-    if (winCheck player bot) == 1 then
+    -- addTroops player bot
+    if (verificaVitoria player win) == true then
         eigth_screen
-    else if (winCheck player bot) == 2 then
+    else if (verificaVitoria bot win) == true then
         nineth_screen
     else 
         botRound player bot states
-        fourth_screen playerbot states
+        fourth_screen player bot states
 
 -- OITAVA TELA
 -- exibe VOCE PERDEU
