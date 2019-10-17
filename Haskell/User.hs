@@ -34,10 +34,11 @@ alocaTroops user quantidade estado
     | estado == "ceara" = setCeara user (getCeara user)
     | estado == "maranhao" = setMaranhao user (getMaranhao user)
     | estado == "paraiba" = setParaiba user (getParaiba user)
-    | estado == "pernambuco" = setPernambuco (user getPernambuco user)
+    | estado == "pernambuco" = setPernambuco user (getPernambuco user)
     | estado == "piaui" = setPiaui user (getPiaui user)
     | estado == "riograndedonorte" = setRioGrandeDoNorte user (getRioGrandeDoNorte user)
-    | otherwhise = setSergipe user (getSergipe user)
+    | estado == "sergipe" = setSergipe user (getSergipe)
+    | otherwhise =  User ("erro") (0) (0) (0) (0)
 
 -- Método para realocar tropas de um User de um estado para outro.
 -- Params: User user, Int quantidade, String estado_remove, String estado_add.
@@ -71,7 +72,17 @@ possuiEstado user estado
     | estado == "pernambuco" = ((getPernambuco user) > 0)
     | estado == "piaui" = ((getPiaui user)> 0)
     | estado == "riograndedonorte" = ((getRioGrandeDoNorte user) > 0)
-    | otherwhise = ((getSergipe user) > 0)
+    | estado == "sergipe" = ((getSergipe user) > 0)
+    | otherwiser = User ("erro") (0) (0) (0) (0)
+
+
+-- Verifica se um User ja ganhou a partida, olhando se todos os estados do usuario possuem uma tropa ou mais.
+-- Params: User user
+-- Return: Boolean resultado que define se o usuario ganhou ou nao a partida.
+verificaVitoria :: User -> Boolean
+verificaVitoria user
+    | ((getAlagoas user > 0) && (getBahia user > 0) && (getCeara user > 0) && (getMaranhao user > 0) && (getParaiba user > 0) && (getPernambuco user > 0) && (getPiaui user > 0) && (getRioGrandeDoNorte user > 0) && (getSergipe user > 0)) = False
+    | otherwhise = False
 
 -- ####################################################### SETTERS #########################################################
 
@@ -85,6 +96,7 @@ setEstado usr estado quantidade
     | estado == "pernambuco" = setPernambuco usr quantidade
     | estado == "piaui" = setPiaui usr quantidade
     | estado == "riograndedonorte" = setRioGrandeDoNorte usr quantidade
+    | estado == "sergipe" = setSergipe usr quantidade
     | otherwiser = User ("erro") (0) (0) (0) (0)
 
 -- Modifica o estado das tropas de alagoas do Usuario
@@ -162,16 +174,16 @@ setTroops usr tropas = do
 
 getEstado :: User -> String -> Int
 getEstado user estado
-    | estado == "alagoas" = (alagoas user)
-    | estado == "bahia" = (bahia user)
-    | estado == "ceara" = (ceara user)
-    | estado == "rn" = (riograndedonorte user)
-    | estado == "sergipe" = (sergipe user)
-    | estado == "maranhao" = (maranhao user)
-    | estado == "piaui" = (piaui user)
-    | estado == "paraiba" = (paraiba user)
-    | estado == "pernambuco" = (pernambuco user)
-    | otherwise = ">:("
+    | estado == "alagoas" = getAlagoas user
+    | estado == "bahia" = getBahia user
+    | estado == "ceara" = getCeara user
+    | estado == "riograndedonorte" = getRioGrandeDoNorte user
+    | estado == "maranhao" = getMaranhao user
+    | estado == "piaui" = getPiaui user
+    | estado == "paraiba" = getParaiba user
+    | estado == "pernambuco" = getPernambuco user
+    | estado == "sergipe" = getSergipe user
+    | otherwise = -404
     
 --Retorna a quantidade de tropas do estado de alagoas
 getAlagoas:: User -> Int
@@ -215,8 +227,8 @@ getPiaui user =
     
     usr
 --Retorna a quantidade de tropas do estado do riograndedonorte
-getRiograndedonorte:: User -> Int
-getRiograndedonorte user =
+getRioGrandeDoNorte:: User -> Int
+getRioGrandeDoNorte user =
     let usr = riograndedonorte user
     
     usr
