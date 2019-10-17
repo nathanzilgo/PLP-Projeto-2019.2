@@ -4,7 +4,7 @@
 -- ao User em si.
 module User where
 
-import Data.text (Text)
+-- import Data.text (Text)
 import Data.Tuple.Select -- Utilitários para tuplas. Precisa da dependência de tuplas instalada (veja o README)
 import System.Random     
 import Data.Random
@@ -20,7 +20,7 @@ data User = User{
     pernambuco:: Int,
     piaui:: Int,
     riograndedonorte:: Int,
-    sergipe:: Int,
+    sergipe:: Int
 } deriving (Show, Eq, Num)
 
 -- Método para alocar tropas livres no início de um round para um User.
@@ -187,54 +187,52 @@ getEstado user estado
     
 --Retorna a quantidade de tropas do estado de alagoas
 getAlagoas:: User -> Int
-getAlagoas user =
-    let usr = alagoas user
-    usr
+getAlagoas user = alagoas user
+    
 --Retorna a quantidade de tropas do estado da bahia
 getBahia:: User -> Int
-getBahia user =
-    let usr = bahia user
+getBahia user = bahia user
     
-    usr
 --Retorna a quantidade de tropas do estado do ceara
 getCeara:: User -> Int
-getCeara user =
-    let usr = ceara user
+getCeara user = ceara user
     
-    usr
 --Retorna a quantidade de tropas do estado do maranhao
 getMaranhao:: User -> Int
-getMaranhao user =
-    let usr = maranhao user
-    
-    usr
+getMaranhao user = maranhao user
+
 --Retorna a quantidade de tropas do estado da paraiba 
 getParaiba:: User -> Int
-getParaiba user =
-    let usr = paraiba user
+getParaiba user = paraiba user
     
-    usr
 --Retorna a quantidade de tropas do estado de pernambuco
 getPernambuco:: User -> Int
-getPernambuco user =
-    let usr = pernambuco user
+getPernambuco user = pernambuco user
     
-    usr
 --Retorna a quantidade de tropas do estado do piaui
 getPiaui:: User -> Int
-getPiaui user =
-    let usr = piaui user
-    
-    usr
+getPiaui user = piaui user
+
 --Retorna a quantidade de tropas do estado do riograndedonorte
 getRioGrandeDoNorte:: User -> Int
-getRioGrandeDoNorte user =
-    let usr = riograndedonorte user
+getRioGrandeDoNorte user = riograndedonorte user
     
-    usr
 --Retorna a quantidade de tropas do estado de sergipe
 getSergipe:: User -> Int
-getSergipe user =
-    let usr = sergipe user
+getSergipe user = sergipe user
+
+getEstados :: User -> [String] -> [String]
+getEstados user = do
+    let lista = []
+    if(paraiba user > 0) then lista ++ "paraiba" else let lista = lista
     
-    usr
+    if(pernambuco user > 0) then lista ++ "pernambuco"
+    if(bahia user > 0) then lista ++ "bahia"
+    if(sergipe user > 0) then lista ++ "sergipe"
+    if(alagoas user > 0) then lista ++ "alagoas"
+    if(piaui user > 0) then lista ++ "piaui"
+    if(riograndedonorte user > 0) then lista ++ "riograndedonorte"
+    if(maranhao user > 0) then lista ++ "maranhao"
+    if(ceara user > 0) then lista ++ "ceara"
+    else lista
+    = lista
