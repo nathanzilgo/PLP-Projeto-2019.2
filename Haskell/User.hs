@@ -4,7 +4,7 @@
 -- ao User em si.
 module User where
 
-import Data.text (Text)
+--import Data.text (Text)
 import Data.Tuple.Select -- Utilitários para tuplas. Precisa da dependência de tuplas instalada (veja o README)
 import System.Random     
 import Data.Random
@@ -20,7 +20,7 @@ data User = User{
     pernambuco:: Int,
     piaui:: Int,
     riograndedonorte:: Int,
-    sergipe:: Int,
+    sergipe:: Int
 } deriving (Show, Eq, Num)
 
 -- Método para alocar tropas livres no início de um round para um User.
@@ -189,12 +189,13 @@ getEstado user estado
 getAlagoas:: User -> Int
 getAlagoas user =
     let usr = alagoas user
+    
     usr
 --Retorna a quantidade de tropas do estado da bahia
 getBahia:: User -> Int
 getBahia user =
     let usr = bahia user
-    
+
     usr
 --Retorna a quantidade de tropas do estado do ceara
 getCeara:: User -> Int
