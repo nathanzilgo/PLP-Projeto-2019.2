@@ -73,6 +73,11 @@ win user = print(name user ++ " venceu o jogo!")
 
 -- ####################################################### VIEW #########################################################
 
+estados_view :: User -> IO()
+estados_view user = print("Lista de estados")
+    | 
+
+
 -- PRIMEIRO MENU
 -- exibe as opcoes "Iniciar jogo" e "Regras"
 -- params: User player, User bot, [(String, Int)] states
@@ -174,6 +179,7 @@ fifth_screen player bot states = do
 -- a tela de ataque
 -- ele escolhe o territorio atacante e o territorio que o bot vai defender
 -- os dados rodam e decide quem ganhou  
+-- params: User player, User bot, [(String, Int)] states, Bool win
 sixth_screen :: User -> User -> [(String, Int)] -> Bool -> IO()
 sixth_screen player bot states win = do
     putStrLn("-- Escolha o estado atacante:")
