@@ -83,7 +83,7 @@ first_menu player bot states = do
     putStrLN("2 - Regras")
     op <- readLn
     if op == "1" then
-        second_screen player bot states
+        second_screen player bot states 5
     else if op == "2" then
         -- regras
         first_menu player bot states
@@ -97,47 +97,45 @@ first_menu player bot states = do
 -- SECUNDA TELA
 -- primeira parte da alocacao de tropas, no qual o jogador escolhe o 
 -- estado em que ele deseja alocar as tropas
--- params: User player, User bot, [(String, Int)] states
+-- params: User player, User bot, [(String, Int)] states, Int troopsAvaliable
 -- return: third_screen
-second_screen :: User -> User -> [(String, Int)] -> IO()
-second_screen player bot states = do
-        putStrLn("-- Coloque seus exercitos " ++ player.avaliable_army_per_round ++ " disponiveis")
+second_screen :: User -> User -> [(String, Int)] -> Int -> IO()
+second_screen player bot states troopsAvaliable = do
+        putStrLn("-- Coloque seus exercitos " ++ troopsAvaliable ++ " disponiveis")
         putStrLn("-- ESTADOS DISPONIVEIS --")
         -- exibir a lista de estados
+        -- TO DO estado_view
+        estado_view player
         putStrLn("> ")
         state <- readLn
-        third_screen player bot state states
+        third_screen player bot state states troopsAvaliable
 
 -- TERCEIRA TELA
 -- segunda parte da alocacao de tropas, no qual o jogador escolhe a quantidade tropas
 -- que ele deseja colocar no estado escolhido
--- params: User player, User bot, Int state, [(String, Int)] states
-third_screen :: User -> User -> Int -> [(String, Int)] -> IO()
-third_screen player bot state states = do
-        -- TO DO criar getState
-        putStrLn("-- Quantos exércitos deseja posicionar no estado <" ++ getState(state) ++ "> ? ")
+-- params: User player, User bot, Int state, [(String, Int)] states, Int troopsAvaliable
+third_screen :: User -> User -> String -> [(String, Int)] -> Int -> IO()
+third_screen player bot state states troopsAvaliable = do
+        putStrLn("-- Quantos exércitos deseja posicionar no estado <" ++ state ++ "> ? ")
         troops <- readLn
-        if troops <= player.avaliable_army_per_round then
+        if troops <= troopsAvaliable then
             alocaTroops player troops state
         else
             putStrLn("-- ENTRADA INVALIDA --")
-            third_screen player bot state states
-        
-        -- TO DO criar funçao que faça isso:
-        -- player.avaliable_army_per_round = player.avaliable_army_per_round - troops
+            third_screen player bot state states troopsAvaliable
 
-        if player.avaliable_army_per_round <= 0 then
-            fourth_screen player bot states
+        if troopsAvaliable <= 0 then
+            fourth_screen player bot states troopsAvaliable
         else
-            second_menu player bot states
+            second_menu player bot states (troopsAvaliable-troops)
 
 -- QUARTA TELA
 -- menu que decide se o jogador irá visualizar suas tropas e exercitos
 -- iniciar a rodada de ataque
 -- ou alocar tropas se ele ainda tiver tropas sobrando
--- params: User player, User bot, [(String, Int)] states
-fourth_screen :: User -> User -> [(String, Int)] -> IO()
-fourth_screen player bot states = do
+-- params: User player, User bot, [(String, Int)] states, Int troopsAvaliable
+fourth_screen :: User -> User -> [(String, Int)] -> Int -> IO()
+fourth_screen player bot states troopsAvaliable = do
     putStrLn("-- SUA RODADA --")
     putStrLn(" 1 - Visualizar os territórios/exércitos atuais")
     putStrLn(" 2 - Iniciar rodada")
@@ -145,18 +143,19 @@ fourth_screen player bot states = do
     opt <- readLn
 
     if opt == "1" then
+        -- TO DO estado_view
         estados_view player
         estados_view bot 
         putStrLn("Digite 'c' para continuar")
         temp <- readLn
-        fourth_screen player bot states
+        fourth_screen player bot states troopsAvaliable
     else if opt == "2" then
         fifth_screen player bot states
-    else if opt == 4 && player.avaliable_army_per_round > 0 then
-        second_screen player bot estados
+    else if opt == 4 && troopsAvaliable > 0 then
+        second_screen player bot estados troopsAvaliable
     else
         putStrLn("-- ENTRADA INVALIDA! --")
-        fourth_screen player bot states
+        fourth_screen player bot states troopsAvaliable
 
 -- QUINTA TELA
 -- pergunta se o jogador deseja atacar
@@ -178,6 +177,7 @@ fifth_screen player bot states = do
 sixth_screen :: User -> User -> [(String, Int)] -> Bool -> IO()
 sixth_screen player bot states win = do
     putStrLn("-- Escolha o estado atacante:")
+    -- TO DO estados_view
     estados_view player -- lista de territórios atuais do jogador
     putStrLn("0 - nao atacar")
     putStrLn(">")
@@ -186,6 +186,7 @@ sixth_screen player bot states win = do
         seventh_screen player bot states
     else
         putStrLn("-- Escolha o estado que deseja atacar")
+        -- TO DO estados_view
         estados_view bot -- lista de territorios atuais do inimigo
         putStrLn("0 - nao atacar")
         putStrLn(">")
@@ -227,7 +228,7 @@ seventh_screen player bot states win = do
         nineth_screen
     else 
         botRound player bot states
-        fourth_screen player bot states
+        fourth_screen player bot states 5
 
 -- OITAVA TELA
 -- exibe VOCE PERDEU
