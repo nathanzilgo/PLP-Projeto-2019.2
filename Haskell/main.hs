@@ -12,12 +12,16 @@ main = do
 
 
 runtime :: User -> User -> (User, User)
-runtime jogador bot = do
+runtime jogador bot
     putStrLn("Insira o numero da jogada: ")
     putStrLn("1. Realocar tropas")
     putStrLn("2. Atacar")
     putStrLn("3. Terminar jogada")
-    put
+    putStrLn("4. Encerrar partida")
+    opt <- getLine :: Int
+
+    if(opt == 1)then
+        User.realocaTroops 
     
 {- 
    Função root da aplicação onde todas as outras funções são chamadas
