@@ -46,7 +46,6 @@ alocaTroops user quantidade estado
 -- Método para realocar tropas de um User de um estado para outro.
 -- Params: User user, Int quantidade, String estado_remove, String estado_add.
 -- Return: String resultado.
-
 realocaTroops :: User -> Int -> String -> String -> User
 realocaTroops user quantidade estado_remove estado_add = do
     let usr = setEstado user estado_add quantidade
