@@ -29,15 +29,15 @@ data User = User{
 
 alocaTroops :: User -> Int -> String -> User
 alocaTroops user quantidade estado
-    | estado == "alagoas" = setAlagoas user (getAlagoas user)
-    | estado == "bahia" = setBahia user (getBahia user)
-    | estado == "ceara" = setCeara user (getCeara user)
-    | estado == "maranhao" = setMaranhao user (getMaranhao user)
-    | estado == "paraiba" = setParaiba user (getParaiba user)
-    | estado == "pernambuco" = setPernambuco user (getPernambuco user)
-    | estado == "piaui" = setPiaui user (getPiaui user)
-    | estado == "riograndedonorte" = setRioGrandeDoNorte user (getRioGrandeDoNorte user)
-    | estado == "sergipe" = setSergipe user (getSergipe user)
+    | estado == "alagoas" = setAlagoas user quantidade 
+    | estado == "bahia" = setBahia user quantidade
+    | estado == "ceara" = setCeara user quantidade
+    | estado == "maranhao" = setMaranhao user quantidade
+    | estado == "paraiba" = setParaiba user quantidade
+    | estado == "pernambuco" = setPernambuco user quantidade
+    | estado == "piaui" = setPiaui user quantidade
+    | estado == "riograndedonorte" = setRioGrandeDoNorte user quantidade
+    | estado == "sergipe" = setSergipe user quantidade
     | otherwise = User ("erro") 0 0 0 0 0 0 0 0 0 0
 
 -- Método para realocar tropas de um User de um estado para outro.
@@ -222,61 +222,42 @@ getSergipe:: User -> Int
 getSergipe user = sergipe user
 
 getEstados :: User -> [String] -> Int -> [String]
-getEstados user lista 0 
-    |flag == 0 = if(possuiEstado user "paraiba") 
+getEstados user lista flag 
+    |flag == 0 = if(possuiEstado user "alagoas") 
         then
-            getEstados user (lista ++ ["paraiba"]) (flag + 1)
+            getEstados user (lista ++ ["alagoas"]) (flag + 1)
         else getEstados user lista (flag + 1)
 
-    | flag == 1 = if(possuiEstado user "pernambuco") then
-        getEstados user (lista ++ ["pernambuco"]) (flag + 1)
-        else getEstados user lista (flag + 1)
-
-    | flag == 2 = if(possuiEstado user "bahia") then
+    | flag == 1 = if(possuiEstado user "bahia") then
         getEstados user (lista ++ ["bahia"]) (flag + 1)
         else getEstados user lista (flag + 1)
+
+    | flag == 2 = if(possuiEstado user "ceara") then
+        getEstados user (lista ++ ["ceara"]) (flag + 1)
+        else getEstados user lista (flag + 1)
     
-    | flag == 3 = if(possuiEstado user "sergipe") then
-        getEstados user (lista ++ ["sergipe"]) (flag + 1)
+    | flag == 3 = if(possuiEstado user "maranhao") then
+        getEstados user (lista ++ ["maranhao"]) (flag + 1)
         else getEstados user lista (flag + 1)
 
-    | flag == 4 = if(possuiEstado user "alagoas") then
-        getEstados user (lista ++ ["alagoas"]) (flag + 1)
+    | flag == 4 = if(possuiEstado user "paraiba") then
+        getEstados user (lista ++ ["paraiba"]) (flag + 1)
         else getEstados user lista (flag + 1)
     
-    | flag == 5 = if(possuiEstado user "piaui") then
+    | flag == 5 = if(possuiEstado user "pernambuco") then
+        getEstados user (lista ++ ["pernambuco"]) (flag + 1)
+        else getEstados user lista (flag + 1)    
+    
+    | flag == 6 = if(possuiEstado user "piaui") then
         getEstados user (lista ++ ["piaui"]) (flag + 1)
         else getEstados user lista (flag + 1)    
     
-    | flag == 6 = if(possuiEstado user "riograndedonorte") then
+    | flag == 7 = if(possuiEstado user "riograndedonorte") then
         getEstados user (lista ++ ["riograndedonorte"]) (flag + 1)
         else getEstados user lista (flag + 1)    
     
-    | flag == 7 = if(possuiEstado user "maranhao") then
-        getEstados user (lista ++ ["maranhao"]) (flag + 1)
-        else getEstados user lista (flag + 1)    
-    
-    | flag == 8 = if(possuiEstado user "ceara") then
-        getEstados user (lista ++ ["ceara"]) (flag + 1)
+    | flag == 8 = if(possuiEstado user "sergipe") then
+        getEstados user (lista ++ ["sergipe"]) (flag + 1)
         else getEstados user lista (flag + 1)    
     
     | otherwise = lista
-
-main :: IO()
-main = do
-    let user = User "User" 5 0 0 0 0 0 0 0 0 0
-    let bot = User "bot" 5 0 0 0 0 0 0 0 0 0
-    
-    putStrLn(show(user))
-    putStrLn(show(bot))
-
-
--- Método para alocar tropas livres no início de um round para um User.
--- Params: User user, Int quantidade, String estado.
--- Return: String resultado
-
-    let novoUser = alocaTroops user 10 "alagoas"
-    let novoBot = alocaTroops bot 10 "bahia"
-
-    putStrLn(show(novoUser))
-    putStrLn(show(novoBot))
