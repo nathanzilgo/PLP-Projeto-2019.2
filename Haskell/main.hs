@@ -1,7 +1,8 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 import User
-import System.Random     
+import System.Random  
+import Algortimos   
 
 module Project where
 
@@ -79,6 +80,20 @@ win user = print(name user ++ " venceu o jogo!")
 
 -- ####################################################### VIEW #########################################################
 
+getNeighbours :: [String] -> String -> [String]
+getNeighbours states state
+getNeighbours [] state = []
+getNeighbours (a:as) state
+    if neighbor state (a:as) then
+        [state] ++ getNeighbours hs state
+    else
+        getNeighbours as state
+
+statesAndTroops_view :: User -> [String] -> [(String, Int)]
+statesAndTroops_view user states
+statesAndTroops_view user [] = []
+statesAndTroops_view user (a:as) = ((a, getEstado a player) ++ statesAndTroops_view user as
+
 -- PRIMEIRO MENU
 -- exibe as opcoes "Iniciar jogo" e "Regras"
 -- params: User player, User bot, [String] states
@@ -87,7 +102,7 @@ first_menu (player, bot) states = do
     putStrLn("<--------------------  WARXENTE -------------------->")
     putStrLn("1 - Iniciar jogo")
     putStrLn("2 - Regras")
-    op <- readLn
+    op <- getLine
     if op == "1" then
         second_screen (player, bot) states 5
     else if op == "2" then
@@ -96,7 +111,7 @@ first_menu (player, bot) states = do
     else
         putStrLn("-- ENTRADA INVALIDA! --")
         putStrLn("Digite 'c' para continuar")
-        temp <- readLn
+        temp <- getLine
         first_menu (player, bot) states
 
 -- SECUNDA TELA
@@ -109,9 +124,9 @@ second_screen (player, bot) states troopsAvaliable = do
         putStrLn("-- Coloque seus exercitos " ++ troopsAvaliable ++ " disponiveis")
         putStrLn("-- ESTADOS DISPONIVEIS --")
         -- exibir a lista de estados
-        putStrLn(getEstados player [] 0)
+        putStrLn(statesAndTroops_view(getEstados player [] 0))
         putStrLn("> ")
-        state <- readLn
+        state <- getLine
         if (state `elem` (getEstados player [] 0)) then
             third_screen (player, bot) state states troopsAvaliable
         else
@@ -125,7 +140,7 @@ second_screen (player, bot) states troopsAvaliable = do
 third_screen :: (User, User) -> String -> [String] -> Int -> IO()
 third_screen (player, bot) state states troopsAvaliable = do
         putStrLn("-- Quantos exércitos deseja posicionar no estado <" ++ state ++ "> ? ")
-        troops <- readLn
+        troops <- readLn :: IO Int
         if troops <= troopsAvaliable then
             alocaTroops player troops state
         else
@@ -148,20 +163,38 @@ fourth_screen (player, bot) states troopsAvaliable = do
     putStrLn(" 1 - Visualizar os territórios/exércitos atuais")
     putStrLn(" 2 - Iniciar rodada")
     putStrLn(" 3 - Alocar tropas")
-    opt <- readLn
+    putStrLn(" 4 - Realocar tropas")
+    opt <- getLine
 
     if opt == "1" then
         putStrLn("Seus estados")
-        putStrLn(getEstados player [] 0)
+        putStrLn(statesAndTroops_view(getEstados player [] 0))
         putStrLn("Estados inimigos")
-        putStrLn(getEstados bot [] 0)
+        putStrLn(statesAndTroops_view(getEstados bot [] 0))
         putStrLn("Digite 'c' para continuar")
-        temp <- readLn
+        temp <- getLine
         fourth_screen (player, bot) states troopsAvaliable
     else if opt == "2" then
         fifth_screen (player, bot) states
-    else if opt == 4 && troopsAvaliable > 0 then
+    else if opt == "3" && troopsAvaliable > 0 then
         second_screen (player, bot) estados troopsAvaliable
+    else if opt == "4" then
+        putStrLn("REALOCAR TROPAS")
+        putStrLn(statesAndTroops_view(getEstados player [] 0)) -- lista de territórios atuais do jogador
+        putStr(" de: ")
+        stateFrom <- getLine
+        if (getEstado stateFrom player) > 1 then
+            putStr("quantidade de tropas: ")
+            quant <- readLn :: IO Int
+            if quant < (getEstado stateFrom player) - 1 then
+                putStrLn(statesAndTroops_view(getNeighbours (getEstados player [] 0) stateFrom)) -- lista de territórios adjacentes ao territorio escolhido
+                putStr(" para:")    
+                stateTo <- getLine
+                realocaTroopsView "player" quant stateFrom stateTo
+                -- realocar tropas chamando a quarta tela
+        else 
+            putStrLn("-- ENTRADA INVALIDA! --")
+            fourth_screen (player, bot) states troopsAvaliable
     else
         putStrLn("-- ENTRADA INVALIDA! --")
         fourth_screen (player, bot) states troopsAvaliable
@@ -172,7 +205,7 @@ fourth_screen (player, bot) states troopsAvaliable = do
 fifth_screen :: (User, User) -> [String] -> IO()
 fifth_screen (player, bot) states = do
     putStrLn("Deseja atacar? (s/n)")
-    result <- readLn
+    result <- getLine
     if result == "s" then
         sixth_screen (player, bot) states false 
     else if result == "n" then
@@ -190,20 +223,21 @@ sixth_screen (player, bot) states win = do
     putStrLn(getEstados player [] 0) -- lista de territórios atuais do jogador
     putStrLn("0 - nao atacar")
     putStrLn(">")
-    estadoAtacante <- readLn
+    estadoAtacante <- getLine
     if (state `elem` (getEstados player [] 0)) then
         if estadoAtacante == 0 then
             seventh_screen (player, bot) states
         else
             putStrLn("-- Escolha o estado que deseja atacar")
             putStrLn("Estados inimigos: ")
-            putStrLn(getEstados player [] 0)-- lista de territorios atuais do inimigo
+            putStrLn(getNeighbours (getEstados bot [] 0) estadoAtacante) -- lista de territorios atuais do inimigo que fazem fronteira
             putStrLn("0 - nao atacar")
             putStrLn(">")
-            estadoDefesa <- readLn
+            estadoDefesa <- getLine
             if estadoDefesa == 0 then
                 sixth_screen (player, bot) states
             else 
+                
                 seventh_screen (attack player bot estadoAtacante estadoDefesa) states false
     else
         putStrLn("-- ESTADO INDISPONIVEL --")
@@ -223,11 +257,11 @@ seventh_screen (player, bot) states win = do
     if (verificaVitoria player win) == true then
         win player
         putStrLn("-- Ate mais! Digite qualquer tecla para fechar")
-        tecla <- readLn
+        tecla <- getLine
     else if (verificaVitoria bot win) == true then
         win bot
         putStrLn("-- Ate mais! Digite qualquer tecla para fechar")
-        tecla <- readLn
+        tecla <- getLine
     else 
         -- botRound (player, bot) states 5 false
         fourth_screen (player, bot) states 5
