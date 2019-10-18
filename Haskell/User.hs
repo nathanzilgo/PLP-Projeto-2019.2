@@ -2,7 +2,7 @@
 
 -- Definição de um User do jogo (Humano ou bot) que contem os métodos aplicados
 -- ao User em si.
-module User where
+-- module User where
 import Algoritmos
 
 data User = User{
@@ -37,17 +37,15 @@ alocaTroops user quantidade estado
     | otherwise = User ("erro") 0 0 0 0 0 0 0 0 0 0
 
 -- Aloca tropas de forma aleatoria no bot\
-{-
 alocaTerritoriosBot:: User -> Int -> User
 alocaTerritoriosBot bot quantidadeAlocada 
-    | (quantidadeAlocada < 5) = do retorno where
-        let territorioRandom = randomState
-        if ((getEstado bot territorioRandom) == 0)
-            then do
-                retorno = alocaTerritoriosBot (setEstado bot territorioRandom  1) (quantidadeAlocada + 1)
-        else retorno = alocaTerritoriosBot bot quantidadeAlocada
+    | (quantidadeAlocada < 5) = alocaTerritoriosBotAux bot quantidadeAlocada randomState
     | otherwise = bot
--}
+
+alocaTerritoriosBotAux:: User -> Int -> String -> User
+alocaTerritoriosBotAux bot quantidadeAlocada estadoRandom 
+    | (getEstado bot estadoRandom) == 0 = alocaTerritoriosBot (setEstado bot estadoRandom 1) (quantidadeAlocada + 1)
+    | otherwise = alocaTerritoriosBot bot quantidadeAlocada
 
 -- Método para realocar tropas de um User de um estado para outro.
 -- Params: User user, Int quantidade, String estado_remove, String estado_add.

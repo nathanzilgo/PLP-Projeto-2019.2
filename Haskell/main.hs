@@ -2,7 +2,7 @@
 
 import User
 import System.Random
-import Algortimos   
+import Algoritmos   
 
 main :: IO()
 main = do
@@ -20,58 +20,36 @@ config = do
 
     (bot, user_final)
 
-
-runtime :: User -> User -> (User, User)
-runtime jogador bot
-    putStrLn("Insira o numero da jogada: ")
-    putStrLn("1. Realocar tropas")
-    putStrLn("2. Atacar")
-    putStrLn("3. Terminar jogada")
-    putStrLn("4. Encerrar partida")
-    opt <- getLine :: Int
-
-    if(opt == 1)then
-        User.realocaTroops 
-    
-{- 
-   Função root da aplicação onde todas as outras funções são chamadas
-   Params: User jogador, User bot, Int jogadaId
-   Return: (User jogador, User bot)
+{-
+Metodo de ataque
+Params: User: Usuario que ataca User: Usuario que defende String: Estado que ataca String: Estado que defende
+Return: Retorna uma tupla de usuarios com os estados alterados.
 -}
-runtime :: User -> User -> Int -> Int -> (User, User)
-runtime jogador bot jogada userId
-    | if(jogada == 1)
-        then 
--}
-
--- Função para atacar um User a partir de outro
--- Params: User atacante, User atacado, Estado atacante, Estado atacado
--- Return: (Atacante, atacado)
 attack :: User -> User -> String -> String -> (User, User)
-attack atacante atacado estado1 estado2
-    | (User.getEstado atacante estado1) > 1 && (User.getEstado atacado estado2) > 0 = tupla where 
+attack atacante atacado estadoAtaca estadoDefende
+    | (getEstado atacante estadoAtaca) > 0 && (getEstado atacado estadoDefende) > 0 =  attackAux atacante atacado estadoAtaca estadoDefende (getRandomInteger (1, 6), getRandomInteger (1, 6))  
+    | otherwise = verifcaQuemGanhou atacante atacado estadoAtaca estadoDefende
 
-        exibeJogada( (name atacante) ++ " está atacando " ++ (name atacado) ++ " de " ++ (estado1) ++ " para " ++ (estado2) ++ "!!" )
-        let dado1 = dados
-        let dado2 = dados
-        
-        if(dado1 <= dado2)
-            then 
-                exibeJogada( (name atacante) ++ " perde a disputa com valor " ++ dado1 ++ " nos dados, contra " ++ dado2)
-                let new_atacante = removeTroops (atacante 1 estado1)
-        else
-            then 
-                exibeJogada( (name atacado) ++ " perde a disputa com valor " ++ dado2 ++ " nos dados, contra " ++ dado1)
-                let new_atacado = removeTroops (atacado 1 estado2)
-        
-        tupla = attack new_atacante new_atacado estado1 estado2
+{-
+Metodo auxiliar de ataque
+Params: User: Usuario que ataca User: Usuario que defende String: Estado que ataca String: Estado que defende tuple(Int, Int): dados de quem ganhou a rodada
+Return: Retorna uma tupla de usuarios com os estados alterados.
+-}
+attackAux :: User -> User -> String -> String -> (Int, Int) -> (User, User)
+attackAux atacante atacado estadoAtaca estadoDefende (dadoAtacante, dadoAtacado)
+    | dadoAtacante <= dadoAtacado = attack (removeTroops atacante 1 estadoAtaca) atacado estadoAtaca estadoDefende
+    | otherwise = attack atacante (removeTroops atacado 1 estadoDefende) estadoAtaca estadoDefende
 
-    | otherwise = (new_atacante, new_atacado)
+{-
+Metodo que faz a transferia de estado para quem ganhou o ataque
+Params: User: Usuario que ataca User: Usuario que defende String: Estado que ataca String: Estado que defende
+Return: Retorna uma tupla de usuarios com os estados alterados.
+-}
+verifcaQuemGanhou :: User -> User -> String -> String -> (User, User)
+verifcaQuemGanhou atacante atacado estadoAtaca estadoDefende
+    | (getEstado atacante estadoAtaca) > 0 = ((setEstado atacante estadoDefende 1), atacado)
+    | otherwise =  (atacante ,(setEstado atacado estadoAtaca 1))
 
--- Resultados de dados aleatórios
--- Return numero
-dados :: Int
-dados = randomRIO(1, 6)
 
 -- Função auxiliar para exibir resultados durante jogadas
 -- Params: String texto
@@ -91,15 +69,14 @@ getNeighbours :: [String] -> String -> [String]
 getNeighbours states state
 getNeighbours [] state = []
 getNeighbours (a:as) state
-    if neighbor state (a:as) then
-        [state] ++ getNeighbours hs state
-    else
-        getNeighbours as state
+    | (neighbor state (a:as)) = [state] ++ getNeighbours as state
+    | otherwise = getNeighbours as state
 
+        
 statesAndTroops_view :: User -> [String] -> [(String, Int)]
 statesAndTroops_view user states
 statesAndTroops_view user [] = []
-statesAndTroops_view user (a:as) = ((a, getEstado a player) ++ statesAndTroops_view user as
+statesAndTroops_view user (a:as) = ((a, getEstado a player) ++ statesAndTroops_view user as)
 
 -- PRIMEIRO MENU
 -- exibe as opcoes "Iniciar jogo" e "Regras"
@@ -110,9 +87,10 @@ first_menu (player, bot) states = do
     putStrLn("1 - Iniciar jogo")
     putStrLn("2 - Regras")
     op <- getLine
-    if op == "1" then
+
+    if (op == "1") then
         second_screen (player, bot) states 5
-    else if op == "2" then
+    else if (op == "2") then
         rules
         first_menu (player, bot) states
     else
