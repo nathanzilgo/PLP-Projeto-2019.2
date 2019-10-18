@@ -3,11 +3,7 @@
 -- Definição de um User do jogo (Humano ou bot) que contem os métodos aplicados
 -- ao User em si.
 module User where
-
--- import Data.text (Text)
--- import Data.Tuple.Select -- Utilitários para tuplas. Precisa da dependência de tuplas instalada (veja o README)
--- import System.Random     
--- import Data.Random
+import Algoritmos
 
 data User = User{
     name :: String,
@@ -29,22 +25,51 @@ data User = User{
 
 alocaTroops :: User -> Int -> String -> User
 alocaTroops user quantidade estado
-    | estado == "alagoas" = setAlagoas user (getAlagoas user)
-    | estado == "bahia" = setBahia user (getBahia user)
-    | estado == "ceara" = setCeara user (getCeara user)
-    | estado == "maranhao" = setMaranhao user (getMaranhao user)
-    | estado == "paraiba" = setParaiba user (getParaiba user)
-    | estado == "pernambuco" = setPernambuco user (getPernambuco user)
-    | estado == "piaui" = setPiaui user (getPiaui user)
-    | estado == "riograndedonorte" = setRioGrandeDoNorte user (getRioGrandeDoNorte user)
-    | estado == "sergipe" = setSergipe user (getSergipe user)
-    | otherwise =  User ("erro") (0) (0) (0) (0) (0) (0) (0) (0) (0) (0)
+    | estado == "alagoas" = setAlagoas user quantidade 
+    | estado == "bahia" = setBahia user quantidade
+    | estado == "ceara" = setCeara user quantidade
+    | estado == "maranhao" = setMaranhao user quantidade
+    | estado == "paraiba" = setParaiba user quantidade
+    | estado == "pernambuco" = setPernambuco user quantidade
+    | estado == "piaui" = setPiaui user quantidade
+    | estado == "riograndedonorte" = setRioGrandeDoNorte user quantidade
+    | estado == "sergipe" = setSergipe user quantidade
+    | otherwise = User ("erro") 0 0 0 0 0 0 0 0 0 0
+
+-- Aloca tropas de forma aleatoria no bot\
+{-
+alocaTerritoriosBot:: User -> Int -> User
+alocaTerritoriosBot bot quantidadeAlocada 
+    | (quantidadeAlocada < 5) = do retorno where
+        let territorioRandom = randomState
+        if ((getEstado bot territorioRandom) == 0)
+            then do
+                retorno = alocaTerritoriosBot (setEstado bot territorioRandom  1) (quantidadeAlocada + 1)
+        else retorno = alocaTerritoriosBot bot quantidadeAlocada
+    | otherwise = bot
+-}
 
 -- Método para realocar tropas de um User de um estado para outro.
 -- Params: User user, Int quantidade, String estado_remove, String estado_add.
 -- Return: String resultado.
+realocaTroops :: User -> Int -> String -> String -> User
+realocaTroops user quantidade estado_remove estado_add = do
+    let usr = setEstado user estado_add quantidade
+    setEstado usr estado_remove (-quantidade)
 
--- realocaTroops :: User -> Int -> String -> String -> IO()
+--Aloca territórios no usuario de acordo com os territorios ja alocados no bot
+alocaTerritoriosUser:: User -> User -> User
+alocaTerritoriosUser bot user 
+    | (alagoas bot == 0 && alagoas user == 0) = alocaTerritoriosUser bot (setAlagoas user 1) 
+    | (bahia bot == 0 && bahia user == 0) =  alocaTerritoriosUser bot (setBahia user 1)
+    | (ceara bot == 0 && ceara user == 0) = alocaTerritoriosUser bot (setCeara user 1)
+    | (maranhao bot == 0 && maranhao user == 0) = alocaTerritoriosUser bot (setMaranhao user 1)
+    | (paraiba bot == 0 && paraiba user == 0) = alocaTerritoriosUser bot (setParaiba user 1)
+    | (pernambuco bot == 0 && pernambuco user == 0) = alocaTerritoriosUser bot (setPernambuco user 1)
+    | (piaui bot == 0 && piaui user == 0) = alocaTerritoriosUser bot (setPiaui user 1)
+    | (riograndedonorte bot == 0 && riograndedonorte user == 0) = alocaTerritoriosUser bot (setRioGrandeDoNorte user 1)
+    | (sergipe bot == 0 && sergipe user == 0) = alocaTerritoriosUser bot (setSergipe user 1)
+    | otherwise = user
 
 -- Método para remover tropas de um User (possível ataque recebido).
 -- Params: User user, Int quantidade, String estado.
@@ -97,7 +122,7 @@ setEstado usr estado quantidade
     | estado == "piaui" = setPiaui usr quantidade
     | estado == "riograndedonorte" = setRioGrandeDoNorte usr quantidade
     | estado == "sergipe" = setSergipe usr quantidade
-    | otherwise = User ("erro") (0) (0) (0) (0) (0) (0) (0) (0) (0) (0)
+    | otherwise = User ("erro") 0 0 0 0 0 0 0 0 0 0
 
 -- Modifica o estado das tropas de alagoas do Usuario
 setAlagoas:: User -> Int -> User

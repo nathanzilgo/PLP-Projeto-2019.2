@@ -1,15 +1,24 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 import User
-import System.Random     
+import System.Random
+import User     
 
-module Project where
-
-main :: IO
+main :: IO()
 main = do
-    let user = User "User" 5 0 0 0 0 0 0 0 0 0
-    let bot = User "bot" 5 0 0 0 0 0 0 0 0 0
+    let users = config
 
+    putStrLn(show (users))
+
+
+config :: (User, User)
+config = do
+    let bot = User "bot" 5 0 1 0 1 1 0 1 0 1
+    let user = User "User" 5 0 0 0 0 0 0 0 0 0
+
+    let user_final = alocaTerritoriosUser bot user
+
+    (bot, user)
 
 runtime :: User -> User -> (User, User)
 runtime jogador bot
