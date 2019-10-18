@@ -77,5 +77,10 @@ randomTroops :: Int -> Int
 randomTroops num = do 
     getRandomInteger (1, num)
 
+{-
+Retorna um inteiro arbitrário no intervalo definido
+Params: (Int low, Int high)
+Return: Int randomInt
+-}
 getRandomInteger :: (Int,Int) -> Int
 getRandomInteger (a,b) = unsafePerformIO(randomRIO (a,b)) 

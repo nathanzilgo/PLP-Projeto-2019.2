@@ -2,7 +2,8 @@
 
 -- Definição de um User do jogo (Humano ou bot) que contem os métodos aplicados
 -- ao User em si.
--- module User where
+
+module User where
 import Algoritmos
 
 data User = User{
@@ -36,7 +37,11 @@ alocaTroops user quantidade estado
     | estado == "sergipe" = setSergipe user quantidade
     | otherwise = User ("erro") 0 0 0 0 0 0 0 0 0 0
 
--- Aloca tropas de forma aleatoria no bot\
+{-
+Aloca tropas de forma aleatoria no bot
+Params: User bot, Int quantidadeAlocada
+Return: User newBot
+-}
 alocaTerritoriosBot:: User -> Int -> User
 alocaTerritoriosBot bot quantidadeAlocada 
     | (quantidadeAlocada < 5) = alocaTerritoriosBotAux bot quantidadeAlocada randomState
@@ -109,6 +114,11 @@ verificaVitoria user
 
 -- ####################################################### SETTERS #########################################################
 
+{-
+Atualiza o estado de um user e o retorna
+Params: User user, String estado, Int quantidade
+Return: User newUser
+-}
 setEstado :: User -> String -> Int -> User
 setEstado usr estado quantidade
     | estado == "alagoas" = setAlagoas usr quantidade
@@ -195,6 +205,12 @@ setTroops usr tropas = do
 
 -- #################################################### GETTERS #######################################################
 
+
+{-
+Pega o numero de tropas de um estado de um user
+Params: User user, String estado
+Return: Int quantTropas
+-}
 getEstado :: User -> String -> Int
 getEstado user estado
     | estado == "alagoas" = getAlagoas user
@@ -244,6 +260,11 @@ getRioGrandeDoNorte user = riograndedonorte user
 getSergipe:: User -> Int
 getSergipe user = sergipe user
 
+{-
+Retorna todos os estados que um user tem controle
+Params: User user, [String] aux, Int flag
+Return: [String] estados
+-}
 getEstados :: User -> [String] -> Int -> [String]
 getEstados user lista flag 
     |flag == 0 = if(possuiEstado user "alagoas") 

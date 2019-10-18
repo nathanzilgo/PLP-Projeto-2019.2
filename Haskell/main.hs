@@ -1,6 +1,7 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 import User
+import View
 import System.Random
 import Algoritmos   
 
@@ -10,7 +11,10 @@ main = do
     first_menu user bot (getEstados player [] 0)
     putStrLn(show (users))
 
-
+{-
+Instancia as estruturas (Users) de forma mocked data
+Return: (User jogador, User bot)
+-}
 config :: (User, User)
 config = do
     let bot = User "bot" 5 0 1 0 1 1 0 1 0 1
@@ -65,6 +69,11 @@ win user = print(name user ++ " venceu o jogo!")
 
 -- ####################################################### VIEW #########################################################
 
+{-
+Retorna os vizinhos de um estado
+Params: [String] recursiveAux, String estado
+Return: [String] neighbors
+-}
 getNeighbours :: [String] -> String -> [String]
 getNeighbours states state
 getNeighbours [] state = []
@@ -72,7 +81,7 @@ getNeighbours (a:as) state
     | (neighbor state (a:as)) = [state] ++ getNeighbours as state
     | otherwise = getNeighbours as state
 
-        
+
 statesAndTroops_view :: User -> [String] -> [(String, Int)]
 statesAndTroops_view user states
 statesAndTroops_view user [] = []
@@ -251,7 +260,11 @@ seventh_screen (player, bot) states win = do
         -- botRound (player, bot) states 5 false
         fourth_screen (player, bot) states 5
 
-rules -> IO()
+{-
+Exibe as regras do jogo
+Return: IO() rules
+-}
+rules :: IO()
 rules = do
     putStrLn("------------------------ COMO JOGAR ------------------------")
 

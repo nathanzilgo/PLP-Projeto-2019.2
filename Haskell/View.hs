@@ -1,7 +1,6 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 module View where
-import View
 
 {-
 Visualização de uma realocada de tropas em um user
