@@ -18,7 +18,7 @@ config = do
 
     let user_final = alocaTerritoriosUser bot user
 
-    (bot, user)
+    (bot, user_final)
 
 
     first_menu user bot (getEstados player [] 0)
