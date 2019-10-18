@@ -21,9 +21,6 @@ config = do
     (bot, user_final)
 
 
-    first_menu user bot (getEstados player [] 0)
-
-
 runtime :: User -> User -> (User, User)
 runtime jogador bot
     putStrLn("Insira o numero da jogada: ")
