@@ -82,6 +82,11 @@ setPlayerPernambuco(Id, Pernambuco) :-
     retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
     asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
 
+% Seta o valor das tropas do Piaui de um determinado player.
+setPlayerPiaui(Id, Piaui) :-
+    player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, _, RioGrandeDoNorte, Sergipe),
+    retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
+    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
 
 % Faz a configuração inicial dos players.
 configPlayers :-
