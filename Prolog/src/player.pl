@@ -1,6 +1,6 @@
 :- module(
     players, 
-    [player/9, 
+    [player/11, 
     getPlayer/1,
     configPlayers/0,
     setPlayer/11,
