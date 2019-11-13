@@ -52,6 +52,12 @@ setPlayerAlagoas(Id, Alagoas) :-
     retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
     asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
 
+% Seta o valor das tropas da Bahia de um determinado player.
+setPlayerBahia(Id, Bahia) :-
+    player(Id, TotalTroops, Alagoas, _, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
+    retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
+    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
+
 % Faz a configuração inicial dos players.
 configPlayers :-
     setPlayer("BOT", 5, 0, 1, 0, 1, 0, 1 ,0 ,1 ,1),
