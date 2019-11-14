@@ -1,6 +1,7 @@
 :- module(playerOperations, [
-    attack/2,
-    playerAllocateTerritorie/1
+    playerAttack/2,
+    playerAllocateTerritorie/1,
+    playerReallocateTrooops/3
     ]).
 
 :- use_module('player.pl').
