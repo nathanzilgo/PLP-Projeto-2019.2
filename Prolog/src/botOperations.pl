@@ -4,7 +4,7 @@
         botReallocateTrooops/3
         ]).
     
-    :- use_module('player.pl').
+:- use_module('player.pl').
     
     %Metodo usado para o BOT atacar
     botAttack(Troops, Territorie) :-
