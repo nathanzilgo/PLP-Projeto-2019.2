@@ -1,7 +1,7 @@
 :- module(botOperations, [
         botAttack/2,
         botAllocateTerritorie/1,
-        botAllocateTerritorie/3
+        botReallocateTrooops/3
         ]).
     
     :- use_module('player.pl').
