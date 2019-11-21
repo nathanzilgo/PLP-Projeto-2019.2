@@ -36,7 +36,7 @@
         Territory == "sergipe" -> setPlayerSergipe("BOT", Troops * -1, NewValue).
 
     % Metodo para alocar tropas em um estado de forma aleatoria 
-    % NAO FUNCIONA AINDA
+    % NAO FUNCIONA AINDA, NAO TESTEI DIREITO
     botAllocateTroopsRandom :-
         getPlayerAlagoas("BOT", Alagoas), Alagoas > 0, getPlayerTroops("BOT", Troops), Troops > 0, dado(X), X =:= 1 -> setPlayerAlagoas("BOT", Troops, NewValue);
         getPlayerBahia("BOT", Bahia), Bahia > 0, getPlayerTroops("BOT", Troops), Troops > 0, dado(X), X =:= 2 -> setPlayerBahia("BOT", Troops, NewValue);

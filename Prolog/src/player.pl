@@ -34,7 +34,7 @@
 player("PLAYER", 5, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0).
 player("BOT", 5, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0).
 
-% Retorna o player relacionado ao ID ("BOT" ou "PLAYER")
+% Retorna o player relacionado ao ID ("BOT" ou "PLAYER").
 getPlayer(Id) :-
     player(Id,_, _, _, _, _, _, _, _, _, _).
 
