@@ -40,21 +40,21 @@
 
     % Metodo usado para pegar a quantidade de tropas de um estado manualmente
     botGetAllTerritories(Territory, Retorno) :-
-        Territory =:= 1 -> getPlayerAlagoas("BOT", X), Retorno is X;
-        Territory =:= 2 -> getPlayerBahia("BOT", X), Retorno is X;
-        Territory =:= 3 -> getPlayerCeara("BOT", X), Retorno is X;
-        Territory =:= 4 -> getPlayerMaranhao("BOT", X), Retorno is X;
-        Territory =:= 5 -> getPlayerParaiba("BOT", X), Retorno is X;
-        Territory =:= 6 -> getPlayerPernambuco("BOT", X), Retorno is X;
-        Territory =:= 7 -> getPlayerPiaui("BOT", X), Retorno is X;
-        Territory =:= 8 -> getPlayerRioGrandeDoNorte("BOT", X), Retorno is X;
-        Territory =:= 9 -> getPlayerSergipe("BOT", X), Retorno is X.
+        Territory =:= 1 -> getPlayerAlagoas("BOT", Alagoas), Retorno is Alagoas;
+        Territory =:= 2 -> getPlayerBahia("BOT", Bahia), Retorno is Bahia;
+        Territory =:= 3 -> getPlayerCeara("BOT", Ceara), Retorno is Ceara;
+        Territory =:= 4 -> getPlayerMaranhao("BOT", Maranhao), Retorno is Maranhao;
+        Territory =:= 5 -> getPlayerParaiba("BOT", Paraiba), Retorno is Paraiba;
+        Territory =:= 6 -> getPlayerPernambuco("BOT", Pernambuco), Retorno is Pernambuco;
+        Territory =:= 7 -> getPlayerPiaui("BOT", Piaui), Retorno is Piaui;
+        Territory =:= 8 -> getPlayerRioGrandeDoNorte("BOT", RioGrandeDoNorte), Retorno is RioGrandeDoNorte;
+        Territory =:= 9 -> getPlayerSergipe("BOT", Sergipe), Retorno is Sergipe.
 
     % Metodo usado para alocar as tropas em um estado aleatoriamente (funcao de suporte)
-    botAllocateTroopsRandomSupport(Territory, Troops) :-
-        botGetAllTerritories(Territory, X), 
-        X > 0, Troops > 0 -> botAddTroops(Territory, Troops), setPlayerTotalTroops("BOT", Troops * -1, Total);
-        Troops > 0 -> botAllocateTroopsRandom;
+    botAllocateTroopsRandomSupport(Territory, TotalTroops) :-
+        botGetAllTerritories(Territory, TroopsTerritory), 
+        TroopsTerritory > 0, TotalTroops > 0 -> botAddTroops(Territory, TotalTroops), setPlayerTotalTroops("BOT", TotalTroops * -1, NewValue);
+        TotalTroops > 0 -> botAllocateTroopsRandom;
         halt(0).
     
     % Metodo usado para alocar as tropas em um estado aleatoriamente
