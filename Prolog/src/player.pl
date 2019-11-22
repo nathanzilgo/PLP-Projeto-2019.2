@@ -6,6 +6,7 @@
     configPlayers/0,
     setPlayer/11,
     setPlayerTotalTroops/2,
+    setPlayerTroops/3,
     setPlayerAlagoas/3,
     setPlayerBahia/3,
     setPlayerCeara/3,
@@ -52,6 +53,13 @@ setPlayerTotalTroops(Id, TotalTroops) :-
     player(Id, _, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
     retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
     asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
+
+% Modifica o valor de tropas de um player de acordo com a adiçao/remoçao das mesmas durante o jogo.
+setPlayerTroops(Id, Troops, NewValue) :-
+    player(Id, ValueTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
+    NewValue is ValueTroops + Troops,
+    retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
+    asserta(player(Id, NewValue, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
 
 
 % Seta o valor de todas as tropas de um player.
