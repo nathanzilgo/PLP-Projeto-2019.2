@@ -6,10 +6,6 @@
 
 :- use_module('player.pl').
 
-%Metodo usado para o player atacar
-playerAttack(Troops, Territory) :-
-    write("TODO").
-
 %Metodo para alocar um determinado Territorio para um player
 playerAllocateTerritory(Territory) :-
     updateStateTroops("PLAYER", Territory, 1).
