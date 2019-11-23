@@ -1,5 +1,5 @@
 :- module(frontier, [
-        frontier/1
+        frontier/2
         ]).
 
 fronteira("Paraiba", "RioGrandeDoNorte").
