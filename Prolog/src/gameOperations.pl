@@ -7,6 +7,7 @@
 :- use_module('player.pl').
 :- use_module('playerOperations.pl').
 :- use_module('botOperations.pl').
+:- use_module('fronteiras.pl').
 
 %Dado a ser usado nas funcoes necessarias
  dadoAttack(R) :- random(1,6,R).
@@ -24,6 +25,7 @@ alocateTroops(Id, Troops, State) :-
 
 % Metodo usado para o ataque do player.
 playerAttack(AttackingTerritory, DefendingTerritory) :-
+    frontier(AttackingTerritory, DefendingTerritory),
     getPlayerTotalStateTroops("PLAYER", AttackingTerritory, R1),
     R1 > 1,
     getPlayerTotalStateTroops("BOT", DefendingTerritory, R2),
