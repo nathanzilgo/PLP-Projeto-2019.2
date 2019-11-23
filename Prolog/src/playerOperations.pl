@@ -9,6 +9,8 @@
 
 %Metodo para alocar um determinado Territorio para um player
 playerAllocateTerritory(Territory) :-
+    getPlayerTotalStateTroops("BOT", Territory, R),
+    R =:= 0,
     updateStateTroops("PLAYER", Territory, 1).
 
 % Metodo para mover tropas de um territorio para outro do player
