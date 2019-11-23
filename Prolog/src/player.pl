@@ -1,8 +1,6 @@
 :- module(
     player, 
     [player/11, 
-    getPlayer/1,
-    getPlayerTroops/2,
     configPlayers/0,
     setPlayer/11,
     setPlayerTotalTroops/2,
@@ -16,15 +14,8 @@
     setPlayerPiaui/3,
     setPlayerRioGrandeDoNorte/3,
     setPlayerSergipe/3,
-    getPlayerAlagoas/2,
-    getPlayerBahia/2,
-    getPlayerCeara/2,
-    getPlayerMaranhao/2,
-    getPlayerParaiba/2,
-    getPlayerPernambuco/2,
-    getPlayerPiaui/2,
-    getPlayerRioGrandeDoNorte/2,
-    getPlayerSergipe/2
+    getPlayerStateTroops/3,
+    getPlayerTroops/2
 ]).
 
 
@@ -32,16 +23,9 @@
 % Estrutura de um player no jogo.
 %(Nome, quantidade de tropas para alocar, alagoas, bahia, ceara, maranhao, paraiba, pernambuco, piaui, riogradedonorte, sergipe)
 :- dynamic(player/11).
-player("PLAYER", 5, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0).
-player("BOT", 5, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0).
+player("PLAYER", 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0).
+player("BOT", 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0).
 
-% Retorna o player relacionado ao ID ("BOT" ou "PLAYER").
-getPlayer(Id) :-
-    player(Id,_, _, _, _, _, _, _, _, _, _).
-
-% Retorna a quantidade de tropas disponiveis para alocar de um determinado player.
-getPlayerTroops(Id, Troops) :-
-    player(Id, Troops, _, _, _, _, _, _, _, _, _).
 
 % Seta todos os valores de um player
 setPlayer(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe) :-
@@ -132,40 +116,55 @@ setPlayerSergipe(Id, Troops, NewValue) :-
     asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, NewValue)).
 
 % Pega o valor das tropas alocadas no Alagoas de um determinado player.
-getPlayerAlagoas(Id, Alagoas) :-
-    player(Id,_, Alagoas, _, _, _, _, _, _, _, _).
+getPlayerStateTroops(Id, "Alagoas", R) :-
+    player(Id,_, Alagoas, _, _, _, _, _, _, _, _),
+    R is Alagoas.
 
 % Pega o valor das tropas alocadas na Bahia de um determinado player.
-getPlayerBahia(Id, Bahia) :-
-    player(Id,_, _, Bahia, _, _, _, _, _, _, _).
+getPlayerStateTroops(Id, "Bahia", R) :-
+    player(Id,_, _, Bahia, _, _, _, _, _, _, _),
+    R is Bahia.
 
 % Pega o valor das tropas alocadas no Ceara de um determinado player.
-getPlayerCeara(Id, Ceara) :-
-    player(Id,_, _, _, Ceara, _, _, _, _, _, _).
+getPlayerStateTroops(Id, "Ceara", R) :-
+    player(Id,_, _, _, Ceara, _, _, _, _, _, _),
+    R is Ceara.
 
 % Pega o valor das tropas alocadas no Maranhao de um determinado player.
-getPlayerMaranhao(Id, Maranhao) :-
-    player(Id,_, _, _, _, Maranhao, _, _, _, _, _).
+getPlayerStateTroops(Id, "Maranhao", R) :-
+    player(Id,_, _, _, _, Maranhao, _, _, _, _, _),
+    R is Maranhao.
 
 % Pega o valor das tropas alocadas na Paraiba de um determinado player.
-getPlayerParaiba(Id, Paraiba) :-
-    player(Id,_, _, _, _, _, Paraiba, _, _, _, _).
+getPlayerStateTroops(Id, "Paraiba", R) :-
+    player(Id,_, _, _, _, _, Paraiba, _, _, _, _),
+    R is Paraiba.
+
 
 % Pega o valor das tropas alocadas no Pernambuco de um determinado player.
-getPlayerPernambuco(Id, Pernambuco) :-
-    player(Id,_, _, _, _, _, _, Pernambuco, _, _, _).
+getPlayerStateTroops(Id, "Pernambuco", R) :-
+    player(Id,_, _, _, _, _, _, Pernambuco, _, _, _),
+    R is Pernambuco.
 
 % Pega o valor das tropas alocadas no Piaui de um determinado player.
-getPlayerPiaui(Id, Piaui) :-
-    player(Id,_, _, _, _, _, _, _, Piaui, _, _).
+getPlayerStateTroops(Id, "Piaui", R) :-
+    player(Id,_, _, _, _, _, _, _, Piaui, _, _),
+    R is Piaui.
 
 % Pega o valor das tropas alocadas no Rio Grande do Norte de um determinado player.
-getPlayerRioGrandeDoNorte(Id, RioGrandeDoNorte) :-
-    player(Id,_, _, _, _, _, _, _, _, RioGrandeDoNorte, _).
+getPlayerStateTroops(Id, "RioGrandeDoNorte", R) :-
+    player(Id,_, _, _, _, _, _, _, _, RioGrandeDoNorte, _),
+    R is RioGrandeDoNorte.
 
 % Pega o valor das tropas alocadas no Sergipe de um determinado player.
-getPlayerSergipe(Id, Sergipe) :-
-    player(Id,_, _, _, _, _, _, _, _, _, Sergipe).
+getPlayerStateTroops(Id, "Sergipe", R) :-
+    player(Id,_, _, _, _, _, _, _, _, _, Sergipe),
+    R is Sergipe.
+
+% Retorna a quantidade de tropas disponiveis para alocar de um determinado player.
+getPlayerTroops(Id, R) :-
+    player(Id, Troops, _, _, _, _, _, _, _, _, _),
+    R is Troops.
 
 % Faz a configuração inicial dos players.
 configPlayers :-
