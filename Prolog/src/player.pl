@@ -1,7 +1,7 @@
 :- module(
     player, 
     [player/11, 
-    alocateTroops/3,
+    updateStateTroops/3,
     getPlayerTotalTroops/2,
     updateTotalTroops/2,
     getPlayerTotalStateTroops/3,
@@ -16,15 +16,10 @@
 player("PLAYER", 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0).
 player("BOT", 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0).
 
-% Aloca Tropas em um determinado Estado
-alocateTroops(Id, Troops, State) :-
-    getPlayerTotalTroops(Id, R),
-    R >=Troops,
-    updateTotalTroops(Id, -Troops),
-    getPlayerTotalStateTroops(Id, State, R1),
-    NewTroops is R1 + Troops,
-    setPlayerStateTroops(Id, NewTroops, State).
 
+updateStateTroops(Id, Territory, Troops) :-
+    setPlayerStateTroops(Id, Troops, Territory).
+    
 % Retorna a quantidade de tropas disponiveis para alocar de um determinado player.
 getPlayerTotalTroops(Id, R) :-
     player(Id, Troops, _, _, _, _, _, _, _, _, _),
