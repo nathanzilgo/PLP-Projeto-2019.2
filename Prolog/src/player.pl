@@ -1,11 +1,11 @@
 :- module(
     player, 
     [player/11, 
-    configPlayers/0,
     alocateTroops/3,
-    setPlayerTroops/3,
-    getPlayerStateTroops/3,
-    getPlayerTroops/2
+    getPlayerTotalTroops/2,
+    updateTotalTroops/2,
+    getPlayerTotalStateTroops/3,
+    configPlayers/0
 ]).
 
 
@@ -18,31 +18,37 @@ player("BOT", 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0).
 
 % Aloca Tropas em um determinado Estado
 alocateTroops(Id, Troops, State) :-
-    getPlayerStateTroops(Id, State, R),
-    NewTroops is R + Troops,
+    getPlayerTotalTroops(Id, R),
+    R >=Troops,
+    updateTotalTroops(Id, -Troops),
+    getPlayerTotalStateTroops(Id, State, R1),
+    NewTroops is R1 + Troops,
     setPlayerStateTroops(Id, NewTroops, State).
 
-% Modifica o valor de tropas de um player de acordo com a adiçao/remoçao das mesmas durante o jogo.
-setPlayerTroops(Id, Troops) :-
-    player(Id, _, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
-    retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
-    asserta(player(Id, Troops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
+% Retorna a quantidade de tropas disponiveis para alocar de um determinado player.
+getPlayerTotalTroops(Id, R) :-
+    player(Id, Troops, _, _, _, _, _, _, _, _, _),
+    R is Troops.
 
+% Atualiza a quantidade de tropas totais para alocacao de um determinado player.
+updateTotalTroops(Id, Troops) :-
+    getPlayerTotalTroops(Id, R),
+    R >= Troops,
+    NewTotalTroops is R + Troops,
+    setPlayerTotalTroops(Id, NewTotalTroops).
+
+% Retorna o valor de um dado territorio de um dado player.
+getPlayerTotalStateTroops(Id, Territory, R) :-
+    getPlayerStateTroops(Id, Territory, R2),
+    R is R2.
+
+%%%%%%%% SETS %%%%%%%%%%
 
 % Seta o valor do total de tropas Disponiveis para alocacao de um player.
 setPlayerTotalTroops(Id, TotalTroops) :-
     player(Id, _, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
     retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
     asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
-
-% Retorna a quantidade de tropas disponiveis para alocar de um determinado player.
-getPlayerTroops(Id, R) :-
-    player(Id, Troops, _, _, _, _, _, _, _, _, _),
-    R is Troops.
-
-
-
-%%%%%%%% SETS %%%%%%%%%%
 
 % Seta o valor das tropas de alagoas de um determinado player.
 setPlayerStateTroops(Id, Troops, "Alagoas") :-
