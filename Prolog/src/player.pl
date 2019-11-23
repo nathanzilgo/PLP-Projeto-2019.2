@@ -2,18 +2,8 @@
     player, 
     [player/11, 
     configPlayers/0,
-    setPlayer/11,
-    setPlayerTotalTroops/2,
+    alocateTroops/3,
     setPlayerTroops/3,
-    setPlayerAlagoas/3,
-    setPlayerBahia/3,
-    setPlayerCeara/3,
-    setPlayerMaranhao/3,
-    setPlayerParaiba/3,
-    setPlayerPernambuco/3,
-    setPlayerPiaui/3,
-    setPlayerRioGrandeDoNorte/3,
-    setPlayerSergipe/3,
     getPlayerStateTroops/3,
     getPlayerTroops/2
 ]).
@@ -26,94 +16,90 @@
 player("PLAYER", 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0).
 player("BOT", 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0).
 
+% Aloca Tropas em um determinado Estado
+alocateTroops(Id, Troops, State) :-
+    getPlayerStateTroops(Id, State, R),
+    NewTroops is R + Troops,
+    setPlayerStateTroops(Id, NewTroops, State).
 
-% Seta todos os valores de um player
-setPlayer(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe) :-
-    setPlayerTotalTroops(Id, TotalTroops),
-    setPlayerStates(Id, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe).
+% Modifica o valor de tropas de um player de acordo com a adiçao/remoçao das mesmas durante o jogo.
+setPlayerTroops(Id, Troops) :-
+    player(Id, _, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
+    retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
+    asserta(player(Id, Troops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
 
-% Seta o valor do total de tropas de um player.
+
+% Seta o valor do total de tropas Disponiveis para alocacao de um player.
 setPlayerTotalTroops(Id, TotalTroops) :-
     player(Id, _, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
     retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
     asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
 
-% Modifica o valor de tropas de um player de acordo com a adiçao/remoçao das mesmas durante o jogo.
-setPlayerTroops(Id, Troops, NewValue) :-
-    player(Id, ValueTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
-    NewValue is ValueTroops + Troops,
-    retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
-    asserta(player(Id, NewValue, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
+% Retorna a quantidade de tropas disponiveis para alocar de um determinado player.
+getPlayerTroops(Id, R) :-
+    player(Id, Troops, _, _, _, _, _, _, _, _, _),
+    R is Troops.
 
 
-% Seta o valor de todas as tropas de um player.
-setPlayerStates(Id, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe) :-
-    player(Id, TotalTroops, _, _, _, _, _, _, _, _, _),
-    retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
-    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
+
+%%%%%%%% SETS %%%%%%%%%%
 
 % Seta o valor das tropas de alagoas de um determinado player.
-setPlayerAlagoas(Id, Troops, NewValue) :-
-    player(Id, TotalTroops, ValueAlagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
-    NewValue is ValueAlagoas + Troops,
+setPlayerStateTroops(Id, Troops, "Alagoas") :-
+    player(Id, TotalTroops, _, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
     retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
-    asserta(player(Id, TotalTroops, NewValue, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
+    asserta(player(Id, TotalTroops, Troops, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
 
 % Seta o valor das tropas da Bahia de um determinado player.
-setPlayerBahia(Id, Troops, NewValue) :-
-    player(Id, TotalTroops, Alagoas, ValueBahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
-    NewValue is ValueBahia + Troops,
+setPlayerStateTroops(Id, Troops, "Bahia") :-
+    player(Id, TotalTroops, Alagoas, _, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
     retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
-    asserta(player(Id, TotalTroops, Alagoas, NewValue, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
+    asserta(player(Id, TotalTroops, Alagoas, Troops, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
 
 % Seta o valor das tropas do Ceara de um determinado player.
-setPlayerCeara(Id, Troops, NewValue) :-
-    player(Id, TotalTroops, Alagoas, Bahia, ValueCeara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
-    NewValue is Troops + ValueCeara,
+setPlayerStateTroops(Id, Troops, "Ceara") :-
+    player(Id, TotalTroops, Alagoas, Bahia, _, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
     retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
-    asserta(player(Id, TotalTroops, Alagoas, Bahia, NewValue, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
+    asserta(player(Id, TotalTroops, Alagoas, Bahia, Troops, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
 
 % Seta o valor das tropas do Maranhao de um determinado player.
-setPlayerMaranhao(Id, Troops, NewValue) :-
-    player(Id, TotalTroops, Alagoas, Bahia, Ceara, ValueMaranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
-    NewValue is Troops + ValueMaranhao,
+setPlayerStateTroops(Id, Troops, "Maranhao") :-
+    player(Id, TotalTroops, Alagoas, Bahia, Ceara, _, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
     retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
-    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, NewValue, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
+    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Troops, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
 
 % Seta o valor das tropas da Paraiba de um determinado player.
-setPlayerParaiba(Id, Troops, NewValue) :-
-    player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, ValueParaiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
-    NewValue is Troops + ValueParaiba,
+setPlayerStateTroops(Id, Troops, "Paraiba") :-
+    player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, _, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe),
     retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
-    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, NewValue, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
+    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Troops, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
 
 % Seta o valor das tropas do Pernambuco de um determinado player.
-setPlayerPernambuco(Id, Troops, NewValue) :-
-    player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, ValuePernambuco, Piaui, RioGrandeDoNorte, Sergipe),
-    NewValue is Troops + ValuePernambuco,
+setPlayerStateTroops(Id, Troops, "Pernambuco") :-
+    player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, _, Piaui, RioGrandeDoNorte, Sergipe),
     retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
-    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, NewValue, Piaui, RioGrandeDoNorte, Sergipe)).
+    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Troops, Piaui, RioGrandeDoNorte, Sergipe)).
 
 % Seta o valor das tropas do Piaui de um determinado player.
-setPlayerPiaui(Id, Troops, NewValue) :-
-    player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, ValuePiaui, RioGrandeDoNorte, Sergipe),
-    NewValue is Troops + ValuePiaui,
+setPlayerStateTroops(Id, Troops, "Piaui") :-
+    player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, _, RioGrandeDoNorte, Sergipe),
     retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
-    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, NewValue, RioGrandeDoNorte, Sergipe)).
+    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Troops, RioGrandeDoNorte, Sergipe)).
 
 % Seta o valor das tropas do RioGrandeDoNorte de um determinado player.
-setPlayerRioGrandeDoNorte(Id, Troops, NewValue) :-
-    player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, ValueRioGrandeDoNorte, Sergipe),
-    NewValue is Troops + ValueRioGrandeDoNorte,
+setPlayerStateTroops(Id, Troops, "RioGrandeDoNorte") :-
+    player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, _, Sergipe),
     retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
-    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, NewValue, Sergipe)).
+    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, Troops, Sergipe)).
 
 % Seta o valor das tropas do Sergipe de um determinado player.
-setPlayerSergipe(Id, Troops, NewValue) :-
-    player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, ValueSergipe),
-    NewValue is Troops + ValueSergipe,
+setPlayerStateTroops(Id, Troops, "Sergipe") :-
+    player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, _),
     retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
-    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, NewValue)).
+    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Troops)).
+
+
+%%%%%%%% GETS %%%%%%%%%
 
 % Pega o valor das tropas alocadas no Alagoas de um determinado player.
 getPlayerStateTroops(Id, "Alagoas", R) :-
@@ -161,10 +147,22 @@ getPlayerStateTroops(Id, "Sergipe", R) :-
     player(Id,_, _, _, _, _, _, _, _, _, Sergipe),
     R is Sergipe.
 
-% Retorna a quantidade de tropas disponiveis para alocar de um determinado player.
-getPlayerTroops(Id, R) :-
-    player(Id, Troops, _, _, _, _, _, _, _, _, _),
-    R is Troops.
+
+%%%%%%%%%%%% Configuração %%%%%%%%%%%
+
+% Seta todos os valores de um player
+
+% Seta o valor de todas as tropas de um player.
+setPlayerStates(Id, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe) :-
+    player(Id, TotalTroops, _, _, _, _, _, _, _, _, _),
+    retract(player(Id, _, _, _, _, _, _, _, _, _, _)),
+    asserta(player(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe)).
+
+% Faz a inicialização de um player.
+setPlayer(Id, TotalTroops, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe) :-
+    setPlayerTotalTroops(Id, TotalTroops),
+    setPlayerStates(Id, Alagoas, Bahia, Ceara, Maranhao, Paraiba, Pernambuco, Piaui, RioGrandeDoNorte, Sergipe).
+
 
 % Faz a configuração inicial dos players.
 configPlayers :-
