@@ -16,51 +16,51 @@
 
     %Metodo usado para adicionar tropas em um estado manualmente   
     botAddTroops(Territory, Troops) :- 
-        Territory =:= 1 -> setPlayerAlagoas("BOT", Troops, NewValue);
-        Territory =:= 2 -> setPlayerBahia("BOT", Troops, NewValue);
-        Territory =:= 3 -> setPlayerCeara("BOT", Troops, NewValue);
-        Territory =:= 4 -> setPlayerMaranhao("BOT", Troops, NewValue);
-        Territory =:= 5 -> setPlayerParaiba("BOT", Troops, NewValue);
-        Territory =:= 6 -> setPlayerPernambuco("BOT", Troops, NewValue);
-        Territory =:= 7 -> setPlayerPiaui("BOT", Troops, NewValue);
-        Territory =:= 8 -> setPlayerRioGrandeDoNorte("BOT", Troops, NewValue);
-        Territory =:= 9 -> setPlayerSergipe("BOT", Troops, NewValue).
+        Territory =:= 1 -> getPlayerTotalStateTroops("BOT", "Alagoas", R), updateStateTroops("BOT", "Alagoas", R + Troops);
+        Territory =:= 2 -> getPlayerTotalStateTroops("BOT", "Bahia", R), updateStateTroops("BOT", "Bahia", R + Troops);
+        Territory =:= 3 -> getPlayerTotalStateTroops("BOT", "Ceara", R), updateStateTroops("BOT", "Ceara", R + Troops);
+        Territory =:= 4 -> getPlayerTotalStateTroops("BOT", "Maranhao", R), updateStateTroops("BOT", "Maranhao", R + Troops);
+        Territory =:= 5 -> getPlayerTotalStateTroops("BOT", "Paraiba", R), updateStateTroops("BOT", "Paraiba", R + Troops);
+        Territory =:= 6 -> getPlayerTotalStateTroops("BOT", "Pernambuco", R), updateStateTroops("BOT", "Pernambuco", R + Troops);
+        Territory =:= 7 -> getPlayerTotalStateTroops("BOT", "Piaui", R), updateStateTroops("BOT", "Piaui", R + Troops);
+        Territory =:= 8 -> getPlayerTotalStateTroops("BOT", "RioGrandeDoNorte", R), updateStateTroops("BOT", "RioGrandeDoNorte", R + Troops);
+        Territory =:= 9 -> getPlayerTotalStateTroops("BOT", "Sergipe", R), updateStateTroops("BOT", "Sergipe", R + Troops).
 
     %Metodo usado para remover tropas de um estado manualmente
     botRemoveTroops(Territory, Troops) :- 
-        Territory =:= 1 -> setPlayerAlagoas("BOT", Troops * -1, NewValue);
-        Territory =:= 2 -> setPlayerBahia("BOT", Troops * -1, NewValue);
-        Territory =:= 3 -> setPlayerCeara("BOT", Troops * -1, NewValue);
-        Territory =:= 4 -> setPlayerMaranhao("BOT", Troops * -1, NewValue);
-        Territory =:= 5 -> setPlayerParaiba("BOT", Troops * -1, NewValue);
-        Territory =:= 6 -> setPlayerPernambuco("BOT", Troops * -1, NewValue);
-        Territory =:= 7 -> setPlayerPiaui("BOT", Troops * -1, NewValue);
-        Territory =:= 8 -> setPlayerRioGrandeDoNorte("BOT", Troops * -1, NewValue);
-        Territory =:= 9 -> setPlayerSergipe("BOT", Troops * -1, NewValue).
+        Territory =:= 1 -> getPlayerTotalStateTroops("BOT", "Alagoas", R), updateStateTroops("BOT", "Alagoas", R - Troops);
+        Territory =:= 2 -> getPlayerTotalStateTroops("BOT", "Bahia", R), updateStateTroops("BOT", "Bahia", R - Troops);
+        Territory =:= 3 -> getPlayerTotalStateTroops("BOT", "Ceara", R), updateStateTroops("BOT", "Ceara", R - Troops);
+        Territory =:= 4 -> getPlayerTotalStateTroops("BOT", "Maranhao", R), updateStateTroops("BOT", "Maranhao", R - Troops);
+        Territory =:= 5 -> getPlayerTotalStateTroops("BOT", "Paraiba", R), updateStateTroops("BOT", "Paraiba", R - Troops);
+        Territory =:= 6 -> getPlayerTotalStateTroops("BOT", "Pernambuco", R), updateStateTroops("BOT", "Pernambuco", R - Troops);
+        Territory =:= 7 -> getPlayerTotalStateTroops("BOT", "Piaui", R), updateStateTroops("BOT", "Piaui", R - Troops);
+        Territory =:= 8 -> getPlayerTotalStateTroops("BOT", "RioGrandeDoNorte", R), updateStateTroops("BOT", "RioGrandeDoNorte", R - Troops);
+        Territory =:= 9 -> getPlayerTotalStateTroops("BOT", "Sergipe", R), updateStateTroops("BOT", "Sergipe", R - Troops).
 
     % Metodo usado para pegar a quantidade de tropas de um estado manualmente
     botGetAllTerritories(Territory, Retorno) :-
-        Territory =:= 1 -> getPlayerAlagoas("BOT", Alagoas), Retorno is Alagoas;
-        Territory =:= 2 -> getPlayerBahia("BOT", Bahia), Retorno is Bahia;
-        Territory =:= 3 -> getPlayerCeara("BOT", Ceara), Retorno is Ceara;
-        Territory =:= 4 -> getPlayerMaranhao("BOT", Maranhao), Retorno is Maranhao;
-        Territory =:= 5 -> getPlayerParaiba("BOT", Paraiba), Retorno is Paraiba;
-        Territory =:= 6 -> getPlayerPernambuco("BOT", Pernambuco), Retorno is Pernambuco;
-        Territory =:= 7 -> getPlayerPiaui("BOT", Piaui), Retorno is Piaui;
-        Territory =:= 8 -> getPlayerRioGrandeDoNorte("BOT", RioGrandeDoNorte), Retorno is RioGrandeDoNorte;
-        Territory =:= 9 -> getPlayerSergipe("BOT", Sergipe), Retorno is Sergipe.
+        Territory =:= 1 -> getPlayerTotalStateTroops("BOT", "Alagoas", R), Retorno is R;
+        Territory =:= 2 -> getPlayerTotalStateTroops("BOT", "Bahia", R), Retorno is R;
+        Territory =:= 3 -> getPlayerTotalStateTroops("BOT", "Ceara", R), Retorno is R;
+        Territory =:= 4 -> getPlayerTotalStateTroops("BOT", "Maranhao", R), Retorno is R;
+        Territory =:= 5 -> getPlayerTotalStateTroops("BOT", "Paraiba", R), Retorno is R;
+        Territory =:= 6 -> getPlayerTotalStateTroops("BOT", "Pernambuco", R), Retorno is R;
+        Territory =:= 7 -> getPlayerTotalStateTroops("BOT", "Piaui", R), Retorno is R;
+        Territory =:= 8 -> getPlayerTotalStateTroops("BOT", "RioGrandeDoNorte", R), Retorno is R;
+        Territory =:= 9 -> getPlayerTotalStateTroops("BOT", "Sergipe", R), Retorno is R.
 
     % Metodo usado para alocar as tropas em um estado aleatoriamente (funcao de suporte)
     botAllocateTroopsRandomSupport(Territory, TotalTroops) :-
         botGetAllTerritories(Territory, TroopsTerritory), 
-        TroopsTerritory > 0, TotalTroops > 0 -> botAddTroops(Territory, TotalTroops), setPlayerTotalTroops("BOT", TotalTroops * -1, NewValue);
+        TroopsTerritory > 0, TotalTroops > 0 -> botAddTroops(Territory, TotalTroops), getPlayerTotalTroops("BOT", R), updateTotalTroops("BOT",R - TotalTroops);
         TotalTroops > 0 -> botAllocateTroopsRandom;
         halt(0).
     
     % Metodo usado para alocar as tropas em um estado aleatoriamente
     botAllocateTroopsRandom :-
         dado(X), 
-        getPlayerTroops("BOT", Troops),
+        getPlayerTotalTroops("BOT", Troops),
         Troops > 0 ->
         botAllocateTroopsRandomSupport(X, Troops);
         halt(0).

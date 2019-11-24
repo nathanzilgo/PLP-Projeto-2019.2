@@ -1,5 +1,5 @@
 :- module(gameOperations, [
-        alocateTroops/3,
+        allocateTroops/3,
         playerAttack/2,
         botAttack/3
         ]).
@@ -13,7 +13,7 @@
  dadoAttack(R) :- random(1,6,R).
 
 % Aloca Tropas em um determinado Estado
-alocateTroops(Id, Troops, State) :-
+allocateTroops(Id, Troops, State) :-
     getPlayerTotalTroops(Id, R),
     R >=Troops,
     getPlayerTotalStateTroops(Id, State, R1),
