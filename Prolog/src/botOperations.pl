@@ -1,11 +1,7 @@
 :- module(botOperations, [
         botAttack/2,
-        botReallocateTrooops/3,
         botAddTroops/2,
-        botRemoveTroops/2,
         botGetAllTerritories/2,
-        botAllocateTroopsRandomSupport/2,
-        botAllocateTroopsRandom/0,
         botAllocateTroopsRandom/0
         ]).
     
@@ -25,18 +21,6 @@
         Territory =:= 7 -> getPlayerTotalStateTroops("BOT", "Piaui", R), updateStateTroops("BOT", "Piaui", R + Troops);
         Territory =:= 8 -> getPlayerTotalStateTroops("BOT", "RioGrandeDoNorte", R), updateStateTroops("BOT", "RioGrandeDoNorte", R + Troops);
         Territory =:= 9 -> getPlayerTotalStateTroops("BOT", "Sergipe", R), updateStateTroops("BOT", "Sergipe", R + Troops).
-
-    %Metodo usado para remover tropas de um estado manualmente
-    botRemoveTroops(Territory, Troops) :- 
-        Territory =:= 1 -> getPlayerTotalStateTroops("BOT", "Alagoas", R), updateStateTroops("BOT", "Alagoas", R - Troops);
-        Territory =:= 2 -> getPlayerTotalStateTroops("BOT", "Bahia", R), updateStateTroops("BOT", "Bahia", R - Troops);
-        Territory =:= 3 -> getPlayerTotalStateTroops("BOT", "Ceara", R), updateStateTroops("BOT", "Ceara", R - Troops);
-        Territory =:= 4 -> getPlayerTotalStateTroops("BOT", "Maranhao", R), updateStateTroops("BOT", "Maranhao", R - Troops);
-        Territory =:= 5 -> getPlayerTotalStateTroops("BOT", "Paraiba", R), updateStateTroops("BOT", "Paraiba", R - Troops);
-        Territory =:= 6 -> getPlayerTotalStateTroops("BOT", "Pernambuco", R), updateStateTroops("BOT", "Pernambuco", R - Troops);
-        Territory =:= 7 -> getPlayerTotalStateTroops("BOT", "Piaui", R), updateStateTroops("BOT", "Piaui", R - Troops);
-        Territory =:= 8 -> getPlayerTotalStateTroops("BOT", "RioGrandeDoNorte", R), updateStateTroops("BOT", "RioGrandeDoNorte", R - Troops);
-        Territory =:= 9 -> getPlayerTotalStateTroops("BOT", "Sergipe", R), updateStateTroops("BOT", "Sergipe", R - Troops).
 
     % Metodo usado para pegar a quantidade de tropas de um estado manualmente
     botGetAllTerritories(Territory, Retorno) :-
@@ -68,10 +52,5 @@
     %Metodo usado para o BOT atacar
     botAttack(Troops, Territory) :-
         write("TODO").
-    
-    % Metodo para mover tropas de um territorio para outro territorio de um BOT
-    botReallocateTrooops(Quantity, TerritoryToLoose, TerritoryToWin) :-
-        write("TODO").
-    
     
     
