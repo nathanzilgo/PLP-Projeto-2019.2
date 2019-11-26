@@ -1,7 +1,8 @@
 :- module(gameOperations, [
         allocateTroops/3,
         playerAttack/2,
-        botAttack/3
+        botAttack/3,
+        winCheck/1
         ]).
 
 :- use_module('player.pl').
@@ -45,3 +46,45 @@ botLooseTerritory(DefendingTerritory) :-
     getPlayerTotalStateTroops("BOT", DefendingTerritory, R),
     R =:= 0,
     playerAllocateTerritory(DefendingTerritory).
+
+winCheck("BOT") :-
+    getPlayerTotalStateTroops("BOT", "Alagoas", R1),
+    R1 >= 1,
+    getPlayerTotalStateTroops("BOT","Bahia", R2),
+    R2 >= 1,
+    getPlayerTotalStateTroops("BOT", "Ceara", R3),
+    R3 >= 1,
+    getPlayerTotalStateTroops("BOT", "Maranhao", R4),
+    R4 >= 1,
+    getPlayerTotalStateTroops("BOT", "Paraiba", R5),
+    R5 >= 1,
+    getPlayerTotalStateTroops("BOT", "Pernambuco", R6),
+    R6 >= 1,
+    getPlayerTotalStateTroops("BOT", "Piaui", R7),
+    R7 >= 1,
+    getPlayerTotalStateTroops("BOT", "RioGrandeDoNorte", R8),
+    R8 >= 1,
+    getPlayerTotalStateTroops("BOT", "Sergipe", R9),
+    R9 >= 1.
+
+
+winCheck("PLAYER") :-
+    getPlayerTotalStateTroops("PLAYER", "Alagoas", R1),
+    R1 >= 1,
+    getPlayerTotalStateTroops("PLAYER","Bahia", R2),
+    R2 >= 1,
+    getPlayerTotalStateTroops("PLAYER", "Ceara", R3),
+    R3 >= 1,
+    getPlayerTotalStateTroops("PLAYER", "Maranhao", R4),
+    R4 >= 1,
+    getPlayerTotalStateTroops("PLAYER", "Paraiba", R5),
+    R5 >= 1,
+    getPlayerTotalStateTroops("PLAYER", "Pernambuco", R6),
+    R6 >= 1,
+    getPlayerTotalStateTroops("PLAYER", "Piaui", R7),
+    R7 >= 1,
+    getPlayerTotalStateTroops("PLAYER", "RioGrandeDoNorte", R8),
+    R8 >= 1,
+    getPlayerTotalStateTroops("PLAYER", "Sergipe", R9),
+    R9 >= 1.
+
