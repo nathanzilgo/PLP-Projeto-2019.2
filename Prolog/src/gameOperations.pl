@@ -24,6 +24,14 @@ allocateTroops(Id, Troops, State) :-
     NewTroops is R2 + Troops,
     updateStateTroops(Id, State, NewTroops).
 
+% Metodo usado para alocar as tropas do bot em um estado aleatoriamente
+botAllocateTroopsRandom :-
+    dadoRandom(X), 
+    getPlayerTotalTroops("BOT", Troops),
+    Troops > 0 ->
+    botAllocateTroopsRandomSupport(X, Troops);
+    halt(0).
+
 % Metodo usado para o ataque do player.
 playerAttack(AttackingTerritory, DefendingTerritory) :-
     frontier(AttackingTerritory, DefendingTerritory),
@@ -40,6 +48,17 @@ playerAttack(AttackingTerritory, DefendingTerritory) :-
     NewBotTroops is R5 - 1,
     updateStateTroops("BOT", DefendingTerritory, NewBotTroops),
     botLooseTerritory(DefendingTerritory).
+
+% Metodo usado para o ataque do bot
+botAttack :- 
+    checkAttack(AttackTerritory, DefenseTerritory),
+    getPlayerTotalStateTroops("BOT", AttackTerritory, AttackTerritoryTroops),
+    getPlayerTotalStateTroops("PLAYER", DefenseTerritory, DefenseTerritoryTroops),
+    dadoAttack(R1),
+    dadoAttack(R2),
+    AttackTerritoryTroops > 1 -> checkDices(R1, R2, AttackTerritory, AttackTerritoryTroops, DefenseTerritory, DefenseTerritoryTroops);
+    halt(0).
+
 
 % Metodo usado caso o bot tenha perdido o territorio por completo.
 botLooseTerritory(DefendingTerritory) :-
