@@ -68,30 +68,29 @@ playerAttackView(Atacante, Defensor):-
 
 printStatus:-
     nl,
-    write(' Você: '),nl,
-    write('Quantidade de tropas disponivel'), getPlayerTotalTroops("PLAYER",Troops),nl,
-    write('Alagoas: '), getPlayerStateTroops("PLAYER", "Alagoas", R), nl, 
-    write('Bahia: ' ), getPlayerStateTroops("PLAYER", "Bahia", R), nl,
-    write('Ceara: ' ), getPlayerStateTroops("PLAYER", "Ceara", R), nl,
-    write('Maranhao :'), getPlayerStateTroops("PLAYER", "Maranhao", R), nl,
-    write('Paraiba :'), getPlayerStateTroops("PLAYER", "Paraiba", R),nl,
-    write('Pernambuco :'), getPlayerStateTroops("PLAYER", "Pernambuco", R), nl,
-    write('Piaui :'), getPlayerStateTroops("PLAYER", "Piaui", R), nl,
-    write('Rio Grande do Norte: '), getPlayerStateTroops("PLAYER", "RioGrandeDoNorte", R),nl,
-    write('Sergipe: '), getPlayerStateTroops("PLAYER","Sergipe", R), nl,nl,nl,
-    write('******************** Bot: *****************'),nl,
-    
     write('******************** Você: *****************'),nl,
-    write('Quantidade de tropas disponivel: '), getPlayerTotalTroops("BOT",Troops),nl,
-    write('Alagoas: '), getPlayerStateTroops("BOT", "Alagoas", R), nl, 
-    write('Bahia: ' ), getPlayerStateTroops("BOT", "Bahia", R), nl,
-    write('Ceara: ' ), getPlayerStateTroops("BOT", "Ceara", R), nl,
-    write('Maranhao :'), getPlayerStateTroops("BOT", "Maranhao", R), nl,
-    write('Paraiba :'), getPlayerStateTroops("BOT", "Paraiba", R),nl,
-    write('Pernambuco :'), getPlayerStateTroops("BOT", "Pernambuco", R), nl,
-    write('Piaui :'), getPlayerStateTroops("BOT", "Piaui", R), nl,
-    write('Rio Grande do Norte: '), getPlayerStateTroops("BOT", "RioGrandeDoNorte", R),nl,
-    write('Sergipe: '), getPlayerStateTroops("BOT","Sergipe", R), nl,nl,nl.
+    write('Quantidade de tropas disponivel: '), getPlayerTotalTroops("PLAYER",Troops),write(Troops),nl,
+    write('Alagoas: '), getPlayerTotalStateTroops("PLAYER", "Alagoas", R),write(R), nl, 
+    write('Bahia: ' ), getPlayerTotalStateTroops("PLAYER", "Bahia", R2),write(R2), nl,
+    write('Ceara: ' ), getPlayerTotalStateTroops("PLAYER", "Ceara", R3),write(R3), nl,
+    write('Maranhao :'), getPlayerTotalStateTroops("PLAYER", "Maranhao", R4),write(R4), nl,
+    write('Paraiba :'), getPlayerTotalStateTroops("PLAYER", "Paraiba", R5),write(R5),nl,
+    write('Pernambuco :'), getPlayerTotalStateTroops("PLAYER", "Pernambuco", R6),write(R6), nl,
+    write('Piaui :'), getPlayerTotalStateTroops("PLAYER", "Piaui", R7),write(R7), nl,
+    write('Rio Grande do Norte: '), getPlayerTotalStateTroops("PLAYER", "RioGrandeDoNorte", R8),write(R8),nl,
+    write('Sergipe: '), getPlayerTotalStateTroops("PLAYER","Sergipe", R9),write(R9), nl,nl,nl,
+
+    write('******************** Bot: *****************'),nl,
+    write('Quantidade de tropas disponivel: '), getPlayerTotalTroops("BOT",Troops2), write(Troops2), nl,
+    write('Alagoas: '), getPlayerTotalStateTroops("BOT", "Alagoas", R10),write(R10), nl, 
+    write('Bahia: ' ), getPlayerTotalStateTroops("BOT", "Bahia", R11),write(R11), nl,
+    write('Ceara: ' ), getPlayerTotalStateTroops("BOT", "Ceara", R12), write(R12), nl,
+    write('Maranhao :'), getPlayerTotalStateTroops("BOT", "Maranhao", R13), write(R13), nl,
+    write('Paraiba :'), getPlayerTotalStateTroops("BOT", "Paraiba", R14), write(R14), nl,
+    write('Pernambuco :'), getPlayerTotalStateTroops("BOT", "Pernambuco", R15), write(R15), nl,
+    write('Piaui :'), getPlayerTotalStateTroops("BOT", "Piaui", R16), write(R16), nl,
+    write('Rio Grande do Norte: '), getPlayerTotalStateTroops("BOT", "RioGrandeDoNorte", R17), write(R17), nl,
+    write('Sergipe: '), getPlayerTotalStateTroops("BOT","Sergipe", R18), write(R18), nl,nl,nl.
 
 optChosse(1) :- allocateTroopsView("PLAYER",_,_).
 optChosse(2) :- reallocateTroopsView("PLAYER",_,_).
