@@ -43,11 +43,22 @@ dadoAttack(R3),
 dadoAttack(R4),
 AttackingDado is R3,
 DefendingDado is R4,
-AttackingDado > DefendingDado,
+AttackingDado > DefendingDado ->  playerAttackBotLosesAttack(DefendingTerritory, AttackingTerritory);
+playerAttackPlayerLosesAttack(AttackingTerritory).
+
+playerAttackPlayerLosesAttack(AttackingTerritory):-
+    getPlayerTotalStateTroops("PLAYER", AttackingTerritory, R),
+    R > 1,
+    NewPlayerTroops is R - 1,
+    updateStateTroops("PLAYER", AttackingTerritory, NewPlayerTroops).
+
+
+
+playerAttackBotLosesAttack(DefendingTerritory, AttackingTerritory) :-
 getPlayerTotalStateTroops("BOT", DefendingTerritory, R5),
 NewBotTroops is R5 - 1,
 updateStateTroops("BOT", DefendingTerritory, NewBotTroops),
-botLooseTerritory(DefendingTerritory).
+botLooseTerritory(DefendingTerritory, AttackingTerritory).
 
 % Metodo usado para o ataque do bot
 botAttack :- 
@@ -61,9 +72,13 @@ halt(0).
 
 
 % Metodo usado caso o bot tenha perdido o territorio por completo.
-botLooseTerritory(DefendingTerritory) :-
+% Metodo usado caso o bot tenha perdido o territorio por completo.
+botLooseTerritory(DefendingTerritory, AttackingTerritory) :-
 getPlayerTotalStateTroops("BOT", DefendingTerritory, R),
 R =:= 0,
+getPlayerTotalStateTroops("PLAYER", AttackingTerritory, R2),
+NewPlayerAttackTerritoryTroops is R2 - 1,
+updateStateTroops("PLAYER", AttackingTerritory, NewPlayerAttackTerritoryTroops),
 playerAllocateTerritory(DefendingTerritory).
 
 winCheck("BOT") :-
