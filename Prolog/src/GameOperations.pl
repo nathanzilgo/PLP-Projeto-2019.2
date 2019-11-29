@@ -62,16 +62,6 @@ NewBotTroops is R5 - 1,
 updateStateTroops("BOT", DefendingTerritory, NewBotTroops),
 botLooseTerritory(DefendingTerritory, AttackingTerritory).
 
-% Metodo usado para o ataque do bot
-botAttack :- 
-checkAttack(AttackTerritory, DefenseTerritory),
-getPlayerTotalStateTroops("BOT", AttackTerritory, AttackTerritoryTroops),
-getPlayerTotalStateTroops("PLAYER", DefenseTerritory, DefenseTerritoryTroops),
-dadoAttack(R1),
-dadoAttack(R2),
-AttackTerritoryTroops > 1 -> checkDices(R1, R2, AttackTerritory, AttackTerritoryTroops, DefenseTerritory, DefenseTerritoryTroops);
-halt(0).
-
 
 % Metodo usado caso o bot tenha perdido o territorio por completo.
 % Metodo usado caso o bot tenha perdido o territorio por completo.
@@ -127,6 +117,6 @@ R9 >= 1.
 % Metodo usado para alocar as tropas em um estado aleatoriamente (funcao de suporte)
 botAllocateTroopsRandomSupport(Territory, TotalTroops) :-
     botGetTerritoriesTroops(Territory, TroopsTerritory), 
-    TroopsTerritory > 0, TotalTroops > 0 -> botAddTroops(Territory, TotalTroops), getPlayerTotalTroops("BOT", R), updateTotalTroops("BOT",R - TotalTroops);
+    TroopsTerritory > 0, TotalTroops > 0 -> botAddTroops(Territory, TotalTroops), updateTotalTroops("BOT",-TotalTroops);
     TotalTroops > 0 -> botAllocateTroopsRandom;
     halt(0).

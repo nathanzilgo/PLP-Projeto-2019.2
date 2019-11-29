@@ -127,7 +127,7 @@ runtime(0) :-
 % runtime do bot(1)
 runtime(1) :-
     botAllocateTroopsRandom,
-    botAttack,
+    checkAttack,
     runtime(0).
 
 runtime(2):-
