@@ -1,4 +1,5 @@
-/*
+
+
 :- module(
     player, 
     [player/11, 
@@ -8,7 +9,7 @@
     getPlayerTotalStateTroops/3,
     configPlayers/0
 ]).
-*/
+
 
 
 % Estrutura de um player no jogo.
