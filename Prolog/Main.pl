@@ -10,7 +10,7 @@
 
 :- include('./src/Util.pl').
 
-:-initialization showTitle,configPlayers, main, halt.
+:-initialization main.
 
 
 %Exibe o titulo do jogo (title.txt)
@@ -21,7 +21,7 @@ showTitle :-
     nl,
     close(Str),
     nl,
-    showOnScreen(String).
+    showOnScreen(String),nl,nl.
 
 %Exibe as opções de jogada
 showOptions :-
@@ -50,7 +50,7 @@ getInput(Inp) :-
 allocateTroopsView:- 
     write('Insira a quantidade de tropas: '),read(Troops),
     write('Insira o nome do estado:'),read(State),
-    allocateTroops(Id, Troops, State),
+    allocateTroops(Troops, State),
     runtime(0).
 
 reallocateTroopsView:-
@@ -121,6 +121,7 @@ winBot :-
     write('Voce perdeu! o BOT venceu'), finish.
 
 main :- 
+    showTitle, configPlayers, 
     runtime(0).
 
 % 0 é o player humano

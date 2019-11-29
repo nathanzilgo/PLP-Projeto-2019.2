@@ -12,8 +12,8 @@
 % Estrutura de um player no jogo.
 %(Nome, quantidade de tropas para alocar, alagoas, bahia, ceara, maranhao, paraiba, pernambuco, piaui, riogradedonorte, sergipe)
 :- dynamic(player/11).
-    player("PLAYER", 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0).
-    player("BOT", 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0).
+player("PLAYER", 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0).
+player("BOT", 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0).
 
 
 updateStateTroops(Id, Territory, Troops) :-
