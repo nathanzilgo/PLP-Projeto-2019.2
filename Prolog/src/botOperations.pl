@@ -1,5 +1,6 @@
 :- module(botOperations, [
-        botAllocateTroopsRandomSupport/2,
+        botGetTerritoriesTroops/2,
+        botAddTroops/2,
         dadoRandom/1,
         checkAttack/2,
         checkDices/6
@@ -46,13 +47,6 @@
         Territory =:= 7 -> Retorno = "Piaui";
         Territory =:= 8 -> Retorno = "RioGrandeDoNorte";
         Territory =:= 9 -> Retorno = "Sergipe".
-
-    % Metodo usado para alocar as tropas em um estado aleatoriamente (funcao de suporte)
-    botAllocateTroopsRandomSupport(Territory, TotalTroops) :-
-        botGetTerritoriesTroops(Territory, TroopsTerritory), 
-        TroopsTerritory > 0, TotalTroops > 0 -> botAddTroops(Territory, TotalTroops), getPlayerTotalTroops("BOT", R), updateTotalTroops("BOT",R - TotalTroops);
-        TotalTroops > 0 -> botAllocateTroopsRandom;
-        halt(0).
 
     % Metodo para escolher um estado atacante (do bot) randomicamente
     chooseAttackTerritory(AttackTerritory) :-
