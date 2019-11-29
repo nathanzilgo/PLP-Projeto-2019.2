@@ -1,4 +1,3 @@
-
 :- module(playerOperations, [
     playerAllocateTerritory/1,
     playerReallocateTroops/3
