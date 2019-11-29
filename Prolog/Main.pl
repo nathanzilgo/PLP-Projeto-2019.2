@@ -62,16 +62,35 @@ playerAttackView(Atacante, Defensor):-
     playerAttack(Atacante, Defensor),
     main(0).    % volta pra main do user para que ele jogue novamente
 
-printStatus :- 
+printStatus:-
+    nl,
+    write(' Você: '),nl,
+    write('Quantidade de tropas disponivel'), getPlayerTotalTroops("PLAYER",Troops),nl,
+    write('Alagoas: '), getPlayerStateTroops("PLAYER", "Alagoas", R), nl, 
+    write('Bahia: ' ), getPlayerStateTroops("PLAYER", "Bahia", R), nl,
+    write('Ceara: ' ), getPlayerStateTroops("PLAYER", "Ceara", R), nl,
+    write('Maranhao :'), getPlayerStateTroops("PLAYER", "Maranhao", R), nl,
+    write('Paraiba :'), getPlayerStateTroops("PLAYER", "Paraiba", R),nl,
+    write('Pernambuco :'), getPlayerStateTroops("PLAYER", "Pernambuco", R), nl,
+    write('Piaui :'), getPlayerStateTroops("PLAYER", "Piaui", R), nl,
+    write('Rio Grande do Norte: '), getPlayerStateTroops("PLAYER", "RioGrandeDoNorte", R),nl,
+    write('Sergipe: '), getPlayerStateTroops("PLAYER","Sergipe", R), nl,nl,nl,
+    write('******************** Bot: *****************'),nl,
+    
     write('******************** Você: *****************'),nl,
-    write('Quantidade de tropas disponivel: '), getPlayerTotalTroops(Id,Troops),nl,
-    write('Alagoas: '), getPlayerStateTroops(Id, "Alagoas", R), nl, 
-    write('Bahia: ' ), getPlayerStateTroops(Id, "Bahia", R), nl,
-    write('Ceara: ' ), getPlayerStateTroops(Id, "Ceara", R), nl.
-    % TODO trabalho braçal de escrever tudo.
+    write('Quantidade de tropas disponivel: '), getPlayerTotalTroops("BOT",Troops),nl,
+    write('Alagoas: '), getPlayerStateTroops("BOT", "Alagoas", R), nl, 
+    write('Bahia: ' ), getPlayerStateTroops("BOT", "Bahia", R), nl,
+    write('Ceara: ' ), getPlayerStateTroops("BOT", "Ceara", R), nl,
+    write('Maranhao :'), getPlayerStateTroops("BOT", "Maranhao", R), nl,
+    write('Paraiba :'), getPlayerStateTroops("BOT", "Paraiba", R),nl,
+    write('Pernambuco :'), getPlayerStateTroops("BOT", "Pernambuco", R), nl,
+    write('Piaui :'), getPlayerStateTroops("BOT", "Piaui", R), nl,
+    write('Rio Grande do Norte: '), getPlayerStateTroops("BOT", "RioGrandeDoNorte", R),nl,
+    write('Sergipe: '), getPlayerStateTroops("BOT","Sergipe", R), nl,nl,nl.
 
-optChosse(1) :- allocateTroopsView(_,_,_).
-optChosse(2) :- reallocateTroopsView(_,_,_).
+optChosse(1) :- allocateTroopsView("PLAYER",_,_).
+optChosse(2) :- reallocateTroopsView("PLAYER",_,_).
 optChoose(3) :- playerAttackView(_,_).
 optChoose(4) :- main(1). % passa a vez pro bot.
 optChoose(5) :- printStatus, main(1).
