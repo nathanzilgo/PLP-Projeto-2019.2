@@ -1,7 +1,18 @@
 :- initialization main, halt.
+
+:- module(main, [
+    showTitle,
+    showOptions,
+    showOnScreen/1,
+    getInput/2,
+    allocateTroopsView/3,
+    optChosse/2
+]).
+
 :- include('./src/player.pl').
 :- include('./src/playerOperations.pl').
 :- include('./src/botOperations.pl').
+:- include('./src/gameOperations.pl').
 
 inputOpt(1) :- playerAllocateTerritory("todo").
 inputOpt(2) :- playerReallocateTrooops(0, 0, 0). %TODO
@@ -9,7 +20,7 @@ inputOpt(3) :- playerAttack(0, 0). %TODO
 inputOpt(4) :- playRound(2). %TODO
 
 %Exibe o titulo do jogo (title.txt)
-showTitle() :-
+showTitle :-
     open('title.txt', read, Str),
     read_file(Str,String),
     close(Str),
@@ -24,6 +35,7 @@ showOptions :-
     write('3) Atacar'),nl,
     write('4) Encerrar jogada'),nl.
 
+
 % Exibir txt na tela
 showOnScreen([H|T]):- 
     write(H),nl, 
@@ -33,8 +45,12 @@ getInput(Inp, Retorno) :-
     read(Inp),
     Retorno is Inp.
 
-allocateTroopsView(Id, Troops, State) :-
-    
+allocateTroopsView(Id, Troops, State):- 
+    write('Insira a quantidade de tropas: '),read(Troops),
+    write('Insira o nome do estado:'),read(State),
+    allocateTroops(Id, Troops, State).
+
+
 optChosse(1, Call) :- Call is allocateTroops(Id, Territory).
 optChosse(2, Call) :- Call is playerAllocateTerritory(Territory).
 
