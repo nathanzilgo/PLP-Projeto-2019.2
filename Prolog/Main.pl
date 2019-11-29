@@ -1,26 +1,23 @@
 
 % inicializa o jogo com titulo, runtime(0) e se sair da runtime, halt encerra o programa.
-/*
-:- module(runtime, [
-    showTitle,
-    showOptions,
-    showOnScreen/1,
-    getInput/2,
-    allocateTroopsView/3,
-    optChosse/2
-]).
-*/
-:- include('./src/Player.pl').
-:- include('./src/PlayerOperations.pl').
-:- include('./src/BotOperations.pl').
-:- include('./src/GameOperations.pl').
+
+:-use_module('./src/Player.pl').
+:-use_module('./src/Fronteiras.pl').
+:-use_module('./src/BotOperations.pl').
+:-use_module('./src/GameOperations.pl').
+:-use_module('./src/PlayerOperations.pl').
+
 :- include('./src/Util.pl').
 
-:- initialization configPlayers, showTitle, runtime(0), halt.
+:-initialization showTitle,configPlayers, main, halt.
+
+
 %Exibe o titulo do jogo (title.txt)
 showTitle :-
     open('title.txt', read, Str),
     read_file(Str,String),
+    write('teste'),
+    nl,nl,nl,
     close(Str),
     nl,nl,
     showOnScreen(String).
@@ -39,6 +36,9 @@ showOptions :-
 showOnScreen([H|T]):- 
     write(H),nl, 
     showOnScreen(T).
+
+showOnScreen([H|[]]):-
+    write(H),nl.
 
 getInput(Inp, Retorno) :-
     read(Inp),
@@ -114,7 +114,9 @@ runtime(0) :-
 
 % runtime do bot(1)
 runtime(1) :- 
-    showBotOptions,
     botOpt(random(1,3)), % Escolhe o que fazer aleatoriamente
     runtime(0),
     halt.
+
+main :- 
+    runtime(0).
