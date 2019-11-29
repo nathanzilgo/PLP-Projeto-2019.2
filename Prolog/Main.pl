@@ -1,7 +1,7 @@
-:- initialization showTitle, main(0), halt.
-% inicializa o jogo com titulo, main(0) e se sair da main, halt encerra o programa.
+
+% inicializa o jogo com titulo, runtime(0) e se sair da runtime, halt encerra o programa.
 /*
-:- module(main, [
+:- module(runtime, [
     showTitle,
     showOptions,
     showOnScreen/1,
@@ -16,6 +16,7 @@
 :- include('./src/GameOperations.pl').
 :- include('./src/Util.pl').
 
+:- initialization configPlayers, showTitle, runtime(0), halt.
 %Exibe o titulo do jogo (title.txt)
 showTitle :-
     open('title.txt', read, Str),
@@ -47,20 +48,20 @@ allocateTroopsView(Id, Troops, State):-
     write('Insira a quantidade de tropas: '),read(Troops),
     write('Insira o nome do estado:'),read(State),
     allocateTroops(Id, Troops, State),
-    main(0).
+    runtime(0).
 
 reallocateTroopsView(Quantity, TerritoryToLoose, TerritoryToWin):-
     write('Insira a quantidade de tropas para realocar'), read(Quantity),
     write('De onde deseja tirar?'), read(TerritoryToLoose),
     write('Aonde deseja colocar?'), read(TerritoryToWin),
     playerReallocateTroops(Quantity, TerritoryToLoose, TerritoryToWin),
-    main(0).
+    runtime(0).
 
 playerAttackView(Atacante, Defensor):-
     write('De que estado deseja atacar?'), read(Atacante),
     write('Qual estado deseja atacar?'), read(Defensor),
     playerAttack(Atacante, Defensor),
-    main(0).    % volta pra main do user para que ele jogue novamente
+    runtime(0).    % volta pra runtime do user para que ele jogue novamente
 
 printStatus:-
     nl,
@@ -92,28 +93,28 @@ printStatus:-
 optChosse(1) :- allocateTroopsView("PLAYER",_,_).
 optChosse(2) :- reallocateTroopsView("PLAYER",_,_).
 optChoose(3) :- playerAttackView(_,_).
-optChoose(4) :- main(1). % passa a vez pro bot.
-optChoose(5) :- printStatus, main(1).
+optChoose(4) :- runtime(1). % passa a vez pro bot.
+optChoose(5) :- printStatus, runtime(1).
 
-botOpt(1) :- botAllocateTroopsRandom, main(1).
-botOpt(2) :- botAttack("TODO", "TODO"), main(1). % TODO: Método incompleto em BotOperations
-botOpt(3) :- main(0). % Encerra main do bot e volta pra main do player
+botOpt(1) :- botAllocateTroopsRandom, runtime(1).
+botOpt(2) :- botAttack("TODO", "TODO"), runtime(1). % TODO: Método incompleto em BotOperations
+botOpt(3) :- runtime(0). % Encerra runtime do bot e volta pra runtime do player
 
 % Define quem irá jogar em seguida.
-nextRound('bot'):- main('player').
-nextRound('player'):- main('bot').
+nextRound('bot'):- runtime('player').
+nextRound('player'):- runtime('bot').
 
 % 0 é o player humano
-main(0) :- 
+runtime(0) :- 
     showTitle(),
     showOptions,
     optChoose(getInput(_,_)),
-    main(1),
+    runtime(1),
     halt.
 
-% main do bot(1)
-main(1) :- 
+% runtime do bot(1)
+runtime(1) :- 
     showBotOptions,
     botOpt(random(1,3)), % Escolhe o que fazer aleatoriamente
-    main(0),
+    runtime(0),
     halt.
