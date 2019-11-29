@@ -87,14 +87,14 @@
     % Metodo que checa o valor dos dados e faz as operaçoes necessaria caso o ataque ganhe ou a defesa ganhe
     checkDices(R1, R2, AttackTerritory, AttackTerritoryTroops, DefenseTerritory, DefenseTerritoryTroops) :-
         R1 > R2 -> updateStateTroops("PLAYER", DefenseTerritory, DefenseTerritoryTroops - 1), 
-        moveTroops(AttackTerritory, AttackTerritoryTroops, DefenseTerritory, DefenseTerritoryTroops - 1, TroopsToMove);
+        moveTroops(AttackTerritory, AttackTerritoryTroops, DefenseTerritory, DefenseTerritoryTroops - 1);
         updateStateTroops("BOT", AttackTerritory, AttackTerritoryTroops - 1).
 
     % Metodo que move as tropas caso o ataque tenha ganhado o territorio da defesa
-    moveTroops(AttackTerritory, AttackTerritoryTroops, DefenseTerritory, DefenseTerritoryTroops, TroopsToMove) :-
-        DefenseTerritoryTroops =:= 0 -> TroopsToMove is AttackTerritoryTroops // 2,
-        updateStateTroops("PLAYER", DefenseTerritory, TroopsToMove),
-        updateStateTroops("BOT", AttackTerritory, AttackTerritoryTroops - TroopsToMove);
+    moveTroops(AttackTerritory, AttackTerritoryTroops, DefenseTerritory, DefenseTerritoryTroops) :-
+        DefenseTerritoryTroops =:= 0 -> 
+        updateStateTroops("PLAYER", DefenseTerritory, AttackTerritoryTroops // 2),
+        updateStateTroops("BOT", AttackTerritory, AttackTerritoryTroops - (AttackTerritoryTroops // 2));
         halt(0).
 
     
