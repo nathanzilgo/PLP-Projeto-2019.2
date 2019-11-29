@@ -1,11 +1,15 @@
+
+
 :- module(botOperations, [
         botAttack/2,
         botAddTroops/2,
         botGetAllTerritories/2,
         botAllocateTroopsRandom/0
         ]).
-    
+    /*
     :- use_module('Player.pl').
+    */
+    :- include('Player.pl').
 
     %Dado a ser usado nas funcoes necessarias
     dado(X) :- random(1,10,X).

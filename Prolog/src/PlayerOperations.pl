@@ -1,9 +1,10 @@
 
+/*
 :- module(playerOperations, [
     playerAllocateTerritory/1,
     playerReallocateTroops/3
     ]).
-
+*/
 :- use_module('Player.pl').
 :- use_module('Fronteiras.pl').
 

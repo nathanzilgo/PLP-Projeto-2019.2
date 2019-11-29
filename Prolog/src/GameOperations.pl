@@ -1,13 +1,20 @@
-:- module(gameOperations, [
+/*:- module(gameOperations, [
         allocateTroops/3,
         playerAttack/2,
         botAttack/3
         ]).
+*/
 
+/*
 :- use_module('Player.pl').
 :- use_module('PlayerOperations.pl').
 :- use_module('BotOperations.pl').
 :- use_module('Fronteiras.pl').
+*/
+:- include('Player.pl').
+:- include('PlayerOperations.pl').
+:- include('BotOperations.pl').
+:- include('Fronteiras.pl').
 
 %Dado a ser usado nas funcoes necessarias
  dadoAttack(R) :- random(1,6,R).
