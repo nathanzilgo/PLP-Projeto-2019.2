@@ -16,11 +16,6 @@
 :- include('./src/GameOperations.pl').
 :- include('./src/Util.pl').
 
-inputOpt(1) :- playerAllocateTerritory("todo").
-inputOpt(2) :- playerReallocateTrooops(0, 0, 0). %TODO
-inputOpt(3) :- playerAttack(0, 0). %TODO
-inputOpt(4) :- playRound(2). %TODO
-
 %Exibe o titulo do jogo (title.txt)
 showTitle :-
     open('title.txt', read, Str),
@@ -53,7 +48,7 @@ allocateTroopsView(Id, Troops, State):-
     allocateTroops(Id, Troops, State).
 
 
-optChosse(1, Call) :- Call is allocateTroops(Id, Territory).
+optChosse(1, Call) :- Call is allocateTroopsView(_,_,_).
 optChosse(2, Call) :- Call is playerAllocateTerritory(Territory).
 
 main :- 

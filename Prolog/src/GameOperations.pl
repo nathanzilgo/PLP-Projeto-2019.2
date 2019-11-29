@@ -4,10 +4,10 @@
         botAttack/3
         ]).
 
-:- use_module('player.pl').
-:- use_module('playerOperations.pl').
-:- use_module('botOperations.pl').
-:- use_module('fronteiras.pl').
+:- use_module('Player.pl').
+:- use_module('PlayerOperations.pl').
+:- use_module('BotOperations.pl').
+:- use_module('Fronteiras.pl').
 
 %Dado a ser usado nas funcoes necessarias
  dadoAttack(R) :- random(1,6,R).

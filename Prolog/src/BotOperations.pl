@@ -5,7 +5,7 @@
         botAllocateTroopsRandom/0
         ]).
     
-    :- use_module('player.pl').
+    :- use_module('Player.pl').
 
     %Dado a ser usado nas funcoes necessarias
     dado(X) :- random(1,10,X).
