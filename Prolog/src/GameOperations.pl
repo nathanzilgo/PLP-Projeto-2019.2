@@ -1,7 +1,7 @@
 :- module(gameOperations, [
     allocateTroops/3,
     playerAttack/2,
-    botAttack/3,
+    botAttack/0,
     winCheck/1
     ]).
 
