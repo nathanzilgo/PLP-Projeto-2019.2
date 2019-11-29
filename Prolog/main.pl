@@ -29,14 +29,18 @@ showOnScreen([H|T]):-
     write(H),nl, 
     showOnScreen(T).
 
-playRound(Player) :-
-    showOptions,
-    inputOpt(getInput(_)).
+getInput(Inp, Retorno) :-
+    read(Inp),
+    Retorno is Inp.
 
-getInput(Inp) :-
-    read(Inp).
+allocateTroopsView(Id, Troops, State) :-
+    
+optChosse(1, Call) :- Call is allocateTroops(Id, Territory).
+optChosse(2, Call) :- Call is playerAllocateTerritory(Territory).
 
 main :- 
-    showTitle().
+    showTitle(),
+    showOptions,
+    getInput(Inp, Retorno)
 
 
