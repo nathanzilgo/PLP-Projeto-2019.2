@@ -1,5 +1,3 @@
-
-
 :- module(frontier, [
         frontier/2
         ]).

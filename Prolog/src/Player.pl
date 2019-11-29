@@ -9,7 +9,6 @@
 ]).
 
 
-
 % Estrutura de um player no jogo.
 %(Nome, quantidade de tropas para alocar, alagoas, bahia, ceara, maranhao, paraiba, pernambuco, piaui, riogradedonorte, sergipe)
 :- dynamic(player/11).
