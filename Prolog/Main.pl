@@ -33,7 +33,7 @@ showOptions :-
     write('5) Printar status do jogo'), nl,
     write('6) Encerrar jogo'), nl,
     read(Inp),
-    optChosse(Inp).
+    optChoose(Inp).
 
 % Exibir txt na tela
 showOnScreen([H|T]):- 
@@ -53,10 +53,10 @@ allocateTroopsView(Id, Troops, State):-
     allocateTroops(Id, Troops, State),
     runtime(0).
 
-reallocateTroopsView(Quantity, TerritoryToLoose, TerritoryToWin):-
-    write('Insira a quantidade de tropas para realocar'), read(Quantity),
-    write('De onde deseja tirar?'), read(TerritoryToLoose),
-    write('Aonde deseja colocar?'), read(TerritoryToWin),
+reallocateTroopsView:-
+    write('Insira a quantidade de tropas para realocar'), read(Quantity), nl,
+    write('De onde deseja tirar?'), read(TerritoryToLoose), nl, 
+    write('Aonde deseja colocar?'), read(TerritoryToWin), nl,
     playerReallocateTroops(Quantity, TerritoryToLoose, TerritoryToWin),
     runtime(0).
 
@@ -92,15 +92,15 @@ printStatus:-
     write('Rio Grande do Norte: '), getPlayerTotalStateTroops("BOT", "RioGrandeDoNorte", R17), write(R17), nl,
     write('Sergipe: '), getPlayerTotalStateTroops("BOT","Sergipe", R18), write(R18), nl,nl,nl.
 
-optChosse(1) :- allocateTroopsView("PLAYER",_,_).
-optChosse(2) :- reallocateTroopsView("PLAYER",_,_).
+optChoose(1) :- allocateTroopsView("PLAYER",_,_).
+optChoose(2) :- reallocateTroopsView.
 optChoose(3) :- playerAttackView(_,_).
-optChoose(4) :- write('Jogada do bot'), nl, tty_clear, runtime(1). % passa a vez pro bot.
-optChoose(5) :- printStatus, write('Digite qualquer coisa para continuar'), sleep(10000), tty_clear, showOptions.
+optChoose(4) :- write('Jogada do bot'), nl, runtime(1). % passa a vez pro bot.
+optChoose(5) :- printStatus, write('Digite qualquer coisa para continuar'), showOptions.
 optChoose(6) :- nl, write('Encerrando jogo!!!') , nl, finish.
 
-optChosse(Num) :- ((Num > 6) -> write('Erro de opcao! De enter em qualquer input'), sleep(10000), tty_clear, showOptions ; optChosse(Num)).
-optChosse(OtherNum) :- ((OtherNum < 1) -> write('Erro de opcao! De enter em qualquer input'), sleep(1000), tty_clear, showOptions ; optChosse(Num)).
+optChoose(Num) :- 
+    tty_clear, write('Erro de opcao! De enter em qualquer input').
 
 botOpt(1) :- botAllocateTroopsRandom, runtime(1).
 botOpt(2) :- botAttack("TODO", "TODO"), runtime(1). % TODO: Método incompleto em BotOperations
