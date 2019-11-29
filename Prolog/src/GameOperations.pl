@@ -2,7 +2,8 @@
     allocateTroops/3,
     playerAttack/2,
     botAttack/0,
-    winCheck/1
+    winCheck/1,
+    botAllocateTroopsRandom/0
     ]).
 
 :- use_module('Player.pl').
@@ -35,6 +36,7 @@ halt(0).
 % Metodo usado para o ataque do player.
 playerAttack(AttackingTerritory, DefendingTerritory) :-
 frontier(AttackingTerritory, DefendingTerritory),
+frontier(DefendingTerritory, AttackingTerritory),
 getPlayerTotalStateTroops("PLAYER", AttackingTerritory, R1),
 R1 > 1,
 getPlayerTotalStateTroops("BOT", DefendingTerritory, R2),
@@ -121,3 +123,10 @@ getPlayerTotalStateTroops("PLAYER", "RioGrandeDoNorte", R8),
 R8 >= 1,
 getPlayerTotalStateTroops("PLAYER", "Sergipe", R9),
 R9 >= 1.
+
+% Metodo usado para alocar as tropas em um estado aleatoriamente (funcao de suporte)
+botAllocateTroopsRandomSupport(Territory, TotalTroops) :-
+    botGetTerritoriesTroops(Territory, TroopsTerritory), 
+    TroopsTerritory > 0, TotalTroops > 0 -> botAddTroops(Territory, TotalTroops), getPlayerTotalTroops("BOT", R), updateTotalTroops("BOT",R - TotalTroops);
+    TotalTroops > 0 -> botAllocateTroopsRandom;
+    halt(0).

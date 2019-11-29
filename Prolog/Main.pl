@@ -47,10 +47,13 @@ getInput(Inp) :-
     read(Inp),
     Inp is Inp.
 
-allocateTroopsView(Id, Troops, State):- 
-    write('Insira a quantidade de tropas: '),read(Troops),
-    write('Insira o nome do estado:'),read(State),
-    allocateTroops(Id, Troops, State),
+allocateTroopsView:- 
+    write('Insira a quantidade de tropas: '),
+    read(Troops),
+    write('Insira o nome do estado:'),
+    read(State),
+    write(State),
+    allocateTroops("PLAYER", Troops, State),
     runtime(0).
 
 reallocateTroopsView:-
@@ -58,9 +61,11 @@ reallocateTroopsView:-
     write('De onde deseja tirar?'), read(TerritoryToLoose), nl, 
     write('Aonde deseja colocar?'), read(TerritoryToWin), nl,
     playerReallocateTroops(Quantity, TerritoryToLoose, TerritoryToWin),
+    runtime(0);
+    write("Não foi possivel fazer a realocação. Estados não fazem fronteira"),
     runtime(0).
 
-playerAttackView(Atacante, Defensor):-
+playerAttackView:-
     write('De que estado deseja atacar?'), read(Atacante),
     write('Qual estado deseja atacar?'), read(Defensor),
     playerAttack(Atacante, Defensor),
@@ -92,9 +97,9 @@ printStatus:-
     write('Rio Grande do Norte: '), getPlayerTotalStateTroops("BOT", "RioGrandeDoNorte", R17), write(R17), nl,
     write('Sergipe: '), getPlayerTotalStateTroops("BOT","Sergipe", R18), write(R18), nl,nl,nl.
 
-optChoose(1) :- allocateTroopsView("PLAYER",_,_).
+optChoose(1) :- allocateTroopsView.
 optChoose(2) :- reallocateTroopsView.
-optChoose(3) :- playerAttackView(_,_).
+optChoose(3) :- playerAttackView.
 optChoose(4) :- write('Jogada do bot'), nl, runtime(1). % passa a vez pro bot.
 optChoose(5) :- printStatus, write('Digite qualquer coisa para continuar'), showOptions.
 optChoose(6) :- nl, write('Encerrando jogo!!!') , nl, finish.
@@ -102,10 +107,6 @@ optChoose(6) :- nl, write('Encerrando jogo!!!') , nl, finish.
 optChoose(Num) :- 
     tty_clear, write('Erro de opcao! De enter em qualquer input').
 
-botOpt(1) :- botAllocateTroopsRandom, runtime(1).
-botOpt(2) :- botAttack("TODO", "TODO"), runtime(1). % TODO: Método incompleto em BotOperations
-botOpt(3) :- runtime(0). % Encerra runtime do bot e volta pra runtime do player
-botOpt(_) :- runtime(1).
 
 /*
 % Define quem irá jogar em seguida.
@@ -124,8 +125,9 @@ runtime(0) :-
     runtime(1).
 
 % runtime do bot(1)
-runtime(1) :- 
-    botOpt(random(1,3)), % Escolhe o que fazer aleatoriamente
+runtime(1) :-
+    botAllocateTroopsRandom,
+    botAttack,
     runtime(0).
 
 runtime(2):-
