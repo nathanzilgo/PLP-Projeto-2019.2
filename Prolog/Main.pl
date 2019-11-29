@@ -1,48 +1,50 @@
 
 % inicializa o jogo com titulo, runtime(0) e se sair da runtime, halt encerra o programa.
-/*
-:- module(runtime, [
-    showTitle,
-    showOptions,
-    showOnScreen/1,
-    getInput/2,
-    allocateTroopsView/3,
-    optChosse/2
-]).
-*/
-:- include('./src/Player.pl').
-:- include('./src/PlayerOperations.pl').
-:- include('./src/BotOperations.pl').
-:- include('./src/GameOperations.pl').
+
+:-use_module('./src/Player.pl').
+:-use_module('./src/Fronteiras.pl').
+:-use_module('./src/BotOperations.pl').
+:-use_module('./src/GameOperations.pl').
+:-use_module('./src/PlayerOperations.pl').
+
 :- include('./src/Util.pl').
 
-:- initialization configPlayers, showTitle, runtime(0), halt.
+:-initialization showTitle,configPlayers, main, halt.
+
+
 %Exibe o titulo do jogo (title.txt)
 showTitle :-
     open('title.txt', read, Str),
     read_file(Str,String),
+    /*write('teste'),*/
+    nl,
     close(Str),
-    nl,nl,
+    nl,
     showOnScreen(String).
 
 %Exibe as opções de jogada
-showOptions :-
-    nl,
+showOptions(Inp) :-
+    nl,nl,
     write('1) Alocar tropas'),nl,
     write('2) Realocar tropas existentes'),nl,
     write('3) Atacar'),nl,
     write('4) Encerrar jogada'),nl,
     write('5) Printar status do jogo'), nl,
-    write('6) Encerrar jogo'), nl.
+    write('6) Encerrar jogo'), nl,
+    read(Inp),
+    optChosse(Inp).
 
 % Exibir txt na tela
 showOnScreen([H|T]):- 
     write(H),nl, 
     showOnScreen(T).
 
-getInput(Inp, Retorno) :-
+showOnScreen([H|[]]):-
+    write(H),nl.
+
+getInput(Inp) :-
     read(Inp),
-    Retorno is Inp.
+    Inp is Inp.
 
 allocateTroopsView(Id, Troops, State):- 
     write('Insira a quantidade de tropas: '),read(Troops),
@@ -93,28 +95,36 @@ printStatus:-
 optChosse(1) :- allocateTroopsView("PLAYER",_,_).
 optChosse(2) :- reallocateTroopsView("PLAYER",_,_).
 optChoose(3) :- playerAttackView(_,_).
-optChoose(4) :- runtime(1). % passa a vez pro bot.
-optChoose(5) :- printStatus, runtime(1).
+optChoose(4) :- write('Jogada do bot'), nl, runtime(1). % passa a vez pro bot.
+optChoose(5) :- printStatus, runtime(0).
+optChoose(6) :- nl, write('Encerrando jogo!!!') ,nl,halt.
+optChosse(_) :- write('Erro de opcao!'),runtime(0).
+
 
 botOpt(1) :- botAllocateTroopsRandom, runtime(1).
 botOpt(2) :- botAttack("TODO", "TODO"), runtime(1). % TODO: Método incompleto em BotOperations
 botOpt(3) :- runtime(0). % Encerra runtime do bot e volta pra runtime do player
+botOpt(_) :- runtime(1).
 
+/*
 % Define quem irá jogar em seguida.
 nextRound('bot'):- runtime('player').
 nextRound('player'):- runtime('bot').
+*/
 
 % 0 é o player humano
 runtime(0) :- 
     showTitle(),
-    showOptions,
-    optChoose(getInput(_,_)),
+    showOptions(Inp),
+    /*optChoose(getInput(Input)),*/
     runtime(1),
     halt.
 
 % runtime do bot(1)
 runtime(1) :- 
-    showBotOptions,
     botOpt(random(1,3)), % Escolhe o que fazer aleatoriamente
     runtime(0),
     halt.
+
+main :- 
+    runtime(0).
