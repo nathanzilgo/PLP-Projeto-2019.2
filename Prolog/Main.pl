@@ -6,6 +6,7 @@
 :-use_module('./src/BotOperations.pl').
 :-use_module('./src/GameOperations.pl').
 :-use_module('./src/PlayerOperations.pl').
+:-use_module(library(tty)). % clear screen
 
 :- include('./src/Util.pl').
 
@@ -23,7 +24,7 @@ showTitle :-
     showOnScreen(String).
 
 %Exibe as opções de jogada
-showOptions(Inp) :-
+showOptions :-
     nl,nl,
     write('1) Alocar tropas'),nl,
     write('2) Realocar tropas existentes'),nl,
@@ -95,11 +96,12 @@ printStatus:-
 optChosse(1) :- allocateTroopsView("PLAYER",_,_).
 optChosse(2) :- reallocateTroopsView("PLAYER",_,_).
 optChoose(3) :- playerAttackView(_,_).
-optChoose(4) :- write('Jogada do bot'), nl, runtime(1). % passa a vez pro bot.
-optChoose(5) :- printStatus, runtime(0).
-optChoose(6) :- nl, write('Encerrando jogo!!!') ,nl,halt.
-optChosse(_) :- write('Erro de opcao!'),runtime(0).
+optChoose(4) :- write('Jogada do bot'), nl, tty_clear, runtime(1). % passa a vez pro bot.
+optChoose(5) :- printStatus, write('Digite qualquer coisa para continuar'), sleep(10000), tty_clear, showOptions.
+optChoose(6) :- nl, write('Encerrando jogo!!!') , nl, finish.
 
+optChosse(Num) :- ((Num > 6) -> write('Erro de opcao! De enter em qualquer input'), sleep(10000), tty_clear, showOptions ; optChosse(Num)).
+optChosse(OtherNum) :- ((OtherNum < 1) -> write('Erro de opcao! De enter em qualquer input'), sleep(1000), tty_clear, showOptions ; optChosse(Num)).
 
 botOpt(1) :- botAllocateTroopsRandom, runtime(1).
 botOpt(2) :- botAttack("TODO", "TODO"), runtime(1). % TODO: Método incompleto em BotOperations
@@ -112,19 +114,23 @@ nextRound('bot'):- runtime('player').
 nextRound('player'):- runtime('bot').
 */
 
+
+main :- 
+    runtime(0).
+
 % 0 é o player humano
 runtime(0) :- 
-    showTitle(),
-    showOptions(Inp),
+    showOptions,
     /*optChoose(getInput(Input)),*/
-    runtime(1),
-    halt.
+    runtime(1).
 
 % runtime do bot(1)
 runtime(1) :- 
     botOpt(random(1,3)), % Escolhe o que fazer aleatoriamente
-    runtime(0),
-    halt.
-
-main :- 
     runtime(0).
+
+runtime(2):-
+    finish.
+
+finish :-
+    halt.
