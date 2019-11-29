@@ -62,9 +62,10 @@ playerAttackView(Atacante, Defensor):-
     playerAttack(Atacante, Defensor),
     main(0).    % volta pra main do user para que ele jogue novamente
 
-printStatus :- 
-    write('******************** Você: *****************'),nl,
-    write('Quantidade de tropas disponivel: '), getPlayerTotalTroops("PLAYER",Troops),nl,
+printStatus:-
+    nl,
+    write(' Você: '),nl,
+    write('Quantidade de tropas disponivel'), getPlayerTotalTroops("PLAYER",Troops),nl,
     write('Alagoas: '), getPlayerStateTroops("PLAYER", "Alagoas", R), nl, 
     write('Bahia: ' ), getPlayerStateTroops("PLAYER", "Bahia", R), nl,
     write('Ceara: ' ), getPlayerStateTroops("PLAYER", "Ceara", R), nl,
@@ -86,7 +87,7 @@ printStatus :-
     write('Pernambuco :'), getPlayerStateTroops("BOT", "Pernambuco", R), nl,
     write('Piaui :'), getPlayerStateTroops("BOT", "Piaui", R), nl,
     write('Rio Grande do Norte: '), getPlayerStateTroops("BOT", "RioGrandeDoNorte", R),nl,
-    write('Sergipe: '), getPlayerStateTroops("BOT","Sergipe", R), nl,nl,nl,
+    write('Sergipe: '), getPlayerStateTroops("BOT","Sergipe", R), nl,nl,nl.
 
 optChosse(1) :- allocateTroopsView("PLAYER",_,_).
 optChosse(2) :- reallocateTroopsView("PLAYER",_,_).
