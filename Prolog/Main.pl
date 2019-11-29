@@ -1,5 +1,6 @@
 :- initialization main, halt.
 
+/*
 :- module(main, [
     showTitle,
     showOptions,
@@ -8,11 +9,12 @@
     allocateTroopsView/3,
     optChosse/2
 ]).
-
-:- include('./src/player.pl').
-:- include('./src/playerOperations.pl').
-:- include('./src/botOperations.pl').
-:- include('./src/gameOperations.pl').
+*/
+:- include('./src/Player.pl').
+:- include('./src/PlayerOperations.pl').
+:- include('./src/BotOperations.pl').
+:- include('./src/GameOperations.pl').
+:- include('./src/Util.pl').
 
 inputOpt(1) :- playerAllocateTerritory("todo").
 inputOpt(2) :- playerReallocateTrooops(0, 0, 0). %TODO
@@ -57,6 +59,6 @@ optChosse(2, Call) :- Call is playerAllocateTerritory(Territory).
 main :- 
     showTitle(),
     showOptions,
-    getInput(Inp, Retorno)
+    getInput(Inp, Retorno).
 
 
