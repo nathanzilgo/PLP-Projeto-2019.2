@@ -48,6 +48,7 @@ getInput(Inp) :-
     Inp is Inp.
 
 allocateTroopsView:- 
+
     write('Insira a quantidade de tropas: '),
     read(Troops),
     write('Insira o nome do estado:'),
@@ -100,15 +101,17 @@ printStatus:-
 optChoose(1) :- allocateTroopsView.
 optChoose(2) :- reallocateTroopsView.
 optChoose(3) :- playerAttackView.
+
 optChoose(4) :- write('Jogada do bot'), nl, runtime(1). % passa a vez pro bot.
 optChoose(5) :- printStatus, write('Digite qualquer coisa para continuar'), showOptions.
 optChoose(6) :- nl, write('Encerrando jogo!!!') , nl, finish.
 
 optChoose(Num) :- 
-    write('aaaaaaaaaaa Erro de opcao! De enter em qualquer input'), showOptions.
+    write('Erro de opcao! De enter em qualquer input'), showOptions
 
 verifyWin:-
     (winCheck("PLAYER") -> winPlayer ; winCheck("BOT") -> winBot).
+
 
 winPlayer :-
     write('Voce venceu!'), finish.
@@ -117,6 +120,7 @@ winBot :-
     write('Voce perdeu! o BOT venceu'), finish.
 
 main :- 
+
     showTitle,configPlayers, 
     runtime(0).
 
