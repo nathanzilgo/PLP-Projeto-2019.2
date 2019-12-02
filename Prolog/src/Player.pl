@@ -27,7 +27,7 @@ getPlayerTotalTroops(Id, R) :-
 % Atualiza a quantidade de tropas totais para alocacao de um determinado player.
 updateTotalTroops(Id, Troops) :-
     getPlayerTotalTroops(Id, R),
-    R >= Troops,
+    %R >= Troops,
     NewTotalTroops is R + Troops,
     setPlayerTotalTroops(Id, NewTotalTroops).
 

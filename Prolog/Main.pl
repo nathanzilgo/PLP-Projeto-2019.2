@@ -48,23 +48,29 @@ getInput(Inp) :-
     Inp is Inp.
 
 allocateTroopsView:- 
-    write('Insira a quantidade de tropas: '),read(Troops),
-    write('Insira o nome do estado:'),read(State),
-    allocateTroops(Troops, State),
-    runtime(0).
+
+    write('Insira a quantidade de tropas: '),
+    read(Troops),
+    write('Insira o nome do estado:'),
+    read(State),
+    write(State),
+    allocateTroops("PLAYER", Troops, State),
+    showOptions.
 
 reallocateTroopsView:-
     write('Insira a quantidade de tropas para realocar'), read(Quantity), nl,
     write('De onde deseja tirar?'), read(TerritoryToLoose), nl, 
     write('Aonde deseja colocar?'), read(TerritoryToWin), nl,
     playerReallocateTroops(Quantity, TerritoryToLoose, TerritoryToWin),
-    runtime(0).
+    /*runtime(0);*/
+    write("Não foi possivel fazer a realocação. Estados não fazem fronteira"),
+    showOptions.
 
 playerAttackView:-
     write('De que estado deseja atacar?'), read(Atacante),
     write('Qual estado deseja atacar?'), read(Defensor),
     playerAttack(Atacante, Defensor),
-    runtime(0).    % volta pra runtime do user para que ele jogue novamente
+    showOptions.    % volta pra runtime do user para que ele jogue novamente
 
 printStatus:-
     nl,
@@ -95,24 +101,17 @@ printStatus:-
 optChoose(1) :- allocateTroopsView.
 optChoose(2) :- reallocateTroopsView.
 optChoose(3) :- playerAttackView.
-optChoose(4) :- write('Jogada do bot'), nl, verifyWin, runtime(1). % passa a vez pro bot.
+
+optChoose(4) :- write('Jogada do bot'), nl, runtime(1). % passa a vez pro bot.
 optChoose(5) :- printStatus, write('Digite qualquer coisa para continuar'), showOptions.
 optChoose(6) :- nl, write('Encerrando jogo!!!') , nl, finish.
 
-optChoose(_) :- tty_clear,write(_), write(' Nao eh uma opcao valida! '), runtime(0).
-
-botOpt(1) :- botAllocateTroopsRandom, runtime(1).
-botOpt(2) :- botAttack("TODO", "TODO"), runtime(1). % TODO: Método incompleto em BotOperations
-botOpt(3) :- runtime(0). % Encerra runtime do bot e volta pra runtime do player
-botOpt(_) :- runtime(1).
+optChoose(Num) :- 
+    write('Erro de opcao! De enter em qualquer input'), showOptions
 
 verifyWin:-
     (winCheck("PLAYER") -> winPlayer ; winCheck("BOT") -> winBot).
-/*
-% Define quem irá jogar em seguida.
-nextRound('bot'):- runtime('player').
-nextRound('player'):- runtime('bot').
-*/
+
 
 winPlayer :-
     write('Voce venceu!'), finish.
@@ -121,19 +120,24 @@ winBot :-
     write('Voce perdeu! o BOT venceu'), finish.
 
 main :- 
-    showTitle, configPlayers, 
+
+    showTitle,configPlayers, 
     runtime(0).
 
 % 0 é o player humano
-runtime(0) :- 
-    verifyWin,
+runtime(0) :-
+    verifyWin;
     showOptions,
     /*optChoose(getInput(Input)),*/
     runtime(1).
 
 % runtime do bot(1)
-runtime(1) :- 
-    botOpt(random(1,3)), % Escolhe o que fazer aleatoriamente
+runtime(1) :-
+    verifyWin;
+    updateTotalTroops("BOT", 2),
+    botAllocateTroopsRandom,
+    checkAttack, %checkAttack,checkAttack,
+    updateTotalTroops("PLAYER", 2),
     runtime(0).
 
 runtime(2):-
