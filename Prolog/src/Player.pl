@@ -9,7 +9,6 @@
 ]).
 
 
-
 % Estrutura de um player no jogo.
 %(Nome, quantidade de tropas para alocar, alagoas, bahia, ceara, maranhao, paraiba, pernambuco, piaui, riogradedonorte, sergipe)
 :- dynamic(player/11).
@@ -28,7 +27,7 @@ getPlayerTotalTroops(Id, R) :-
 % Atualiza a quantidade de tropas totais para alocacao de um determinado player.
 updateTotalTroops(Id, Troops) :-
     getPlayerTotalTroops(Id, R),
-    R >= Troops,
+    %R >= Troops,
     NewTotalTroops is R + Troops,
     setPlayerTotalTroops(Id, NewTotalTroops).
 

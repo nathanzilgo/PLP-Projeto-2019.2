@@ -1,11 +1,10 @@
-
 :- module(playerOperations, [
     playerAllocateTerritory/1,
     playerReallocateTroops/3
     ]).
 
-:- use_module('player.pl').
-:- use_module('fronteiras.pl').
+:- use_module('Player.pl').
+:- use_module('Fronteiras.pl').
 
 %Metodo para alocar um determinado Territorio para um player
 playerAllocateTerritory(Territory) :-
